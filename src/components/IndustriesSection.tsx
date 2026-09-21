@@ -1,147 +1,163 @@
-import React, { useState } from 'react';
-import { 
-  Building2, 
-  ShoppingBag, 
-  Home, 
-  GraduationCap, 
-  HeartHandshake, 
-  Coins, 
-  Store, 
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  Hotel,
+  ShoppingBag,
+  Building2,
+  ShieldCheck,
+  Truck,
+  GraduationCap,
+  HeartHandshake,
   Briefcase,
+  CheckCircle2,
   ArrowRight,
-  CheckCircle2
+  Sparkles,
 } from 'lucide-react';
-import { INDUSTRIES } from '../data/muruData';
-import { IndustryItem } from '../types';
+import { INDUSTRIES_DATA } from '../data/siteData';
 
 interface IndustriesSectionProps {
-  onIndustryInquire: (industry: IndustryItem) => void;
+  onSelectIndustry: (industryName: string) => void;
 }
 
-export const IndustriesSection: React.FC<IndustriesSectionProps> = ({ onIndustryInquire }) => {
-  const [activeIndustryId, setActiveIndustryId] = useState<string>('hospitality');
+export default function IndustriesSection({ onSelectIndustry }: IndustriesSectionProps) {
+  const [activeIndustryId, setActiveIndustryId] = useState(INDUSTRIES_DATA[0].id);
 
-  const getIndustryIcon = (id: string) => {
-    switch (id) {
-      case 'hospitality':
-        return <Building2 className="w-5 h-5 text-[#E59500]" />;
-      case 'ecommerce':
-        return <ShoppingBag className="w-5 h-5 text-[#E59500]" />;
-      case 'real-estate':
-        return <Home className="w-5 h-5 text-[#E59500]" />;
-      case 'education':
-        return <GraduationCap className="w-5 h-5 text-[#E59500]" />;
-      case 'ngos':
-        return <HeartHandshake className="w-5 h-5 text-[#E59500]" />;
-      case 'financial-services':
-        return <Coins className="w-5 h-5 text-[#E59500]" />;
-      case 'retail':
-        return <Store className="w-5 h-5 text-[#E59500]" />;
-      case 'professional-services':
+  const activeIndustry =
+    INDUSTRIES_DATA.find((i) => i.id === activeIndustryId) || INDUSTRIES_DATA[0];
+
+  const getIndustryIcon = (iconName: string, selected: boolean) => {
+    const cls = `w-4 h-4 ${selected ? 'text-black' : 'text-[#E59500]'}`;
+    switch (iconName) {
+      case 'Hotel':
+        return <Hotel className={cls} />;
+      case 'ShoppingBag':
+        return <ShoppingBag className={cls} />;
+      case 'Building2':
+        return <Building2 className={cls} />;
+      case 'ShieldCheck':
+        return <ShieldCheck className={cls} />;
+      case 'Truck':
+        return <Truck className={cls} />;
+      case 'GraduationCap':
+        return <GraduationCap className={cls} />;
+      case 'HeartHandshake':
+        return <HeartHandshake className={cls} />;
+      case 'Briefcase':
       default:
-        return <Briefcase className="w-5 h-5 text-[#E59500]" />;
+        return <Briefcase className={cls} />;
     }
   };
 
-  const selectedIndustry = INDUSTRIES.find((i) => i.id === activeIndustryId) || INDUSTRIES[0];
-
   return (
-    <section id="industries" className="py-24 relative border-t border-white/[0.05] tech-grid-pattern">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
+    <section id="industries" className="py-24 relative bg-[#090B0E] border-t border-white/[0.05]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl mb-16 text-left">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-semibold text-[#E59500] mb-4">
-            Domain-Specific Applications
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Vertical Specialization</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            AI for the industries that <br />
-            <span className="text-[#E59500]">keep business moving.</span>
+
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Engineered for Your Industry’s{' '}
+            <span className="text-[#E59500]">Operational Reality.</span>
           </h2>
+
           <p className="mt-4 text-base sm:text-lg text-zinc-400">
-            We understand the unique regulatory, customer touchpoint, and operational requirements across diverse enterprise sectors.
+            Every vertical carries its own regulatory frameworks, transaction patterns, and customer
+            expectations. Discover our specialized industry deployments.
           </p>
         </div>
 
-        {/* 8 Industry Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {INDUSTRIES.map((ind) => {
+        {/* Industry Tabs */}
+        <div className="flex flex-wrap gap-2 mb-8 pb-2 overflow-x-auto">
+          {INDUSTRIES_DATA.map((ind) => {
             const isSelected = ind.id === activeIndustryId;
             return (
               <button
                 key={ind.id}
                 onClick={() => setActiveIndustryId(ind.id)}
-                className={`p-5 rounded-2xl text-left transition-all duration-200 border flex flex-col justify-between ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                   isSelected
-                    ? 'bg-[#121620] border-[#E59500] shadow-[0_4px_25px_rgba(229,149,0,0.15)] transform -translate-y-1'
-                    : 'glass-card border-white/[0.08] hover:bg-white/[0.04] hover:border-white/[0.15]'
+                    ? 'bg-[#E59500] text-black shadow-lg shadow-[#E59500]/20'
+                    : 'bg-white/[0.02] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.05] hover:text-white'
                 }`}
               >
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mb-3">
-                    {getIndustryIcon(ind.id)}
-                  </div>
-                  <h3 className={`text-base font-bold mb-1 ${isSelected ? 'text-white' : 'text-zinc-200'}`}>
-                    {ind.name}
-                  </h3>
-                  <p className="text-xs text-zinc-400 line-clamp-2">
-                    {ind.description}
-                  </p>
-                </div>
-                <div className="mt-4 flex items-center justify-between text-[11px] font-semibold text-[#E59500] pt-2 border-t border-white/[0.06]">
-                  <span>Explore Solutions</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
+                {getIndustryIcon(ind.iconName, isSelected)}
+                <span>{ind.name}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Spotlight Deep Dive on Active Industry */}
-        <div className="rounded-2xl glass-card border border-[#E59500]/30 p-6 sm:p-8 bg-[#090C10]">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/[0.08] mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-[#E59500]/10 border border-[#E59500]/20 flex items-center justify-center">
-                {getIndustryIcon(selectedIndustry.id)}
-              </div>
+        {/* Active Industry Display */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndustry.id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+            className="rounded-2xl glass-card border border-white/[0.1] p-6 sm:p-10 text-left"
+          >
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/[0.08]">
               <div>
-                <span className="text-[10px] font-mono text-[#E59500] uppercase tracking-wider">
-                  Industry Focus
+                <span className="text-xs font-mono uppercase tracking-wider text-[#E59500] font-bold">
+                  INDUSTRY BLUEPRINT
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  {selectedIndustry.name}
+                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                  {activeIndustry.name}
                 </h3>
+                <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-2xl">
+                  {activeIndustry.tagline}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#E59500]/10 border border-[#E59500]/20 text-right flex-shrink-0">
+                <span className="text-[10px] font-mono uppercase text-zinc-400 block">
+                  Measured Vertical Outcome
+                </span>
+                <span className="text-xs font-bold text-[#E59500]">
+                  {activeIndustry.statsOrFocus}
+                </span>
               </div>
             </div>
-            <div className="px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-zinc-300">
-              {selectedIndustry.statsOrFocus}
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            {selectedIndustry.useCases.map((uc, i) => (
-              <div key={i} className="p-3.5 rounded-xl bg-black/40 border border-white/[0.05] flex items-start gap-3">
-                <CheckCircle2 className="w-4 h-4 text-[#E59500] mt-0.5 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-zinc-300">{uc}</span>
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed my-6">
+              {activeIndustry.description}
+            </p>
+
+            <div className="space-y-3 mb-8">
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-400">
+                Tailored Commercial Use Cases:
               </div>
-            ))}
-          </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {activeIndustry.useCases.map((uc, i) => (
+                  <div
+                    key={i}
+                    className="p-3 rounded-lg bg-black/40 border border-white/[0.04] flex items-start gap-2.5 text-xs text-zinc-300"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span className="leading-snug">{uc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/[0.06]">
-            <span className="text-xs text-zinc-400">
-              Looking for a custom implementation in {selectedIndustry.name}?
-            </span>
-            <button
-              onClick={() => onIndustryInquire(selectedIndustry)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#F5A31A] transition-colors"
-            >
-              <span>Schedule {selectedIndustry.name} Strategy Call</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
+            <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
+              <span className="text-xs text-zinc-400">
+                Operating in {activeIndustry.name}? Let’s design your tailored system.
+              </span>
+              <button
+                onClick={() => onSelectIndustry(activeIndustry.name)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Consult on {activeIndustry.name}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
-};
+}

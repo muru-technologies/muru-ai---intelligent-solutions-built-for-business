@@ -1,225 +1,178 @@
-import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, TrendingUp, Cpu, X } from 'lucide-react';
-import { CASE_STUDIES } from '../data/muruData';
-import { CaseStudy } from '../types';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  Building2,
+  TrendingUp,
+  Clock,
+  DollarSign,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Layers,
+  Sparkles,
+} from 'lucide-react';
+import { CASE_STUDIES_DATA } from '../data/siteData';
 
 interface CaseStudiesSectionProps {
-  onStartProject: () => void;
+  onDiscussProject: (caseStudyTitle: string) => void;
 }
 
-export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({ onStartProject }) => {
-  const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
+export default function CaseStudiesSection({ onDiscussProject }: CaseStudiesSectionProps) {
+  const [activeCaseId, setActiveCaseId] = useState(CASE_STUDIES_DATA[0].id);
+
+  const activeCase =
+    CASE_STUDIES_DATA.find((c) => c.id === activeCaseId) || CASE_STUDIES_DATA[0];
 
   return (
-    <section id="case-studies" className="py-24 relative border-t border-white/[0.05] bg-[#08090B]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16 text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-semibold text-[#E59500] mb-4">
-            Proven Commercial Results
+    <section id="case-studies" className="py-24 relative bg-[#090B0E] border-t border-white/[0.05]">
+      {/* Background Lighting */}
+      <div className="absolute top-1/3 left-0 w-96 h-96 bg-[#E59500]/5 rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 text-left">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-semibold text-[#E59500] mb-4">
+              <Building2 className="w-3.5 h-3.5" />
+              <span>Proven Enterprise Deployments</span>
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Real Impact.{' '}
+              <span className="text-[#E59500]">Measured Numbers.</span>
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-zinc-400">
+              Explore how leading East African and international enterprises use Muru AI to resolve thousands
+              of customer touchpoints, automate back-office ledgers, and scale revenue.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Case Studies in <br />
-            <span className="text-[#E59500]">Business Intelligence.</span>
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-zinc-400">
-            Real enterprise transformations. No vanity metrics—we measure success in operational hours saved, lead conversion increases, and automated revenue pipelines.
-          </p>
+
+          {/* Tab Selector */}
+          <div className="flex flex-wrap gap-2">
+            {CASE_STUDIES_DATA.map((cs) => (
+              <button
+                key={cs.id}
+                onClick={() => setActiveCaseId(cs.id)}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  activeCaseId === cs.id
+                    ? 'bg-[#E59500] text-black shadow-lg shadow-[#E59500]/20'
+                    : 'bg-white/[0.03] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06] hover:text-white'
+                }`}
+              >
+                {cs.title}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Storytelling Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {CASE_STUDIES.map((study) => (
-            <div
-              key={study.id}
-              className="rounded-2xl glass-card border border-white/[0.08] hover:border-[#E59500]/40 transition-all duration-300 p-7 flex flex-col justify-between group hover:shadow-2xl hover:shadow-[#E59500]/10"
-            >
+        {/* Case Study Card */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCase.id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+            className="rounded-2xl glass-card border border-white/[0.1] p-6 sm:p-10 text-left"
+          >
+            {/* Top metadata */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
               <div>
-                {/* Category & Client Type */}
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="text-[11px] font-mono text-[#E59500] font-semibold uppercase tracking-wider">
-                    {study.category}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#E59500] transition-colors">
-                  {study.title}
+                <span className="text-xs font-mono uppercase tracking-wider text-[#E59500] font-bold">
+                  {activeCase.category}
+                </span>
+                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                  {activeCase.title}
                 </h3>
-                
-                <p className="text-xs text-zinc-400 mb-6 italic">
-                  Client: {study.clientType}
+                <div className="text-xs sm:text-sm text-zinc-400 mt-1 flex items-center gap-1.5">
+                  <span className="text-zinc-500 font-mono">CLIENT:</span>
+                  <span>{activeCase.clientType}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => onDiscussProject(activeCase.title)}
+                className="px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] to-[#CC7A00] hover:shadow-lg hover:shadow-[#E59500]/20 transition-all cursor-pointer flex items-center gap-1.5"
+              >
+                <span>Discuss Similar Solution</span>
+                <ArrowRight className="w-4 h-4 text-black" />
+              </button>
+            </div>
+
+            {/* Metrics Bar */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 my-8">
+              {activeCase.metrics.map((metric, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-xl bg-black/40 border border-white/[0.06] relative overflow-hidden"
+                >
+                  <div className="text-2xl sm:text-3xl font-display font-black text-white">
+                    {metric.value}
+                  </div>
+                  <div className="text-xs font-mono text-zinc-400 mt-1 uppercase tracking-wider">
+                    {metric.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Challenge & Solution Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              {/* Challenge */}
+              <div className="p-5 sm:p-6 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-rose-400 mb-2">
+                  The Business Challenge:
+                </h4>
+                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                  {activeCase.challenge}
                 </p>
-
-                {/* The Challenge */}
-                <div className="mb-5 p-3.5 rounded-xl bg-black/40 border border-white/[0.04]">
-                  <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
-                    The Challenge
-                  </div>
-                  <p className="text-xs text-zinc-300 leading-relaxed">
-                    {study.challenge}
-                  </p>
-                </div>
-
-                {/* The Solution */}
-                <div className="mb-5 p-3.5 rounded-xl bg-[#E59500]/[0.03] border border-[#E59500]/15">
-                  <div className="text-[11px] font-bold text-[#E59500] uppercase tracking-wider mb-1">
-                    The Muru AI Solution
-                  </div>
-                  <p className="text-xs text-zinc-300 leading-relaxed">
-                    {study.solution}
-                  </p>
-                </div>
-
-                {/* What It Does */}
-                <div className="space-y-2 mb-6">
-                  <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
-                    What It Does:
-                  </div>
-                  {study.whatItDoes.slice(0, 3).map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#E59500] mt-0.5 flex-shrink-0" />
-                      <span className="leading-snug">{item}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Technology Tags */}
-                <div className="mb-6">
-                  <div className="text-[10px] uppercase font-mono text-zinc-500 mb-2">
-                    Technology Stack:
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {study.technology.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/[0.04] text-zinc-400 border border-white/[0.06]"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Metrics Highlight */}
-                <div className="grid grid-cols-2 gap-2 pt-4 border-t border-white/[0.06] mb-4">
-                  {study.metrics.slice(0, 2).map((m, i) => (
-                    <div key={i} className="p-2 rounded bg-white/[0.02] text-center border border-white/[0.04]">
-                      <div className="text-lg font-extrabold text-[#E59500] font-mono">{m.value}</div>
-                      <div className="text-[10px] text-zinc-400">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
               </div>
 
-              {/* View Full Case Study CTA */}
-              <button
-                onClick={() => setSelectedCaseStudy(study)}
-                className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-zinc-200 hover:text-white bg-white/[0.04] hover:bg-[#E59500] hover:text-black transition-all border border-white/[0.08] hover:border-transparent"
-              >
-                <span>View Full Case Study</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              {/* Solution */}
+              <div className="p-5 sm:p-6 rounded-xl bg-white/[0.02] border border-[#E59500]/30">
+                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#E59500] mb-2">
+                  The Deployed Muru AI Solution:
+                </h4>
+                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                  {activeCase.solution}
+                </p>
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* Modal for In-Depth Storytelling Case Study View */}
-        {selectedCaseStudy && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-            <div className="relative w-full max-w-2xl rounded-2xl glass-card border border-[#E59500]/40 p-6 sm:p-8 bg-[#0C0E14] max-h-[90vh] overflow-y-auto">
-              
-              <button
-                onClick={() => setSelectedCaseStudy(null)}
-                className="absolute top-5 right-5 p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="text-xs font-mono text-[#E59500] font-semibold uppercase tracking-wider mb-1">
-                {selectedCaseStudy.category}
+            {/* Execution Capabilities */}
+            <div className="mb-8 space-y-2">
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-400 mb-3">
+                Key System Capabilities:
               </div>
-              
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                {selectedCaseStudy.title}
-              </h3>
-              
-              <p className="text-xs text-zinc-400 mb-6 italic">
-                Client Sector: {selectedCaseStudy.clientType}
-              </p>
-
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-2">
-                    The Business Problem
-                  </h4>
-                  <p className="text-sm text-zinc-300 leading-relaxed bg-black/40 p-4 rounded-xl border border-white/[0.05]">
-                    {selectedCaseStudy.challenge}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-bold text-[#E59500] uppercase tracking-wider mb-2">
-                    The Deployed Solution
-                  </h4>
-                  <p className="text-sm text-zinc-300 leading-relaxed bg-[#E59500]/5 p-4 rounded-xl border border-[#E59500]/20">
-                    {selectedCaseStudy.solution}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-2">
-                    Functional Architecture
-                  </h4>
-                  <div className="space-y-2">
-                    {selectedCaseStudy.whatItDoes.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs text-zinc-300">
-                        <CheckCircle2 className="w-4 h-4 text-[#E59500] mt-0.5 flex-shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {activeCase.whatItDoes.map((item, i) => (
+                  <div
+                    key={i}
+                    className="p-3 rounded-lg bg-black/30 border border-white/[0.04] flex items-start gap-2 text-xs text-zinc-300"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
                   </div>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-2">
-                    Measurable Commercial Impact
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {selectedCaseStudy.metrics.map((metric, idx) => (
-                      <div key={idx} className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-center">
-                        <div className="text-xl font-bold text-[#E59500] font-mono">{metric.value}</div>
-                        <div className="text-[11px] text-zinc-400 mt-1">{metric.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
-
-              <div className="mt-8 pt-6 border-t border-white/[0.08] flex items-center justify-between">
-                <button
-                  onClick={() => setSelectedCaseStudy(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-white"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedCaseStudy(null);
-                    onStartProject();
-                  }}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#F5A31A] transition-colors"
-                >
-                  <span>Build Similar Solution</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-
             </div>
-          </div>
-        )}
 
+            {/* Tech Stack */}
+            <div className="pt-6 border-t border-white/[0.06] flex flex-wrap items-center gap-2">
+              <span className="text-xs font-mono text-zinc-500 uppercase mr-2">
+                Engineered With:
+              </span>
+              {activeCase.technology.map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="px-2.5 py-1 rounded-md text-xs font-mono bg-white/[0.04] border border-white/[0.08] text-zinc-300"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
-};
+}

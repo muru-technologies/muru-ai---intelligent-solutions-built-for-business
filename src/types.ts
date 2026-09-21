@@ -1,22 +1,17 @@
-export interface NavItem {
-  name: string;
-  href: string;
-  sectionId: string;
-}
-
-export interface AIService {
+export interface ServiceItem {
   id: string;
   number: string;
   title: string;
   tagline: string;
   description: string;
   capabilities: string[];
-  examples?: string[];
+  examples: string[];
   ctaText: string;
   iconName: string;
+  category: 'core' | 'automation' | 'custom' | 'analytics';
 }
 
-export interface ProblemSolution {
+export interface ProblemMatcherItem {
   id: string;
   quote: string;
   tag: string;
@@ -26,26 +21,10 @@ export interface ProblemSolution {
   businessBenefit: string;
   systems: string[];
   exampleOutcome: string;
+  iconName: string;
 }
 
-export interface ProcessStep {
-  number: string;
-  title: string;
-  tagline: string;
-  description: string;
-  deliverable: string;
-}
-
-export interface IndustryItem {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  useCases: string[];
-  statsOrFocus: string;
-}
-
-export interface AIAgent {
+export interface AutonomousAgent {
   id: string;
   name: string;
   role: string;
@@ -55,6 +34,9 @@ export interface AIAgent {
   sampleTrigger: string;
   sampleAction: string;
   connectedSystems: string[];
+  status: 'ONLINE' | 'ACTIVE' | 'IDLE';
+  avgLatency: string;
+  accuracyRate: string;
 }
 
 export interface CaseStudy {
@@ -66,104 +48,66 @@ export interface CaseStudy {
   solution: string;
   whatItDoes: string[];
   technology: string[];
-  metrics: { label: string; value: string }[];
+  metrics: {
+    label: string;
+    value: string;
+  }[];
 }
 
-export interface TechCategory {
+export interface ProcessStep {
+  number: string;
+  title: string;
+  tagline: string;
+  description: string;
+  deliverable: string;
+}
+
+export interface IndustryVertical {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  useCases: string[];
+  statsOrFocus: string;
+  iconName: string;
+}
+
+export interface TechStackCategory {
   title: string;
   description: string;
   items: string[];
 }
 
-export interface ContactFormData {
-  fullName: string;
-  company: string;
-  email: string;
-  phone: string;
-  industry: string;
-  interest: string;
-  projectDetails: string;
+export interface EngineeringPrinciple {
+  pillar: string;
+  title: string;
+  description: string;
+  icon: string;
 }
 
-// Command Center & Dashboard Types
-export type CommandNavSection =
-  | 'overview'
-  | 'agents'
-  | 'automations'
-  | 'workflows'
-  | 'knowledge'
-  | 'analytics'
-  | 'insights'
-  | 'customers'
-  | 'conversations'
-  | 'projects'
-  | 'integrations'
-  | 'api'
-  | 'settings';
-
-export interface ActivityEvent {
-  id: string;
-  time: string;
-  agent: string;
-  agentId?: string;
-  action: string;
-  category: 'sales' | 'support' | 'workflow' | 'knowledge' | 'crm' | 'system';
-  status: 'operational' | 'completed' | 'active' | 'synced';
-  latencyMs: number;
-}
-
-export interface DetailedAgent {
-  id: string;
-  name: string;
-  tagline: string;
-  status: 'ACTIVE' | 'STANDBY' | 'PAUSED';
-  tasksToday: number;
-  successRate: string;
-  currentActivity: string;
-  model: string;
-  latency: string;
-  pipeline: {
-    step: string;
-    label: string;
-    sublabel: string;
-    status: 'completed' | 'processing' | 'pending';
-  }[];
-  recentActions: string[];
-}
-
-export interface WorkflowNode {
-  id: string;
-  label: string;
-  sublabel: string;
-  type: 'trigger' | 'intelligence' | 'scoring' | 'integration' | 'action';
-  status: 'active' | 'completed' | 'idle';
-}
-
-export interface WorkflowItem {
-  id: string;
-  code: string;
-  name: string;
-  trigger: string;
-  status: 'ACTIVE' | 'PAUSED';
-  runsToday: number;
-  avgTime: string;
-  nodes: WorkflowNode[];
-}
-
-export interface KnowledgeItem {
+export interface KnowledgeDocument {
   id: string;
   title: string;
   source: string;
-  type: 'PDF' | 'Database' | 'API' | 'Notion' | 'CRM';
+  type: string;
   size: string;
   lastSynced: string;
   vectors: number;
+  status: 'INDEXED' | 'SYNCING';
 }
 
-export interface SystemServiceHealth {
+export interface SystemServiceNode {
   name: string;
-  status: 'ONLINE' | 'DEGRADED' | 'MAINTENANCE';
+  status: 'ONLINE' | 'STANDBY';
   latency: string;
   uptime: string;
 }
 
+export interface WorkflowActivityEvent {
+  id: string;
+  title: string;
+  agent: string;
+  timestamp: string;
+  status: 'SUCCESS' | 'RUNNING' | 'QUEUED';
+  details: string;
+}

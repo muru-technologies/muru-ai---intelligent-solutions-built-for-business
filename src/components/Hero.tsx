@@ -1,324 +1,454 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, Database, MessageSquare, Globe, Laptop, CheckCircle2, Play, Pause, RefreshCw } from 'lucide-react';
-import { MURU_BRAND } from '../data/muruData';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  Play,
+  RotateCw,
+  ShieldCheck,
+  Zap,
+  Terminal,
+  Server,
+  Workflow,
+  MessageSquare,
+  Database,
+  Building,
+} from 'lucide-react';
+import { COMPANY_DETAILS } from '../data/siteData';
 
 interface HeroProps {
-  onStartProject: () => void;
-  onExploreServices: () => void;
+  onOpenConsultation: (initialInterest?: string) => void;
+  onExploreSolutions: () => void;
 }
 
-type SimulationScenario = 'lead_whatsapp' | 'support_ticket' | 'invoice_sync';
+type PipelineScenarioKey = 'lead_whatsapp' | 'support_ticket' | 'invoice_sync';
 
-export const Hero: React.FC<HeroProps> = ({ onStartProject, onExploreServices }) => {
-  const [activeScenario, setActiveScenario] = useState<SimulationScenario>('lead_whatsapp');
-  const [activeStep, setActiveStep] = useState<number>(1);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [processedCount, setProcessedCount] = useState<number>(14290);
+interface PipelineScenario {
+  id: PipelineScenarioKey;
+  title: string;
+  source: string;
+  sourceType: string;
+  muruCore: string;
+  agent: string;
+  agentRole: string;
+  outputSummary: string;
+  sampleInput: string;
+  destinations: { name: string; note: string; tag: string }[];
+  resultData: Record<string, any>;
+}
 
-  // Automatic simulation pulse
+const SCENARIOS: Record<PipelineScenarioKey, PipelineScenario> = {
+  lead_whatsapp: {
+    id: 'lead_whatsapp',
+    title: 'Inbound Lead to CRM',
+    source: 'Prospective Client (WhatsApp Business)',
+    sourceType: 'Omnichannel Inbound',
+    muruCore: 'Muru Intent Classifier & Guardrail Layer',
+    agent: 'Sales Agent (Fleet Node 01)',
+    agentRole: 'BANT Lead Qualification & Scheduling',
+    outputSummary: 'Scored 94/100 • Demo Booked • CRM Record Created',
+    sampleInput: '“Hello, we need an automated invoice and order processing system for our 4 regional branches.”',
+    destinations: [
+      { name: 'HubSpot CRM', note: 'Contact Created • Score 94/100', tag: 'Synced' },
+      { name: 'Google Calendar', note: 'Demo Confirmed: Thursday 2:00 PM', tag: 'Scheduled' },
+      { name: 'Director WhatsApp', note: 'Priority Executive Brief Delivered', tag: 'Notified' },
+    ],
+    resultData: {
+      client_name: 'Regional Retail Group',
+      budget_tier: '$10,000 - $25,000',
+      urgency: 'Immediate (Within 30 days)',
+      qualification: 'QUALIFIED_ENTERPRISE',
+      assigned_architect: 'Lead AI Engineer',
+      latency: '1.4s',
+    },
+  },
+  support_ticket: {
+    id: 'support_ticket',
+    title: '24/7 Support Resolution',
+    source: 'Active Customer (Web Portal & App)',
+    sourceType: 'Customer Support Flow',
+    muruCore: 'Muru Semantic Knowledge Engine & Policy Store',
+    agent: 'Support Agent (Fleet Node 02)',
+    agentRole: 'Instant Diagnostics & Ticket Resolution',
+    outputSummary: 'Auto-Resolved in 2.1s • Zero Human Escalation',
+    sampleInput: '“Our office router shows blinking amber light. Order #8492. Can we reset without losing custom DNS?”',
+    destinations: [
+      { name: 'Billing & Account API', note: 'Account #8492 Verified Active', tag: 'Looked Up' },
+      { name: 'Network Diagnostics', note: 'Remote Line Flushed & Stabilized', tag: 'Executed' },
+      { name: 'Zendesk Desk', note: 'Ticket #4819 Closed with 5-Star CSAT', tag: 'Archived' },
+    ],
+    resultData: {
+      customer_id: 'CUST-8492',
+      diagnosis: 'DHCP lease refresh required',
+      action_taken: 'Automated port toggle signal dispatched',
+      resolution_time: '2.1 seconds',
+      escalation_needed: false,
+    },
+  },
+  invoice_sync: {
+    id: 'invoice_sync',
+    title: 'Document Automation',
+    source: 'Vendor Accounts Email (PDF Attached)',
+    sourceType: 'Multimodal Document Intake',
+    muruCore: 'Muru Vision & Document Extraction Parser',
+    agent: 'Operations Agent (Fleet Node 04)',
+    agentRole: 'Cross-Checking POs & Ledger Reconciliation',
+    outputSummary: '48 Items Parsed • Discrepancy Flagged • Ledger Synced',
+    sampleInput: 'PDF Manifest: 48 line items, $42,500.00 total across 3 regional customs clearance declarations.',
+    destinations: [
+      { name: 'SAP / ERP Ledger', note: 'Ledger #204 Posted & Reconciled', tag: 'Committed' },
+      { name: 'Slack Ops Channel', note: '1-Click Executive Approval Required', tag: 'Alerted' },
+      { name: 'Bank Batch Queue', note: 'Payment Prepared for Sign-Off', tag: 'Staged' },
+    ],
+    resultData: {
+      vendor: 'East Africa Global Logistics Ltd',
+      invoice_number: 'INV-2026-8941',
+      items_extracted: 48,
+      accuracy_confidence: '99.8%',
+      tariff_validation: 'MATCHED_KENYA_CUSTOMS_SLA',
+    },
+  },
+};
+
+export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroProps) {
+  const [activeTab, setActiveTab] = useState<PipelineScenarioKey>('lead_whatsapp');
+  const [pipelineStep, setPipelineStep] = useState(1);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [tasksProcessed, setTasksProcessed] = useState(14298);
+
+  const scenario = SCENARIOS[activeTab];
+
+  // Simulated auto-stepper when running
   useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setActiveStep((prev) => (prev >= 4 ? 1 : prev + 1));
-      setProcessedCount((prev) => prev + 1);
-    }, 2400);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  const scenarioData = {
-    lead_whatsapp: {
-      title: "Inbound Lead to CRM",
-      customer: "Prospective Client (WhatsApp)",
-      muruCore: "Muru AI Intent Classifier & RAG Guardrail",
-      agent: "Sales Agent (BANT Qualification)",
-      destinations: [
-        { name: "HubSpot CRM", note: "Lead Scored 94/100", active: true },
-        { name: "Google Calendar", note: "VIP Demo Scheduled", active: true },
-        { name: "WhatsApp Notification", note: "Executive Alert Sent", active: true }
-      ],
-      payload: "“Hello, we need an automated order processing bot for 4 retail stores.”"
-    },
-    support_ticket: {
-      title: "24/7 Support Resolution",
-      customer: "Active Customer (Web Portal)",
-      muruCore: "Muru AI Semantic Knowledge Engine",
-      agent: "Support Agent (Instant Resolver)",
-      destinations: [
-        { name: "Live Database", note: "Order #8492 Located", active: true },
-        { name: "Customer Portal", note: "Resolved in 2.4s", active: true },
-        { name: "Zendesk", note: "Ticket Closed Auto", active: true }
-      ],
-      payload: "“Can I modify the delivery address for order #8492 before dispatch?”"
-    },
-    invoice_sync: {
-      title: "Document Automation",
-      customer: "Vendor Accounts Team",
-      muruCore: "Muru AI Vision & Multimodal Parser",
-      agent: "Operations Agent (Ledger Audit)",
-      destinations: [
-        { name: "PostgreSQL ERP", note: "Ledger Reconciled", active: true },
-        { name: "Approval Slack", note: "1-Click Sign-off", active: true },
-        { name: "Bank Batch", note: "Payment Scheduled", active: true }
-      ],
-      payload: "PDF Invoice: 48 items parsed, tariff codes validated, 0 errors."
+    let interval: NodeJS.Timeout;
+    if (isSimulating) {
+      interval = setInterval(() => {
+        setPipelineStep((prev) => {
+          if (prev >= 4) {
+            setIsSimulating(false);
+            setTasksProcessed((t) => t + 1);
+            return 4;
+          }
+          return prev + 1;
+        });
+      }, 700);
     }
+    return () => clearInterval(interval);
+  }, [isSimulating]);
+
+  const handleRunSimulation = () => {
+    setPipelineStep(1);
+    setIsSimulating(true);
   };
 
-  const current = scenarioData[activeScenario];
-
   return (
-    <section id="hero" className="relative min-h-[92vh] pt-32 pb-20 flex items-center overflow-hidden tech-grid-pattern">
-      {/* Background Ambient Glows */}
+    <section
+      id="hero"
+      className="relative min-h-[92vh] pt-32 pb-20 sm:pt-36 sm:pb-24 flex items-center overflow-hidden tech-grid-pattern"
+    >
+      {/* Background Lighting Gradients */}
       <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#E59500]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-[#3B82F6]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Core Positioning & CTAs */}
+          {/* Left Column: Core Value & High-Impact Copy */}
           <div className="lg:col-span-6 xl:col-span-7 space-y-7 text-left">
-            {/* Top pill badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-zinc-300 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-[#E59500] animate-pulse" />
-              <span className="text-[#E59500] font-semibold">MURU AI</span>
-              <span className="text-zinc-500">•</span>
-              <span>Intelligent Solutions. Built for Business.</span>
-            </div>
+            {/* Enterprise Tag Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] text-xs font-semibold text-[#E59500] backdrop-blur-md"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E59500] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E59500]" />
+              </span>
+              <span className="tracking-wide">Muru AI Enterprise Division • Production-Ready AI</span>
+            </motion.div>
 
             {/* Main Headline */}
-            <div className="space-y-3">
-              <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
-                AI THAT WORKS <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-[#E59500]">
-                  FOR YOUR BUSINESS.
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
+                Intelligent Solutions.{' '}
+                <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-[#E59500] via-[#F6AF2D] to-[#FFC555]">
+                  Built for Business.
                 </span>
               </h1>
-              <p className="text-lg sm:text-xl text-zinc-400 font-normal leading-relaxed max-w-2xl">
-                From intelligent assistants to business automation, we build practical AI systems that solve real business problems.
-              </p>
-            </div>
+            </motion.div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            {/* Subheading with Concrete Positioning */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-base sm:text-lg lg:text-xl text-zinc-300 max-w-2xl leading-relaxed"
+            >
+              From autonomous digital agents to end-to-end workflow automation, we engineer practical,
+              enterprise-grade AI systems that integrate seamlessly with your legacy stack and deliver measurable ROI.
+            </motion.p>
+
+            {/* High-Contrast CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2"
+            >
               <button
+                onClick={() => onOpenConsultation()}
+                className="px-6 py-3.5 rounded-xl font-display font-bold text-sm sm:text-base text-black bg-gradient-to-r from-[#E59500] via-[#F4A81E] to-[#CC7A00] shadow-[0_0_30px_rgba(229,149,0,0.35)] hover:shadow-[0_0_40px_rgba(229,149,0,0.6)] transition-all cursor-pointer flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95"
                 id="hero-start-project-btn"
-                onClick={onStartProject}
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-sm sm:text-base text-black bg-gradient-to-r from-[#F5A31A] via-[#E59500] to-[#CC7A00] hover:brightness-110 shadow-[0_0_30px_rgba(229,149,0,0.35)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               >
-                <span>Start Your AI Project</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <span>Schedule Solution Audit</span>
+                <ArrowRight className="w-4 h-4 text-black" />
               </button>
 
               <button
-                id="hero-explore-services-btn"
-                onClick={onExploreServices}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-medium text-sm sm:text-base text-zinc-200 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.12] hover:border-white/[0.25] transition-all backdrop-blur-md"
+                onClick={onExploreSolutions}
+                className="px-6 py-3.5 rounded-xl font-display font-semibold text-sm sm:text-base text-zinc-200 bg-white/[0.04] border border-white/[0.1] hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-2"
+                id="hero-explore-solutions-btn"
               >
-                <span>Explore Services</span>
+                <Workflow className="w-4 h-4 text-[#E59500]" />
+                <span>Explore Problem Matcher</span>
               </button>
-            </div>
+            </motion.div>
 
-            {/* Trust statement & pills */}
-            <div className="pt-4 border-t border-white/[0.07] space-y-3">
-              <div className="text-xs uppercase tracking-widest text-zinc-500 font-semibold">
-                Specialized Enterprise Capabilities
+            {/* Trust & Guarantee Micro-Pills */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-zinc-400 font-medium"
+            >
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#E59500]" />
+                <span>Private VPC & Zero Data-Retention</span>
               </div>
-              <div className="flex flex-wrap gap-2 text-xs sm:text-sm font-medium text-zinc-400">
-                {MURU_BRAND.trustPillars.map((pillar, idx) => (
-                  <React.Fragment key={pillar}>
-                    <span className="hover:text-zinc-200 transition-colors">{pillar}</span>
-                    {idx < MURU_BRAND.trustPillars.length - 1 && (
-                      <span className="text-zinc-700">•</span>
-                    )}
-                  </React.Fragment>
-                ))}
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#E59500]" />
+                <span>Official WhatsApp Business Integration</span>
               </div>
-            </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#E59500]" />
+                <span>Sub-Second Latency Architecture</span>
+              </div>
+            </motion.div>
           </div>
 
-          {/* Right Column: Animated AI Network & Enterprise Flow Interface */}
+          {/* Right Column: The Interactive Live AI Pipeline Simulator */}
           <div className="lg:col-span-6 xl:col-span-5">
-            <div className="relative rounded-2xl glass-card border border-white/[0.1] p-5 sm:p-6 shadow-2xl shadow-black/80 overflow-hidden">
-              
-              {/* Card Header & Controls */}
-              <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/[0.08]">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative rounded-2xl glass-card border border-white/[0.1] p-5 sm:p-6 shadow-2xl shadow-black/80"
+            >
+              {/* Simulator Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-semibold tracking-wide uppercase text-zinc-300">
-                    Live AI Operational Mesh
-                  </span>
+                  <div>
+                    <div className="text-xs font-mono font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+                      <span>Muru Pipeline Simulator</span>
+                      <span className="text-[10px] text-zinc-500 font-normal">v3.4</span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400">
+                      Live event orchestrator & agent routing
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono text-zinc-500">
-                    {processedCount.toLocaleString()} events
-                  </span>
+
+                <div className="flex items-center gap-1.5">
                   <button
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    className="p-1 rounded text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors"
-                    title={isPlaying ? "Pause simulation" : "Resume simulation"}
+                    onClick={handleRunSimulation}
+                    disabled={isSimulating}
+                    className="px-3 py-1 rounded-lg text-xs font-mono font-medium bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30 hover:bg-[#E59500]/25 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    title="Simulate Event Pipeline Execution"
                   >
-                    {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                    {isSimulating ? (
+                      <RotateCw className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                    )}
+                    <span>{isSimulating ? 'Processing...' : 'Run Pipeline'}</span>
                   </button>
                 </div>
               </div>
 
               {/* Scenario Switcher Tabs */}
-              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-lg bg-black/40 border border-white/[0.06] mb-5">
-                {(['lead_whatsapp', 'support_ticket', 'invoice_sync'] as SimulationScenario[]).map((scenario) => {
-                  const titles = {
-                    lead_whatsapp: 'Sales Flow',
-                    support_ticket: 'Support 24/7',
-                    invoice_sync: 'Operations'
-                  };
+              <div className="grid grid-cols-3 gap-1.5 my-4 p-1 rounded-xl bg-black/40 border border-white/[0.06]">
+                {(Object.keys(SCENARIOS) as PipelineScenarioKey[]).map((key) => {
+                  const item = SCENARIOS[key];
+                  const isSelected = activeTab === key;
                   return (
                     <button
-                      key={scenario}
+                      key={key}
                       onClick={() => {
-                        setActiveScenario(scenario);
-                        setActiveStep(1);
+                        setActiveTab(key);
+                        setPipelineStep(1);
                       }}
-                      className={`py-1.5 px-2 rounded-md text-[11px] font-medium transition-all ${
-                        activeScenario === scenario
-                          ? 'bg-[#E59500]/20 text-[#E59500] border border-[#E59500]/40 shadow-sm'
-                          : 'text-zinc-400 hover:text-zinc-200'
+                      className={`py-2 px-2 rounded-lg text-[11px] font-semibold transition-all truncate text-center cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#E59500] text-black shadow-md'
+                          : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
                       }`}
                     >
-                      {titles[scenario]}
+                      {item.title}
                     </button>
                   );
                 })}
               </div>
 
-              {/* Connected Flowchart Nodes Visual */}
-              <div className="space-y-3 relative">
-                
-                {/* NODE 1: CUSTOMER */}
-                <div className={`p-3.5 rounded-xl border transition-all duration-300 ${
-                  activeStep === 1
-                    ? 'bg-white/[0.08] border-[#E59500] shadow-[0_0_15px_rgba(229,149,0,0.2)]'
-                    : 'bg-black/30 border-white/[0.06]'
-                }`}>
-                  <div className="flex items-center justify-between text-xs font-semibold mb-1">
-                    <span className="text-zinc-400 uppercase tracking-wider text-[10px]">01 • INBOUND ORIGIN</span>
-                    {activeStep === 1 && <span className="text-[#E59500] text-[10px] font-mono animate-pulse">Processing...</span>}
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-                      <MessageSquare className="w-4 h-4" />
+              {/* Pipeline Nodes Flow */}
+              <div className="space-y-3">
+                {/* Node 1: Inbound Source */}
+                <div
+                  className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 1
+                      ? 'bg-white/[0.05] border-[#E59500]/50 shadow-sm'
+                      : 'bg-white/[0.01] border-white/[0.05] opacity-60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 font-bold">
+                        01. SOURCE
+                      </span>
+                      <span className="text-xs font-semibold text-white">{scenario.source}</span>
                     </div>
-                    <div className="font-semibold text-white text-sm">
-                      {current.customer}
-                    </div>
+                    <span className="text-[10px] font-mono text-zinc-400">INBOUND</span>
                   </div>
-                  <div className="mt-2 text-xs text-zinc-400 italic bg-black/40 px-2.5 py-1.5 rounded border border-white/[0.04]">
-                    {current.payload}
+                  <p className="text-[11px] text-zinc-400 italic bg-black/30 p-2 rounded-lg border border-white/[0.03]">
+                    {scenario.sampleInput}
+                  </p>
+                </div>
+
+                {/* Node 2: Muru Neural Core */}
+                <div
+                  className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 2
+                      ? 'bg-[#E59500]/10 border-[#E59500] shadow-[0_0_15px_rgba(229,149,0,0.15)]'
+                      : 'bg-white/[0.01] border-white/[0.05] opacity-60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#E59500]/20 text-[#E59500] font-bold">
+                        02. CORE
+                      </span>
+                      <span className="text-xs font-semibold text-[#E59500]">
+                        {scenario.muruCore}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-400">
+                      {pipelineStep >= 2 ? 'VERIFIED (32ms)' : 'STANDBY'}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-zinc-300 flex items-center gap-2">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Guardrails checked: Prompt injection 0%, SLA validation 100%</span>
                   </div>
                 </div>
 
-                {/* CONNECTOR 1 */}
-                <div className="flex justify-center -my-1">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-0.5 h-4 transition-colors ${activeStep >= 2 ? 'bg-[#E59500]' : 'bg-white/[0.1]'}`} />
-                    <div className={`w-2 h-2 rounded-full ${activeStep >= 2 ? 'bg-[#E59500] shadow-[0_0_8px_#E59500]' : 'bg-zinc-700'}`} />
-                  </div>
-                </div>
-
-                {/* NODE 2: MURU AI CORE */}
-                <div className={`p-3.5 rounded-xl border transition-all duration-300 ${
-                  activeStep === 2
-                    ? 'bg-[#E59500]/10 border-[#E59500] shadow-[0_0_20px_rgba(229,149,0,0.25)]'
-                    : 'bg-black/30 border-white/[0.06]'
-                }`}>
-                  <div className="flex items-center justify-between text-xs font-semibold mb-1">
-                    <span className="text-[#E59500] uppercase tracking-wider text-[10px] font-bold">02 • INTELLIGENCE LAYER</span>
-                    {activeStep === 2 && <span className="text-[#E59500] text-[10px] font-mono animate-pulse">Analyzing Intent</span>}
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-[#E59500] flex items-center justify-center text-black font-black text-xs">
-                      M
+                {/* Node 3: Specialized Agent */}
+                <div
+                  className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 3
+                      ? 'bg-sky-500/10 border-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.15)]'
+                      : 'bg-white/[0.01] border-white/[0.05] opacity-60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-400 font-bold">
+                        03. AGENT
+                      </span>
+                      <span className="text-xs font-semibold text-white">{scenario.agent}</span>
                     </div>
-                    <div>
-                      <div className="font-bold text-white text-sm">MURU AI CORE</div>
-                      <div className="text-[11px] text-zinc-400">{current.muruCore}</div>
-                    </div>
+                    <span className="text-[10px] font-mono text-sky-400">{scenario.agentRole}</span>
+                  </div>
+                  <div className="text-[11px] text-zinc-300 flex items-center justify-between">
+                    <span>{scenario.outputSummary}</span>
+                    <span className="text-[10px] font-mono text-emerald-400">100% Autonomous</span>
                   </div>
                 </div>
 
-                {/* CONNECTOR 2 */}
-                <div className="flex justify-center -my-1">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-0.5 h-4 transition-colors ${activeStep >= 3 ? 'bg-[#E59500]' : 'bg-white/[0.1]'}`} />
-                    <div className={`w-2 h-2 rounded-full ${activeStep >= 3 ? 'bg-[#E59500] shadow-[0_0_8px_#E59500]' : 'bg-zinc-700'}`} />
+                {/* Node 4: Enterprise Integrations */}
+                <div
+                  className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 4
+                      ? 'bg-emerald-500/10 border-emerald-500/40 shadow-sm'
+                      : 'bg-white/[0.01] border-white/[0.05] opacity-60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">
+                      04. DESTINATIONS
+                    </span>
+                    <span className="text-[10px] font-mono text-zinc-400">
+                      3/3 Systems Synchronized
+                    </span>
                   </div>
-                </div>
-
-                {/* NODE 3: AI AGENT */}
-                <div className={`p-3.5 rounded-xl border transition-all duration-300 ${
-                  activeStep === 3
-                    ? 'bg-white/[0.08] border-[#E59500] shadow-[0_0_15px_rgba(229,149,0,0.2)]'
-                    : 'bg-black/30 border-white/[0.06]'
-                }`}>
-                  <div className="flex items-center justify-between text-xs font-semibold mb-1">
-                    <span className="text-zinc-400 uppercase tracking-wider text-[10px]">03 • AUTONOMOUS WORKER</span>
-                    {activeStep === 3 && <span className="text-emerald-400 text-[10px] font-mono animate-pulse">Executing Action</span>}
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                      <Sparkles className="w-4 h-4" />
-                    </div>
-                    <div className="font-semibold text-white text-sm">
-                      {current.agent}
-                    </div>
-                  </div>
-                </div>
-
-                {/* CONNECTOR 3 */}
-                <div className="flex justify-center -my-1">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-0.5 h-4 transition-colors ${activeStep >= 4 ? 'bg-[#E59500]' : 'bg-white/[0.1]'}`} />
-                    <div className={`w-2 h-2 rounded-full ${activeStep >= 4 ? 'bg-[#E59500] shadow-[0_0_8px_#E59500]' : 'bg-zinc-700'}`} />
-                  </div>
-                </div>
-
-                {/* NODE 4: CRM / WHATSAPP / WEBSITE / DATABASE */}
-                <div className={`p-3.5 rounded-xl border transition-all duration-300 ${
-                  activeStep === 4
-                    ? 'bg-white/[0.08] border-emerald-500/80 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-                    : 'bg-black/30 border-white/[0.06]'
-                }`}>
-                  <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-                    <span className="text-zinc-400 uppercase tracking-wider text-[10px]">04 • CONNECTED BUSINESS SYSTEMS</span>
-                    <span className="text-zinc-500 text-[10px]">CRM • WhatsApp • DB</span>
-                  </div>
-                  
-                  <div className="grid grid-cols-3 gap-2">
-                    {current.destinations.map((dest) => (
-                      <div key={dest.name} className="p-2 rounded bg-black/40 border border-white/[0.05] text-center">
-                        <div className="text-[11px] font-medium text-white truncate">{dest.name}</div>
-                        <div className="text-[10px] text-emerald-400 truncate flex items-center justify-center gap-1 mt-0.5">
-                          <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
-                          <span>Synced</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                    {scenario.destinations.map((dest, i) => (
+                      <div
+                        key={i}
+                        className="p-2 rounded-lg bg-black/40 border border-white/[0.04] text-left"
+                      >
+                        <div className="text-[11px] font-bold text-white flex items-center justify-between">
+                          <span>{dest.name}</span>
+                          <span className="text-[9px] font-mono text-emerald-400">{dest.tag}</span>
                         </div>
+                        <div className="text-[10px] text-zinc-400 truncate mt-0.5">{dest.note}</div>
                       </div>
                     ))}
                   </div>
                 </div>
-
               </div>
 
-              {/* Sub-note explaining the visual */}
-              <div className="mt-4 pt-3 border-t border-white/[0.06] text-center">
-                <p className="text-[11px] text-zinc-400">
-                  Muru AI connects business intelligence seamlessly into your existing tools.
-                </p>
+              {/* Simulator Footer Status */}
+              <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs text-zinc-400 font-mono">
+                <div className="flex items-center gap-1.5">
+                  <Terminal className="w-3.5 h-3.5 text-[#E59500]" />
+                  <span>Tasks Today: {tasksProcessed.toLocaleString()}</span>
+                </div>
+                <div className="text-emerald-400 font-semibold">Zero Latency Dropouts</div>
               </div>
-
-            </div>
+            </motion.div>
           </div>
+        </div>
 
+        {/* Enterprise Stacks Bar */}
+        <div className="mt-16 pt-8 border-t border-white/[0.06] text-center">
+          <p className="text-xs font-mono uppercase tracking-widest text-zinc-400 mb-6">
+            Engineered to connect natively with mission-critical systems & cloud stacks
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-4 text-zinc-300 font-semibold text-xs sm:text-sm">
+            <span className="flex items-center gap-2 hover:text-white transition-colors">
+              <MessageSquare className="w-4 h-4 text-emerald-400" /> WhatsApp Cloud API
+            </span>
+            <span className="flex items-center gap-2 hover:text-white transition-colors">
+              <Database className="w-4 h-4 text-[#E59500]" /> PostgreSQL & Supabase
+            </span>
+            <span className="flex items-center gap-2 hover:text-white transition-colors">
+              <Building className="w-4 h-4 text-sky-400" /> SAP ERP & NetSuite
+            </span>
+            <span className="flex items-center gap-2 hover:text-white transition-colors">
+              <Workflow className="w-4 h-4 text-purple-400" /> HubSpot & Salesforce
+            </span>
+            <span className="flex items-center gap-2 hover:text-white transition-colors">
+              <Server className="w-4 h-4 text-amber-400" /> Private Docker & Cloud Run
+            </span>
+          </div>
         </div>
       </div>
     </section>
   );
-};
+}

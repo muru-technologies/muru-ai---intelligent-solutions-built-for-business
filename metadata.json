@@ -1,6 +1,6 @@
 {
   "name": "Muru AI - Intelligent Solutions Built for Business",
-  "description": "Muru AI designs, builds, and integrates practical enterprise AI solutions, AI agents, chatbots, and automation for modern businesses.",
+  "description": "Enterprise AI solutions, autonomous digital workforce agents, workflow automation, and bespoke AI applications engineered for modern business.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

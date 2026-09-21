@@ -1,201 +1,171 @@
-import React from 'react';
-import { MURU_BRAND } from '../data/muruData';
-import { MuruLogo } from './MuruLogo';
+import {
+  Building,
+  Mail,
+  Phone,
+  MessageSquare,
+  ArrowUp,
+  ShieldCheck,
+  Terminal,
+} from 'lucide-react';
+import { COMPANY_DETAILS } from '../data/siteData';
 
 interface FooterProps {
-  onNavClick: (href: string) => void;
-  onOpenConsultation: () => void;
+  onOpenCockpit: () => void;
+  onOpenConsultation: (topic?: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenConsultation }) => {
+export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProps) {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="border-t border-white/[0.08] bg-[#050608] pt-20 pb-12 relative overflow-hidden">
+    <footer className="bg-[#050709] border-t border-white/[0.08] text-zinc-400 pt-16 pb-12 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Top Branding Bar with Huge Typography */}
-        <div className="pb-16 border-b border-white/[0.08]">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div className="space-y-4 max-w-2xl">
-              <div className="flex items-center">
-                <MuruLogo
-                  variant="white"
-                  size="lg"
-                  showAiBadge={true}
-                  showTagline={true}
-                  taglineText="TECHNOLOGY SOLUTIONS GROUP"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/[0.08] text-left">
+          {/* Col 1: Brand & Tagline */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-white px-3 py-1.5 rounded-xl inline-flex items-center justify-center border border-white/20">
+                <img
+                  src="/Logo-Navy-Blue-No-Bg.webp"
+                  alt="Muru IT - Technology Solutions Group"
+                  className="h-7 w-auto max-w-[160px] object-contain"
+                  referrerPolicy="no-referrer"
                 />
               </div>
-              <p className="text-xl sm:text-2xl font-bold text-zinc-300">
-                {MURU_BRAND.tagline}
-              </p>
-              <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">
-                {MURU_BRAND.missionStatement}
-              </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={onOpenConsultation}
-                className="px-6 py-3 rounded-full font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#F5A31A] transition-colors"
-              >
-                Start an AI Project
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-14 border-b border-white/[0.06]">
-          
-          {/* Company */}
-          <div className="space-y-3">
-            <div className="text-xs uppercase font-mono tracking-wider text-zinc-400 font-bold">
-              Company
-            </div>
-            <ul className="space-y-2 text-xs text-zinc-400">
-              <li>
-                <a href="#about" onClick={(e) => { e.preventDefault(); onNavClick('#about'); }} className="hover:text-white transition-colors">
-                  About Muru AI
-                </a>
-              </li>
-              <li>
-                <a href="#why-us" onClick={(e) => { e.preventDefault(); onNavClick('#why-us'); }} className="hover:text-white transition-colors">
-                  Why Muru AI
-                </a>
-              </li>
-              <li>
-                <a href="#contact" onClick={(e) => { e.preventDefault(); onNavClick('#contact'); }} className="hover:text-white transition-colors">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <span className="text-zinc-600">Careers (We're hiring engineers)</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* AI Services */}
-          <div className="space-y-3">
-            <div className="text-xs uppercase font-mono tracking-wider text-[#E59500] font-bold">
-              AI Solutions
-            </div>
-            <ul className="space-y-2 text-xs text-zinc-400">
-              <li>
-                <a href="#agents" onClick={(e) => { e.preventDefault(); onNavClick('#agents'); }} className="hover:text-white transition-colors">
-                  AI Agents
-                </a>
-              </li>
-              <li>
-                <a href="#services" onClick={(e) => { e.preventDefault(); onNavClick('#services'); }} className="hover:text-white transition-colors">
-                  AI Automation
-                </a>
-              </li>
-              <li>
-                <a href="#services" onClick={(e) => { e.preventDefault(); onNavClick('#services'); }} className="hover:text-white transition-colors">
-                  AI Chatbots & WhatsApp
-                </a>
-              </li>
-              <li>
-                <a href="#services" onClick={(e) => { e.preventDefault(); onNavClick('#services'); }} className="hover:text-white transition-colors">
-                  Custom AI Applications
-                </a>
-              </li>
-              <li>
-                <a href="#services" onClick={(e) => { e.preventDefault(); onNavClick('#services'); }} className="hover:text-white transition-colors">
-                  AI Analytics & Dashboards
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div className="space-y-3">
-            <div className="text-xs uppercase font-mono tracking-wider text-zinc-400 font-bold">
-              Resources
-            </div>
-            <ul className="space-y-2 text-xs text-zinc-400">
-              <li>
-                <a href="#case-studies" onClick={(e) => { e.preventDefault(); onNavClick('#case-studies'); }} className="hover:text-white transition-colors">
-                  Case Studies
-                </a>
-              </li>
-              <li>
-                <a href="#solutions" onClick={(e) => { e.preventDefault(); onNavClick('#solutions'); }} className="hover:text-white transition-colors">
-                  Problem & Solution Matrix
-                </a>
-              </li>
-              <li>
-                <a href="#technology" onClick={(e) => { e.preventDefault(); onNavClick('#technology'); }} className="hover:text-white transition-colors">
-                  Technology Ecosystem
-                </a>
-              </li>
-              <li>
-                <a href="#process" onClick={(e) => { e.preventDefault(); onNavClick('#process'); }} className="hover:text-white transition-colors">
-                  Delivery Framework
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Muru Technology Parent Info */}
-          <div className="space-y-3">
-            <div className="text-xs uppercase font-mono tracking-wider text-zinc-400 font-bold">
-              Muru Technology
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Muru AI is the dedicated artificial intelligence and intelligent automation division of <strong className="text-zinc-200">Muru Technology</strong>.
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm">
+              Intelligent Solutions Built for Business. We engineer practical, enterprise-grade AI
+              systems, autonomous agents, and end-to-end workflow automations that integrate with your
+              legacy tech stack.
             </p>
-            <div className="pt-2 text-[11px] text-zinc-500 font-mono">
-              Empowering enterprise scale through deep technology.
+
+            <div className="pt-2">
+              <div className="text-xs font-mono text-zinc-500">
+                A Division of {COMPANY_DETAILS.legalName}
+              </div>
+              <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Enterprise SLA • Private VPC • Zero Retained Data</span>
+              </div>
             </div>
           </div>
 
-        </div>
-
-        {/* Bottom Bar: Copyright & Social Links */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          {/* Col 2: Services */}
           <div>
-            © {new Date().getFullYear()} MURU AI. All rights reserved. Built for business.
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-4">
+              AI Capabilities
+            </h4>
+            <ul className="space-y-2 text-xs">
+              {[
+                'Autonomous AI Agents',
+                'Conversational Chatbots',
+                'Workflow Automation',
+                'Custom AI Applications',
+                'WhatsApp API Integrations',
+                'Data & Decision Intelligence',
+              ].map((item, i) => (
+                <li key={i}>
+                  <button
+                    onClick={() => onOpenConsultation(item)}
+                    className="hover:text-[#E59500] transition-colors cursor-pointer text-left"
+                  >
+                    {item}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-5">
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#E59500] transition-colors"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#E59500] transition-colors"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#E59500] transition-colors"
-            >
-              Facebook
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#E59500] transition-colors"
-            >
-              Instagram
-            </a>
+          {/* Col 3: Industries */}
+          <div>
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-4">
+              Industry Verticals
+            </h4>
+            <ul className="space-y-2 text-xs">
+              {[
+                'Hospitality & Tourism',
+                'E-commerce & Retail',
+                'Real Estate & Advisory',
+                'Financial Services & Fintech',
+                'Logistics & Distribution',
+                'Education & EdTech',
+              ].map((item, i) => (
+                <li key={i}>
+                  <button
+                    onClick={() => onOpenConsultation(`Industry: ${item}`)}
+                    className="hover:text-[#E59500] transition-colors cursor-pointer text-left"
+                  >
+                    {item}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 4: Operations & Contact */}
+          <div>
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-4">
+              Enterprise Contact
+            </h4>
+            <div className="space-y-2.5 text-xs">
+              <div className="text-zinc-300 font-medium">{COMPANY_DETAILS.location}</div>
+              <div>
+                <a href={`mailto:${COMPANY_DETAILS.email}`} className="text-white hover:underline">
+                  {COMPANY_DETAILS.email}
+                </a>
+              </div>
+              <div className="text-zinc-300">{COMPANY_DETAILS.phone}</div>
+              <div>
+                <a
+                  href={COMPANY_DETAILS.whatsappDirectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>WhatsApp Lead Desk</span>
+                </a>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={onOpenCockpit}
+                  className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-[#E59500] text-zinc-300 hover:text-white text-xs font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Terminal className="w-3 h-3 text-[#E59500]" />
+                  <span>Launch Live Cockpit</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
+        {/* Bottom bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-emerald-400">All 24 Enterprise Nodes Live</span>
+            <span className="text-zinc-600">•</span>
+            <span>Latency: 42ms</span>
+          </div>
+
+          <div className="text-zinc-500 text-center">
+            © {new Date().getFullYear()} Muru Technology Solutions Group. All rights reserved.
+          </div>
+
+          <button
+            onClick={scrollToTop}
+            className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
+            aria-label="Scroll back to top"
+          >
+            <span>Top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
     </footer>
   );
-};
+}

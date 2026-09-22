@@ -20,9 +20,9 @@ export const COMPANY_DETAILS = {
   mission: 'From intelligent assistants to business automation, we build practical AI systems that solve real business problems.',
   location: 'Nairobi, Kenya • Serving East Africa & Global Enterprises',
   email: 'hello@muru.ai',
-  phone: '+254 700 000 000',
-  whatsappNumber: '+254700000000',
-  whatsappDirectUrl: 'https://wa.me/254700000000?text=Hello%20Muru%20AI,%20I%20would%20like%20to%20discuss%20an%20AI%20project%20for%20my%20business.',
+  phone: '+254 716748685',
+  whatsappNumber: '+254 716748685',
+  whatsappDirectUrl: 'https://wa.me/+254 716748685?text=Hello%20Muru%20AI,%20I%20would%20like%20to%20discuss%20an%20AI%20project%20for%20my%20business.',
 };
 
 export const SERVICES_DATA: ServiceItem[] = [

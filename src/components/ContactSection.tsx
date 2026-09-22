@@ -221,7 +221,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ prefilledInteres
                         required
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+254 700 000 000"
+                        placeholder="+254 716748685"
                         className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/[0.1] text-white text-sm focus:outline-none focus:border-[#E59500] transition-colors"
                       />
                     </div>

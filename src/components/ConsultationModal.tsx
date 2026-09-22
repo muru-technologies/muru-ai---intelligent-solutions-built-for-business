@@ -184,7 +184,7 @@ export default function ConsultationModal({
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="+254 700 000 000"
+                          placeholder="0716 748685"
                           className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs text-white focus:outline-none focus:border-[#E59500] transition-colors"
                         />
                       </div>

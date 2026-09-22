@@ -20,7 +20,7 @@ export const MURU_BRAND = {
     "Integrations",
     "Custom AI Software"
   ],
-  whatsappNumber: "+254700000000",
+  whatsappNumber: "+254 716748685",
   whatsappMessage: "Hello Muru AI, I would like to discuss an AI project for my business.",
   email: "hello@muru.ai",
   officeLocation: "Nairobi & Global Remote",

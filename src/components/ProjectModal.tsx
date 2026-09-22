@@ -232,7 +232,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+254 711 000 000"
+                      placeholder="+254 716748685"
                       className="w-full px-3.5 py-2 rounded-lg bg-black/40 border border-white/[0.1] text-white text-xs focus:outline-none focus:border-[#E59500]"
                     />
                   </div>

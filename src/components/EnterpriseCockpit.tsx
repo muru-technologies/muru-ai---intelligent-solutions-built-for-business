@@ -116,14 +116,15 @@ export default function EnterpriseCockpit({
 
             {/* Top Right Quick Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                <span>24 Distributed Nodes Online</span>
+              <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] sm:text-xs font-mono text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span className="hidden sm:inline">24 Distributed Nodes Online</span>
+                <span className="sm:hidden">24 Nodes Active</span>
               </div>
 
               <button
                 onClick={onBookConsultation}
-                className="px-3.5 py-1.5 rounded-xl font-display font-semibold text-xs text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors cursor-pointer"
+                className="px-3 sm:px-3.5 py-1.5 rounded-xl font-display font-semibold text-xs text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors cursor-pointer whitespace-nowrap active:scale-95"
               >
                 Deploy Fleet
               </button>
@@ -132,7 +133,7 @@ export default function EnterpriseCockpit({
         </div>
 
         {/* Cockpit Nav Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-1 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-1 overflow-x-auto no-scrollbar">
           {[
             { id: 'overview', label: 'Overview & Telemetry', icon: Activity },
             { id: 'agents', label: 'Fleet Agents (24)', icon: Cpu },
@@ -146,7 +147,7 @@ export default function EnterpriseCockpit({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as CockpitTab)}
-                className={`flex items-center gap-2 py-2.5 px-4 text-xs font-mono font-semibold transition-all border-b-2 cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold transition-all border-b-2 cursor-pointer whitespace-nowrap active:scale-95 ${
                   isCurrent
                     ? 'border-[#E59500] text-[#E59500] bg-white/[0.02]'
                     : 'border-transparent text-zinc-400 hover:text-white hover:bg-white/[0.01]'
@@ -161,9 +162,9 @@ export default function EnterpriseCockpit({
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
         {/* Metric Cards Strip */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 text-left">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mb-6 sm:mb-8 text-left">
           <div className="p-4 rounded-xl glass-card border border-white/[0.08] bg-black/40">
             <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-1">
               <span>ACTIVE AGENTS</span>

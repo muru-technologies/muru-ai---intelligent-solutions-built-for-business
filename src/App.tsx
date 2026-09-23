@@ -123,24 +123,29 @@ export default function App() {
       </main>
 
       {/* Floating Action Badge on Mobile/Desktop */}
-      <aside aria-label="Quick Actions" className="fixed bottom-6 right-6 z-40 flex items-center gap-2">
+      <aside
+        aria-label="Quick Actions"
+        className="fixed bottom-3.5 right-3 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      >
         <a
           href={COMPANY_DETAILS.whatsappDirectUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#25D366] text-black font-semibold text-xs shadow-xl shadow-[#25D366]/20 hover:scale-105 transition-all"
+          className="flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full bg-[#25D366] text-black font-semibold text-xs shadow-xl shadow-[#25D366]/25 hover:scale-105 active:scale-95 transition-all"
           title="Chat directly with Lead Architect on WhatsApp"
         >
-          <MessageSquare className="w-4 h-4" />
+          <MessageSquare className="w-4 h-4 flex-shrink-0" />
           <span className="hidden sm:inline">WhatsApp Lead Desk</span>
         </a>
 
         <button
           onClick={() => handleOpenConsultation()}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#E59500] to-[#CC7A00] text-black font-display font-bold text-xs shadow-xl shadow-[#E59500]/30 hover:scale-105 transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-gradient-to-r from-[#E59500] to-[#CC7A00] text-black font-display font-bold text-xs shadow-xl shadow-[#E59500]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 fill-black/20" />
-          <span>Book Solution Audit</span>
+          <Sparkles className="w-3.5 h-3.5 fill-black/20 flex-shrink-0" />
+          <span className="hidden sm:inline">Book Solution Audit</span>
+          <span className="sm:hidden">Book Audit</span>
         </button>
       </aside>
 

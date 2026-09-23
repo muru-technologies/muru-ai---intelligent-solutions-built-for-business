@@ -69,14 +69,14 @@ export default function IndustriesSection({ onSelectIndustry }: IndustriesSectio
         </div>
 
         {/* Industry Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 pb-2 overflow-x-auto">
+        <div className="flex flex-nowrap sm:flex-wrap gap-2 mb-8 pb-2 overflow-x-auto no-scrollbar">
           {INDUSTRIES_DATA.map((ind) => {
             const isSelected = ind.id === activeIndustryId;
             return (
               <button
                 key={ind.id}
                 onClick={() => setActiveIndustryId(ind.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap active:scale-95 ${
                   isSelected
                     ? 'bg-[#E59500] text-black shadow-lg shadow-[#E59500]/20'
                     : 'bg-white/[0.02] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.05] hover:text-white'

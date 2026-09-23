@@ -88,7 +88,7 @@ export default function ServicesSection({ onSelectService }: ServicesSectionProp
         </div>
 
         {/* Filter Chips */}
-        <div className="flex flex-wrap items-center gap-2 mb-10 pb-2 overflow-x-auto">
+        <div className="flex flex-nowrap sm:flex-wrap items-center gap-2 mb-8 pb-2 overflow-x-auto no-scrollbar">
           {[
             { id: 'all', label: 'All Services (6)' },
             { id: 'core', label: 'Autonomous Agents & Chatbots' },

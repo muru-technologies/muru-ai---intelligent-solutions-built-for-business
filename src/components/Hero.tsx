@@ -145,22 +145,22 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
   return (
     <section
       id="hero"
-      className="relative min-h-[92vh] pt-32 pb-20 sm:pt-36 sm:pb-24 flex items-center overflow-hidden tech-grid-pattern"
+      className="relative min-h-[90vh] pt-24 pb-16 sm:pt-36 sm:pb-24 flex items-center overflow-hidden tech-grid-pattern"
     >
       {/* Background Lighting Gradients */}
       <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#E59500]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Core Value & High-Impact Copy */}
-          <div className="lg:col-span-6 xl:col-span-7 space-y-7 text-left">
+          <div className="lg:col-span-6 xl:col-span-7 space-y-6 sm:space-y-7 text-left">
             {/* Enterprise Tag Badge */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] text-xs font-semibold text-[#E59500] backdrop-blur-md"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] text-[11px] sm:text-xs font-semibold text-[#E59500] backdrop-blur-md"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E59500] opacity-75" />
@@ -175,7 +175,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
+              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.12] sm:leading-[1.08]">
                 Intelligent Solutions.{' '}
                 <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-[#E59500] via-[#F6AF2D] to-[#FFC555]">
                   Built for Business.
@@ -188,7 +188,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg lg:text-xl text-zinc-300 max-w-2xl leading-relaxed"
+              className="text-sm sm:text-lg lg:text-xl text-zinc-300 max-w-2xl leading-relaxed"
             >
               From autonomous digital agents to end-to-end workflow automation, we engineer practical,
               enterprise-grade AI systems that integrate seamlessly with your legacy stack and deliver measurable ROI.
@@ -203,7 +203,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
             >
               <button
                 onClick={() => onOpenConsultation()}
-                className="px-6 py-3.5 rounded-xl font-display font-bold text-sm sm:text-base text-black bg-gradient-to-r from-[#E59500] via-[#F4A81E] to-[#CC7A00] shadow-[0_0_30px_rgba(229,149,0,0.35)] hover:shadow-[0_0_40px_rgba(229,149,0,0.6)] transition-all cursor-pointer flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-display font-bold text-sm sm:text-base text-black bg-gradient-to-r from-[#E59500] via-[#F4A81E] to-[#CC7A00] shadow-[0_0_30px_rgba(229,149,0,0.35)] hover:shadow-[0_0_40px_rgba(229,149,0,0.6)] transition-all cursor-pointer flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95"
                 id="hero-start-project-btn"
               >
                 <span>Schedule Solution Audit</span>
@@ -212,7 +212,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
 
               <button
                 onClick={onExploreSolutions}
-                className="px-6 py-3.5 rounded-xl font-display font-semibold text-sm sm:text-base text-zinc-200 bg-white/[0.04] border border-white/[0.1] hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-display font-semibold text-sm sm:text-base text-zinc-200 bg-white/[0.04] border border-white/[0.1] hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
                 id="hero-explore-solutions-btn"
               >
                 <Workflow className="w-4 h-4 text-[#E59500]" />
@@ -225,18 +225,18 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-zinc-400 font-medium"
+              className="pt-2 sm:pt-4 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-y-2 gap-x-5 text-xs text-zinc-400 font-medium"
             >
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#E59500]" />
+                <CheckCircle2 className="w-4 h-4 text-[#E59500] flex-shrink-0" />
                 <span>Private VPC & Zero Data-Retention</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#E59500]" />
+                <CheckCircle2 className="w-4 h-4 text-[#E59500] flex-shrink-0" />
                 <span>Official WhatsApp Business Integration</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#E59500]" />
+                <CheckCircle2 className="w-4 h-4 text-[#E59500] flex-shrink-0" />
                 <span>Sub-Second Latency Architecture</span>
               </div>
             </motion.div>
@@ -248,11 +248,11 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative rounded-2xl glass-card border border-white/[0.1] p-5 sm:p-6 shadow-2xl shadow-black/80"
+              className="relative rounded-2xl glass-card border border-white/[0.1] p-4 sm:p-6 shadow-2xl shadow-black/80"
             >
               {/* Simulator Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-                <div className="flex items-center gap-2.5">
+              <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
+                <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                   <div>
                     <div className="text-xs font-mono font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
@@ -269,7 +269,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
                   <button
                     onClick={handleRunSimulation}
                     disabled={isSimulating}
-                    className="px-3 py-1 rounded-lg text-xs font-mono font-medium bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30 hover:bg-[#E59500]/25 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="px-2.5 sm:px-3 py-1 rounded-lg text-xs font-mono font-medium bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30 hover:bg-[#E59500]/25 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-95"
                     title="Simulate Event Pipeline Execution"
                   >
                     {isSimulating ? (
@@ -283,7 +283,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
               </div>
 
               {/* Scenario Switcher Tabs */}
-              <div className="grid grid-cols-3 gap-1.5 my-4 p-1 rounded-xl bg-black/40 border border-white/[0.06]">
+              <div className="grid grid-cols-3 gap-1 sm:gap-1.5 my-3 sm:my-4 p-1 rounded-xl bg-black/40 border border-white/[0.06]">
                 {(Object.keys(SCENARIOS) as PipelineScenarioKey[]).map((key) => {
                   const item = SCENARIOS[key];
                   const isSelected = activeTab === key;
@@ -294,7 +294,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
                         setActiveTab(key);
                         setPipelineStep(1);
                       }}
-                      className={`py-2 px-2 rounded-lg text-[11px] font-semibold transition-all truncate text-center cursor-pointer ${
+                      className={`py-1.5 sm:py-2 px-1 sm:px-2 rounded-lg text-[10px] sm:text-[11px] font-semibold transition-all truncate text-center cursor-pointer active:scale-95 ${
                         isSelected
                           ? 'bg-[#E59500] text-black shadow-md'
                           : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
@@ -374,9 +374,9 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
                     </div>
                     <span className="text-[10px] font-mono text-sky-400">{scenario.agentRole}</span>
                   </div>
-                  <div className="text-[11px] text-zinc-300 flex items-center justify-between">
+                  <div className="text-[11px] text-zinc-300 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <span>{scenario.outputSummary}</span>
-                    <span className="text-[10px] font-mono text-emerald-400">100% Autonomous</span>
+                    <span className="text-[10px] font-mono text-emerald-400 self-start sm:self-auto">100% Autonomous</span>
                   </div>
                 </div>
 
@@ -430,7 +430,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
           <p className="text-xs font-mono uppercase tracking-widest text-zinc-400 mb-6">
             Engineered to connect natively with mission-critical systems & cloud stacks
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-4 text-zinc-300 font-semibold text-xs sm:text-sm">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-12 gap-y-3 text-zinc-300 font-semibold text-xs sm:text-sm">
             <span className="flex items-center gap-2 hover:text-white transition-colors">
               <MessageSquare className="w-4 h-4 text-emerald-400" /> WhatsApp Cloud API
             </span>

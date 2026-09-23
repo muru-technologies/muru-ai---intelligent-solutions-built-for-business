@@ -97,10 +97,10 @@ export default function Header({
           : 'bg-transparent border-b border-white/[0.04] py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-1.5 sm:gap-4">
           {/* Brand Logo Area */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <button
               onClick={() => {
                 if (currentView !== 'website') onToggleView('website');
@@ -110,11 +110,11 @@ export default function Header({
               id="brand-logo-btn"
               aria-label="Muru IT - Technology Solutions Group"
             >
-              <div className="bg-white hover:bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl transition-all shadow-sm flex items-center justify-center border border-white/20">
+              <div className="bg-white hover:bg-white/95 px-2 py-1 sm:px-3 sm:py-1.5 rounded-xl transition-all shadow-sm flex items-center justify-center border border-white/20">
                 <img
                   src="/Logo-Navy-Blue-No-Bg.webp"
                   alt="Muru IT - Technology Solutions Group"
-                  className="h-6 sm:h-7.5 w-auto max-w-[140px] sm:max-w-[170px] object-contain"
+                  className="h-5.5 sm:h-7.5 w-auto max-w-[115px] sm:max-w-[170px] object-contain"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -142,7 +142,7 @@ export default function Header({
           </nav>
 
           {/* Right Action Tools */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
             {/* Live System Status Pill */}
             <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-400">
               <span className="relative flex h-2 w-2">
@@ -155,7 +155,7 @@ export default function Header({
             {/* View Mode Toggle: Website vs Live Cockpit */}
             <button
               onClick={() => onToggleView(currentView === 'website' ? 'cockpit' : 'website')}
-              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                 currentView === 'cockpit'
                   ? 'bg-amber-500/20 text-[#E59500] border-[#E59500] shadow-[0_0_20px_rgba(229,149,0,0.3)]'
                   : 'bg-white/[0.04] text-zinc-300 border-white/[0.1] hover:bg-white/[0.08] hover:text-white'
@@ -166,6 +166,7 @@ export default function Header({
                   : 'Return to Public Website'
               }
               id="view-toggle-btn"
+              aria-label="Toggle Cockpit View"
             >
               <Terminal className="w-3.5 h-3.5 text-[#E59500]" />
               <span className="hidden md:inline">
@@ -188,18 +189,19 @@ export default function Header({
             {/* Book Consultation CTA Button */}
             <button
               onClick={() => onOpenConsultation()}
-              className="relative group overflow-hidden px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] via-[#F4A81E] to-[#CC7A00] shadow-[0_0_25px_rgba(229,149,0,0.3)] hover:shadow-[0_0_35px_rgba(229,149,0,0.5)] transition-all cursor-pointer flex items-center gap-1.5 active:scale-95"
+              className="relative group overflow-hidden px-2.5 py-1.5 sm:px-5 sm:py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] via-[#F4A81E] to-[#CC7A00] shadow-[0_0_25px_rgba(229,149,0,0.3)] hover:shadow-[0_0_35px_rgba(229,149,0,0.5)] transition-all cursor-pointer flex items-center gap-1 active:scale-95 whitespace-nowrap"
               id="header-consultation-btn"
             >
               <Sparkles className="w-3.5 h-3.5 fill-black/20" />
-              <span>Book Consultation</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              <span className="hidden sm:inline">Book Consultation</span>
+              <span className="sm:hidden font-bold">Audit</span>
+              <ArrowRight className="w-3.5 h-3.5 hidden sm:inline transition-transform group-hover:translate-x-0.5" />
             </button>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.05] border border-white/[0.08] transition-colors cursor-pointer"
+              className="xl:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.05] border border-white/[0.08] transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center"
               id="mobile-nav-toggle"
               aria-label="Toggle Navigation Menu"
             >
@@ -217,7 +219,7 @@ export default function Header({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="xl:hidden bg-[#090B0F]/95 border-b border-white/[0.1] backdrop-blur-2xl px-5 py-6 shadow-2xl max-h-[85vh] overflow-y-auto"
+            className="xl:hidden bg-[#090B0F]/98 border-b border-white/[0.1] backdrop-blur-2xl px-4 py-5 sm:px-5 sm:py-6 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar"
             id="mobile-menu-drawer"
           >
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08]">
@@ -234,9 +236,9 @@ export default function Header({
                   setMobileMenuOpen(false);
                   onToggleView(currentView === 'website' ? 'cockpit' : 'website');
                 }}
-                className="text-xs font-mono px-3 py-1 rounded-lg bg-white/[0.06] border border-white/[0.1] text-[#E59500] flex items-center gap-1.5"
+                className="text-xs font-mono px-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.1] text-[#E59500] flex items-center gap-1.5 active:scale-95"
               >
-                <Terminal className="w-3 h-3" />
+                <Terminal className="w-3.5 h-3.5" />
                 {currentView === 'website' ? 'Open Cockpit' : 'Open Website'}
               </button>
             </div>
@@ -246,7 +248,7 @@ export default function Header({
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.href)}
-                  className="p-3 text-left rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#E59500]/40 text-xs font-medium text-zinc-300 hover:text-white transition-all cursor-pointer"
+                  className="p-3 text-left rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#E59500]/40 text-xs font-medium text-zinc-300 hover:text-white transition-all cursor-pointer active:scale-98"
                 >
                   {link.label}
                 </button>
@@ -259,7 +261,7 @@ export default function Header({
                   setMobileMenuOpen(false);
                   onOpenConsultation();
                 }}
-                className="w-full py-3 px-4 rounded-xl font-display font-bold text-sm text-black bg-[#E59500] hover:bg-[#CC7A00] flex items-center justify-center gap-2 shadow-lg shadow-[#E59500]/20"
+                className="w-full py-3.5 px-4 rounded-xl font-display font-bold text-sm text-black bg-[#E59500] hover:bg-[#CC7A00] flex items-center justify-center gap-2 shadow-lg shadow-[#E59500]/20 active:scale-98"
               >
                 <span>Book Solution Audit</span>
                 <ArrowRight className="w-4 h-4" />
@@ -269,7 +271,7 @@ export default function Header({
                 href={COMPANY_DETAILS.whatsappDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-4 rounded-xl font-medium text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center gap-2 hover:bg-emerald-500/20"
+                className="w-full py-3 px-4 rounded-xl font-medium text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center gap-2 hover:bg-emerald-500/20 active:scale-98"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Chat Direct on WhatsApp ({COMPANY_DETAILS.whatsappNumber})</span>

@@ -67,7 +67,7 @@ export default function ConsultationModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -83,7 +83,7 @@ export default function ConsultationModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-2xl rounded-2xl glass-card border border-white/[0.12] bg-[#090B0F] p-6 sm:p-8 shadow-2xl shadow-black text-left z-10 my-8 overflow-hidden"
+            className="relative w-full max-w-2xl rounded-2xl glass-card border border-white/[0.12] bg-[#090B0F] p-4.5 sm:p-8 shadow-2xl shadow-black text-left z-10 my-auto max-h-[92vh] overflow-y-auto no-scrollbar"
             role="dialog"
             aria-modal="true"
           >
@@ -93,7 +93,7 @@ export default function ConsultationModal({
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.05] transition-colors cursor-pointer"
+              className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.05] transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -106,11 +106,11 @@ export default function ConsultationModal({
                   <span>Confidential Solution Audit</span>
                 </div>
 
-                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
+                <h3 className="font-display text-xl sm:text-3xl font-extrabold text-white">
                   Schedule Your Enterprise AI Audit
                 </h3>
 
-                <p className="text-xs sm:text-sm text-zinc-400 mt-2 mb-6 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-400 mt-1.5 mb-5 leading-relaxed">
                   Connect directly with a Muru AI Lead Solutions Architect to evaluate technical
                   feasibility, security parameters, and concrete ROI metrics.
                 </p>
@@ -184,7 +184,7 @@ export default function ConsultationModal({
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="0716 748685"
+                          placeholder="+254 716 748 685"
                           className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs text-white focus:outline-none focus:border-[#E59500] transition-colors"
                         />
                       </div>
@@ -210,7 +210,7 @@ export default function ConsultationModal({
                     <label className="block text-xs font-mono text-zinc-300 uppercase mb-1.5">
                       Target Implementation Timeline
                     </label>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       {[
                         'Immediate (< 30 Days)',
                         'Next 60-90 Days',
@@ -220,7 +220,7 @@ export default function ConsultationModal({
                           key={t}
                           type="button"
                           onClick={() => setTimeline(t)}
-                          className={`py-2 px-2 rounded-xl text-[11px] font-mono font-medium border text-center transition-colors cursor-pointer truncate ${
+                          className={`py-2 px-2.5 rounded-xl text-xs font-mono font-medium border text-center transition-colors cursor-pointer active:scale-98 ${
                             timeline === t
                               ? 'bg-[#E59500]/20 text-[#E59500] border-[#E59500]'
                               : 'bg-white/[0.02] text-zinc-400 border-white/[0.06] hover:bg-white/[0.05]'
@@ -242,32 +242,32 @@ export default function ConsultationModal({
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Tell us about the manual systems, software stacks, or response times you're looking to upgrade..."
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs text-white focus:outline-none focus:border-[#E59500] transition-colors resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm sm:text-xs text-white focus:outline-none focus:border-[#E59500] transition-colors resize-none"
                     />
                   </div>
 
                   {/* Actions */}
-                  <div className="pt-3 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div className="pt-3 border-t border-white/[0.06] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-400">
-                      <Lock className="w-3 h-3 text-emerald-400" />
+                      <Lock className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                       <span>Zero Spam • NDA Confidentiality Protected</span>
                     </div>
 
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                       <a
                         href={generateWhatsAppUrl()}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-all flex items-center justify-center gap-1.5 text-xs font-medium"
+                        className="py-2.5 px-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-all flex items-center justify-center gap-2 text-xs font-medium active:scale-98"
                         title="Send directly via WhatsApp"
                       >
-                        <MessageSquare className="w-4 h-4" />
-                        <span className="hidden sm:inline">Fast WhatsApp</span>
+                        <MessageSquare className="w-4 h-4 flex-shrink-0" />
+                        <span>Fast WhatsApp Desk</span>
                       </a>
 
                       <button
                         type="submit"
-                        className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                        className="py-3 px-5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-98 shadow-md shadow-[#E59500]/20"
                       >
                         <span>Confirm Consultation</span>
                         <ArrowRight className="w-4 h-4 text-black" />

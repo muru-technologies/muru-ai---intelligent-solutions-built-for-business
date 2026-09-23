@@ -1,34 +1,3 @@
-export interface ContactFormData {
-  fullName: string;
-  company: string;
-  email: string;
-  phone: string;
-  industry: string;
-  interest: string;
-  projectDetails: string;
-}
-
-export type AgentStatus = 'ACTIVE' | 'PAUSED';
-
-export interface AgentPipelineStep {
-  step: string;
-  label: string;
-  sublabel: string;
-}
-
-export interface DetailedAgent {
-  id: string;
-  name: string;
-  tagline: string;
-  model: string;
-  status: AgentStatus;
-  tasksToday: number;
-  successRate: string;
-  latency: string;
-  currentActivity: string;
-  pipeline: AgentPipelineStep[];
-  recentActions: string[];
-}
 export interface ServiceItem {
   id: string;
   number: string;
@@ -92,6 +61,23 @@ export interface ProcessStep {
   description: string;
   deliverable: string;
 }
+export interface WorkflowNode {
+  id: string;
+  label: string;
+  sublabel: string;
+  type: string;
+}
+
+export interface WorkflowItem {
+  id: string;
+  code: string;
+  name: string;
+  status: string;
+  runsToday: number;
+  avgTime: string;
+  trigger: string;
+  nodes: WorkflowNode[];
+}
 
 export interface IndustryVertical {
   id: string;
@@ -142,12 +128,3 @@ export interface WorkflowActivityEvent {
   status: 'SUCCESS' | 'RUNNING' | 'QUEUED';
   details: string;
 }
-
-/*
- * Compatibility aliases used by muruData.ts
- */
-export type AIService = ServiceItem;
-export type ProblemSolution = ProblemMatcherItem;
-export type IndustryItem = IndustryVertical;
-export type AIAgent = AutonomousAgent;
-export type TechCategory = TechStackCategory;

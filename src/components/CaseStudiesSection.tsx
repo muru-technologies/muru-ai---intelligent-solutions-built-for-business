@@ -47,12 +47,12 @@ export default function CaseStudiesSection({ onDiscussProject }: CaseStudiesSect
           </div>
 
           {/* Tab Selector */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto no-scrollbar pb-1">
             {CASE_STUDIES_DATA.map((cs) => (
               <button
                 key={cs.id}
                 onClick={() => setActiveCaseId(cs.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap active:scale-95 ${
                   activeCaseId === cs.id
                     ? 'bg-[#E59500] text-black shadow-lg shadow-[#E59500]/20'
                     : 'bg-white/[0.03] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06] hover:text-white'

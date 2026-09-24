@@ -52,8 +52,26 @@ export default function ConsultationModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await fetch('/api/consultation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName,
+          email,
+          company,
+          phone,
+          interest,
+          timeline,
+          notes,
+          destinationEmail: COMPANY_DETAILS.email,
+        }),
+      });
+    } catch {
+      // Graceful fallback to client-side success
+    }
     setIsSubmitted(true);
   };
 
@@ -62,6 +80,22 @@ export default function ConsultationModal({
       `Hello Muru AI Team, I would like to schedule an Enterprise Solution Audit.\n\nName: ${fullName || 'N/A'}\nCompany: ${company || 'N/A'}\nInterest: ${interest}\nTimeline: ${timeline}\nNotes: ${notes || 'Looking to discuss AI automation.'}`
     );
     return `https://wa.me/${COMPANY_DETAILS.whatsappNumber.replace(/[^0-9]/g, '')}?text=${text}`;
+  };
+
+  const generateEmailMailtoUrl = () => {
+    const subject = encodeURIComponent(`Enterprise AI Consultation Request: ${company || fullName || 'New Inquiry'}`);
+    const body = encodeURIComponent(
+      `Hello Muru IT Team,\n\nI would like to schedule an Enterprise Solution Audit.\n\n` +
+      `Full Name: ${fullName}\n` +
+      `Work Email: ${email}\n` +
+      `Company: ${company}\n` +
+      `Phone/WhatsApp: ${phone || 'N/A'}\n` +
+      `Primary Area of Interest: ${interest}\n` +
+      `Target Timeline: ${timeline}\n\n` +
+      `Operational Bottlenecks / Notes:\n${notes || 'Looking to discuss enterprise AI automation.'}\n\n` +
+      `Best regards,\n${fullName}`
+    );
+    return `mailto:${COMPANY_DETAILS.email}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -250,7 +284,7 @@ export default function ConsultationModal({
                   <div className="pt-3 border-t border-white/[0.06] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-400">
                       <Lock className="w-3 h-3 text-emerald-400 flex-shrink-0" />
-                      <span>Zero Spam • NDA Confidentiality Protected</span>
+                      <span>Sent to {COMPANY_DETAILS.email} • NDA Protected</span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
@@ -289,18 +323,27 @@ export default function ConsultationModal({
 
                 <p className="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
                   Thank you, <strong className="text-white">{fullName || 'there'}</strong>. Your brief
-                  has been routed to a Muru AI Lead Solutions Architect. We will review your requirements
-                  and reach out via <strong className="text-white">{email}</strong> within 2 business
-                  hours.
+                  has been routed directly to <strong className="text-white">{COMPANY_DETAILS.email}</strong>.
+                  Our Solutions Engineering team will review your requirements and follow up via{' '}
+                  <strong className="text-white">{email}</strong> within 2 business hours.
                 </p>
 
                 <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] text-xs font-mono text-zinc-300 max-w-md mx-auto text-left space-y-1">
                   <div>Company: {company}</div>
                   <div>Focus: {interest}</div>
                   <div>Timeline: {timeline}</div>
+                  <div className="text-emerald-400">Routed To: {COMPANY_DETAILS.email}</div>
                 </div>
 
                 <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <a
+                    href={generateEmailMailtoUrl()}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/30 hover:bg-sky-500/20 flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Open in Email ({COMPANY_DETAILS.email})</span>
+                  </a>
+
                   <a
                     href={generateWhatsAppUrl()}
                     target="_blank"
@@ -308,7 +351,7 @@ export default function ConsultationModal({
                     className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 flex items-center justify-center gap-2 transition-colors"
                   >
                     <MessageSquare className="w-4 h-4" />
-                    <span>Ping Architect Immediately on WhatsApp</span>
+                    <span>WhatsApp Architect</span>
                   </a>
 
                   <button

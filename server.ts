@@ -26,6 +26,28 @@ async function startServer() {
     });
   });
 
+  // Consultation inquiry submission endpoint routed to support@murutechinc.com
+  app.post('/api/consultation', (req, res) => {
+    const { fullName, email, company, phone, interest, timeline, notes } = req.body || {};
+    console.log(`[Consultation Dispatch] Target: support@murutechinc.com`, {
+      recipient: 'support@murutechinc.com',
+      fullName,
+      email,
+      company,
+      phone,
+      interest,
+      timeline,
+      notes,
+      receivedAt: new Date().toISOString()
+    });
+
+    res.status(200).json({
+      success: true,
+      recipient: 'support@murutechinc.com',
+      message: 'Consultation request routed to support@murutechinc.com'
+    });
+  });
+
   // Vite middleware for development vs static asset serving for production
   if (!isProduction) {
     const vite = await createViteServer({

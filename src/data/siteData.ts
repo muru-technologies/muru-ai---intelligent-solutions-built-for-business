@@ -19,7 +19,7 @@ export const COMPANY_DETAILS = {
   tagline: 'Intelligent Solutions. Built for Business.',
   mission: 'From intelligent assistants to business automation, we build practical AI systems that solve real business problems.',
   location: 'Nairobi, Kenya • Serving East Africa & Global Enterprises',
-  email: 'hello@muru.ai',
+  email: 'support@murutechinc.com',
   phone: '+254 716 748 685',
   whatsappNumber: '+254 716 748685',
   whatsappDirectUrl: 'https://wa.me/254716748685?text=Hello%20Muru%20AI,%20I%20would%20like%20to%20discuss%20an%20AI%20project%20for%20my%20business.',

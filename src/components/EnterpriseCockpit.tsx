@@ -218,10 +218,10 @@ export default function EnterpriseCockpit({
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left">
             {/* Left: Live Node Health Status */}
-            <div className="lg:col-span-6 rounded-2xl glass-card border border-white/[0.08] p-6 bg-black/50">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08]">
+            <div className="lg:col-span-6 rounded-2xl glass-card border border-white/[0.08] p-4.5 sm:p-6 bg-black/50">
+              <div className="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">
-                  <Server className="w-4 h-4 text-[#E59500]" />
+                  <Server className="w-4 h-4 text-[#E59500] flex-shrink-0" />
                   <span className="text-xs font-mono uppercase font-bold text-white">
                     Distributed Infrastructure Nodes
                   </span>
@@ -229,20 +229,20 @@ export default function EnterpriseCockpit({
                 <span className="text-[10px] font-mono text-emerald-400">7/7 Synchronized</span>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2 sm:space-y-2.5">
                 {COCKPIT_NODES.map((n) => (
                   <div
                     key={n.name}
-                    className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] flex items-center justify-between text-xs"
+                    className="p-2.5 sm:p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] flex items-center justify-between text-xs gap-2"
                   >
-                    <div>
-                      <div className="font-semibold text-white truncate max-w-[240px]">
+                    <div className="min-w-0">
+                      <div className="font-semibold text-white truncate max-w-[200px] sm:max-w-[240px]">
                         {n.name}
                       </div>
                       <div className="text-[10px] font-mono text-zinc-500">Uptime: {n.uptime}</div>
                     </div>
 
-                    <div className="text-right font-mono">
+                    <div className="text-right font-mono flex-shrink-0">
                       <span className="text-emerald-400 font-bold">{n.status}</span>
                       <div className="text-zinc-400 text-[11px]">{n.latency}</div>
                     </div>
@@ -252,11 +252,11 @@ export default function EnterpriseCockpit({
             </div>
 
             {/* Right: Live Activity Stream */}
-            <div className="lg:col-span-6 rounded-2xl glass-card border border-white/[0.08] p-6 bg-black/50 flex flex-col justify-between">
+            <div className="lg:col-span-6 rounded-2xl glass-card border border-white/[0.08] p-4.5 sm:p-6 bg-black/50 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08]">
+                <div className="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-white/[0.08]">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-sky-400" />
+                    <Activity className="w-4 h-4 text-sky-400 flex-shrink-0" />
                     <span className="text-xs font-mono uppercase font-bold text-white">
                       Live Fleet Execution Feed
                     </span>
@@ -265,7 +265,7 @@ export default function EnterpriseCockpit({
                   <button
                     onClick={handleSimulateNewWorkflow}
                     disabled={isSimulatingWorkflow}
-                    className="px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30 hover:bg-[#E59500]/25 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="px-2.5 sm:px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30 hover:bg-[#E59500]/25 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-95"
                   >
                     {isSimulatingWorkflow ? (
                       <RotateCw className="w-3.5 h-3.5 animate-spin" />
@@ -276,15 +276,15 @@ export default function EnterpriseCockpit({
                   </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {events.map((evt) => (
                     <div
                       key={evt.id}
-                      className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] text-xs font-mono"
+                      className="p-3 sm:p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] text-xs font-mono"
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-bold text-white text-xs">{evt.title}</span>
-                        <span className="text-[10px] text-zinc-500">{evt.timestamp}</span>
+                      <div className="flex items-center justify-between mb-1 gap-2">
+                        <span className="font-bold text-white text-xs truncate">{evt.title}</span>
+                        <span className="text-[10px] text-zinc-500 flex-shrink-0">{evt.timestamp}</span>
                       </div>
                       <div className="text-sky-400 text-[11px] mb-1">{evt.agent}</div>
                       <div className="text-zinc-400 text-[11px] leading-relaxed">{evt.details}</div>
@@ -304,17 +304,17 @@ export default function EnterpriseCockpit({
 
         {/* Tab 2: Agents */}
         {activeTab === 'agents' && (
-          <div className="space-y-6 text-left">
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-300 flex items-center justify-between">
+          <div className="space-y-4 sm:space-y-6 text-left">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <span>Showing 5 core archetypes across 24 running containerized fleet pods.</span>
               <span className="font-mono text-[#E59500]">All Pods Guarded by RAG & RBAC</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {AUTONOMOUS_AGENTS_DATA.map((agent) => (
                 <div
                   key={agent.id}
-                  className="p-6 rounded-2xl glass-card border border-white/[0.08] bg-black/50 flex flex-col justify-between"
+                  className="p-5 sm:p-6 rounded-2xl glass-card border border-white/[0.08] bg-black/50 flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -326,7 +326,7 @@ export default function EnterpriseCockpit({
                       </span>
                     </div>
 
-                    <h4 className="font-display text-xl font-bold text-white">{agent.name}</h4>
+                    <h4 className="font-display text-lg sm:text-xl font-bold text-white">{agent.name}</h4>
                     <p className="text-xs text-zinc-400 mt-1 mb-4">{agent.tagline}</p>
 
                     <div className="p-3 rounded-lg bg-black/40 border border-white/[0.04] text-[11px] font-mono text-zinc-300 space-y-1 mb-4">
@@ -338,7 +338,7 @@ export default function EnterpriseCockpit({
 
                   <button
                     onClick={onBookConsultation}
-                    className="w-full py-2 px-3 rounded-xl text-xs font-semibold text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors"
+                    className="w-full py-2.5 px-3 rounded-xl text-xs font-semibold text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors cursor-pointer active:scale-95"
                   >
                     Configure {agent.name} Pod
                   </button>
@@ -350,15 +350,15 @@ export default function EnterpriseCockpit({
 
         {/* Tab 3: Workflows */}
         {activeTab === 'workflows' && (
-          <div className="space-y-6 text-left">
-            <div className="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <div className="space-y-4 sm:space-y-6 text-left">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
               <div>
                 <h4 className="text-sm font-bold text-white">Active Enterprise Automation Workflows</h4>
                 <p className="text-xs text-zinc-400">Deterministic multi-step state machines with error recovery</p>
               </div>
               <button
                 onClick={handleSimulateNewWorkflow}
-                className="px-4 py-2 rounded-xl text-xs font-mono bg-[#E59500] text-black font-bold"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-mono bg-[#E59500] hover:bg-[#CC7A00] text-black font-bold cursor-pointer transition-colors active:scale-95"
               >
                 + Trigger Test Pipeline
               </button>
@@ -401,10 +401,10 @@ export default function EnterpriseCockpit({
               ].map((wf) => (
                 <div
                   key={wf.id}
-                  className="p-4 rounded-xl glass-card border border-white/[0.07] bg-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono"
+                  className="p-3.5 sm:p-4 rounded-xl glass-card border border-white/[0.07] bg-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 text-xs font-mono"
                 >
                   <div className="space-y-1">
-                    <div className="font-bold text-white text-sm flex items-center gap-2">
+                    <div className="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
                       <span>{wf.name}</span>
                       <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">
                         {wf.status}
@@ -414,7 +414,7 @@ export default function EnterpriseCockpit({
                     <div className="text-sky-400">Pipeline: {wf.steps}</div>
                   </div>
 
-                  <div className="text-right flex-shrink-0">
+                  <div className="sm:text-right flex-shrink-0">
                     <div className="text-zinc-500 text-[11px]">{wf.cadence}</div>
                     <span className="text-[10px] text-[#E59500] font-bold">100% SUCCESS RATE</span>
                   </div>
@@ -426,11 +426,11 @@ export default function EnterpriseCockpit({
 
         {/* Tab 4: Knowledge Base Vector Store */}
         {activeTab === 'knowledge' && (
-          <div className="space-y-6 text-left">
+          <div className="space-y-4 sm:space-y-6 text-left">
             {/* Interactive Vector Search Simulator */}
-            <div className="p-6 rounded-2xl glass-card border border-white/[0.08] bg-black/60 space-y-4">
+            <div className="p-4.5 sm:p-6 rounded-2xl glass-card border border-white/[0.08] bg-black/60 space-y-4">
               <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#E59500] font-bold">
-                <Search className="w-4 h-4" />
+                <Search className="w-4 h-4 flex-shrink-0" />
                 <span>Interactive Semantic Vector Retrieval Engine</span>
               </div>
 
@@ -449,7 +449,7 @@ export default function EnterpriseCockpit({
                 />
                 <button
                   onClick={handleVectorQuery}
-                  className="px-5 py-2.5 rounded-xl bg-[#E59500] hover:bg-[#CC7A00] text-black font-display font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#E59500] hover:bg-[#CC7A00] text-black font-display font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                 >
                   <Search className="w-3.5 h-3.5" />
                   <span>Execute Vector Query</span>
@@ -472,11 +472,11 @@ export default function EnterpriseCockpit({
               {KNOWLEDGE_DOCS_SAMPLE.map((doc) => (
                 <div
                   key={doc.id}
-                  className="p-4 rounded-xl glass-card border border-white/[0.07] bg-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono"
+                  className="p-3.5 sm:p-4 rounded-xl glass-card border border-white/[0.07] bg-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 text-xs font-mono"
                 >
                   <div>
-                    <div className="font-bold text-white text-sm flex items-center gap-2">
-                      <BookOpen className="w-4 h-4 text-[#E59500]" />
+                    <div className="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-[#E59500] flex-shrink-0" />
                       <span>{doc.title}</span>
                     </div>
                     <div className="text-zinc-400 mt-1">
@@ -484,7 +484,7 @@ export default function EnterpriseCockpit({
                     </div>
                   </div>
 
-                  <div className="text-right font-mono">
+                  <div className="sm:text-right font-mono flex-shrink-0">
                     <span className="text-emerald-400 font-bold">
                       {doc.vectors.toLocaleString()} Vectors
                     </span>

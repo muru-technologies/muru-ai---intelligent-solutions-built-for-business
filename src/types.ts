@@ -70,23 +70,6 @@ export interface IndustryVertical {
   useCases: string[];
   statsOrFocus: string;
   iconName: string;
-} 
-export interface WorkflowNode {
-  id: string;
-  label: string;
-  sublabel: string;
-  type: string;
-}
-
-export interface WorkflowItem {
-  id: string;
-  code: string;
-  name: string;
-  status: string;
-  runsToday: number;
-  avgTime: string;
-  trigger: string;
-  nodes: WorkflowNode[];
 }
 
 export interface TechStackCategory {

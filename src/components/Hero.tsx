@@ -202,11 +202,11 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2"
             >
               <button
-                onClick={() => onOpenConsultation()}
+                onClick={() => onOpenConsultation('Executive Demo & Feasibility Audit')}
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-display font-bold text-sm sm:text-base text-black bg-gradient-to-r from-[#E59500] via-[#F4A81E] to-[#CC7A00] shadow-[0_0_30px_rgba(229,149,0,0.35)] hover:shadow-[0_0_40px_rgba(229,149,0,0.6)] transition-all cursor-pointer flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95"
                 id="hero-start-project-btn"
               >
-                <span>Schedule Solution Audit</span>
+                <span>Book a Demo</span>
                 <ArrowRight className="w-4 h-4 text-black" />
               </button>
 
@@ -257,7 +257,6 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
                   <div>
                     <div className="text-xs font-mono font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
                       <span>Muru Pipeline Simulator</span>
-                      <span className="text-[10px] text-zinc-500 font-normal">v3.4</span>
                     </div>
                     <div className="text-[11px] text-zinc-400">
                       Live event orchestrator & agent routing

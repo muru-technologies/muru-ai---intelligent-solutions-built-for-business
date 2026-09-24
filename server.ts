@@ -13,6 +13,8 @@ async function startServer() {
   // Middleware
   app.use(express.json());
 
+  const isProduction = process.env.NODE_ENV === 'production' || Boolean(process.argv[1]?.includes('dist'));
+
   // Health check endpoint for Linux reverse proxies (Nginx, Caddy, ALB, Docker, Kubernetes)
   app.get('/api/health', (_req, res) => {
     res.status(200).json({
@@ -20,12 +22,12 @@ async function startServer() {
       service: 'muru-it-platform',
       uptime: process.uptime(),
       timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'development'
+      environment: isProduction ? 'production' : 'development'
     });
   });
 
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== 'production') {
+  // Vite middleware for development vs static asset serving for production
+  if (!isProduction) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',

@@ -26,14 +26,12 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
           {/* Col 1: Brand & Tagline */}
           <div className="sm:col-span-2 lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="bg-white px-3 py-1.5 rounded-xl inline-flex items-center justify-center border border-white/20">
-                <img
-                  src="/Logo-Navy-Blue-No-Bg.webp"
-                  alt="Muru IT - Technology Solutions Group"
-                  className="h-7 w-auto max-w-[160px] object-contain"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+              <img
+                src="/Logo-White-No-Bg.webp"
+                alt="Muru IT - Technology Solutions Group"
+                className="h-8 sm:h-9 w-auto max-w-[180px] object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
 
             <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm">

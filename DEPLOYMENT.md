@@ -138,9 +138,18 @@ Expected response:
    npm run build
    ```
 
-3. **If using Docker:**
+4. **If you encounter `Cannot find native binding / @rolldown/binding-...`:**
+   This is a known npm issue (npm #4828) when a project is downloaded from another operating system. To resolve it on Windows PowerShell or Linux:
    ```bash
-   docker compose down
-   docker compose build --no-cache
-   docker compose up -d
+   # In Windows PowerShell:
+   Remove-Item -Recurse -Force node_modules, package-lock.json -ErrorAction SilentlyContinue
+   npm install
+
+   # Or in Linux / macOS Bash:
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+   Or install the platform-specific binding directly:
+   ```bash
+   npm install @rolldown/binding-win32-x64-msvc -D
    ```

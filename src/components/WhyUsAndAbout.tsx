@@ -95,23 +95,41 @@ export default function WhyUsAndAbout({ onOpenConsultation }: WhyUsAndAboutProps
             <div className="lg:col-span-7 space-y-3 sm:space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">
                 <Building className="w-3.5 h-3.5 text-[#E59500] flex-shrink-0" />
-                <span className="truncate">{COMPANY_DETAILS.legalName}</span>
+                <span className="truncate">{COMPANY_DETAILS.legalName} ({COMPANY_DETAILS.parentName})</span>
               </div>
 
               <h3 className="font-display text-xl sm:text-3xl font-extrabold text-white">
-                The Dedicated Enterprise AI & Intelligent Automation Division
+                Six Unified Technology Practices Built for Modern Enterprise
               </h3>
 
               <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-                Most companies do not suffer from a lack of information. They suffer from the friction
-                of manual work, slow response times, and underutilized data. Muru AI bridges this gap
-                by engineering intelligent systems that act as digital employees.
+                Most companies do not suffer from a lack of technology. They suffer from disconnected vendors, siloed software, and manual bottlenecks. Muru Tech unifies your entire digital estate across 6 enterprise divisions:
               </p>
 
+              {/* 6 Divisions Tag Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 pb-2">
+                {[
+                  { code: 'AI', name: 'Artificial Intelligence' },
+                  { code: 'CONSULT', name: 'Technology Consulting' },
+                  { code: 'SMS', name: 'Bulk SMS & USSD' },
+                  { code: 'ROBOTICS', name: 'Robotics & RPA' },
+                  { code: 'APP & LICENCES', name: 'Apps & Licensing' },
+                  { code: 'ERP', name: 'Enterprise ERP' },
+                ].map((d, i) => (
+                  <div
+                    key={i}
+                    className="p-2.5 rounded-lg bg-black/50 border border-white/[0.06] flex items-center gap-2 text-left"
+                  >
+                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30">
+                      {d.code}
+                    </span>
+                    <span className="text-xs text-zinc-300 font-medium truncate">{d.name}</span>
+                  </div>
+                ))}
+              </div>
+
               <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                As the specialized AI arm of the Muru Technology Solutions Group, we provide end-to-end
-                production AI engineering: from proprietary vector memory pipelines and multi-model agent
-                orchestration, to audited API integrations with SAP, Salesforce, and the official WhatsApp Business Cloud.
+                Whether deploying autonomous AI agents, conducting system security audits, broadcasting carrier SMS, or customizing Odoo ERP, Muru Tech provides accountable engineering under unified SLAs.
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2">

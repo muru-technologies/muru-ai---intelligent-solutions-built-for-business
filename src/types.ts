@@ -111,3 +111,20 @@ export interface WorkflowActivityEvent {
   status: 'SUCCESS' | 'RUNNING' | 'QUEUED';
   details: string;
 }
+
+export interface CompanyDivision {
+  id: string;
+  code: 'AI' | 'CONSULT' | 'SMS' | 'ROBOTICS' | 'APP & LICENCES' | 'ERP';
+  name: string;
+  shortTitle: string;
+  tagline: string;
+  description: string;
+  offerings: string[];
+  technologies: string[];
+  iconName: string;
+  badgeColor: string;
+  metrics: {
+    label: string;
+    value: string;
+  };
+}

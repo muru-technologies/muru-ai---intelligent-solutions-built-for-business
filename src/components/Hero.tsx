@@ -14,6 +14,7 @@ import {
   MessageSquare,
   Database,
   Building,
+  Layers,
 } from 'lucide-react';
 import { COMPANY_DETAILS } from '../data/siteData';
 
@@ -166,7 +167,7 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E59500] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E59500]" />
               </span>
-              <span className="tracking-wide">Muru AI Enterprise Division • Production-Ready AI</span>
+              <span className="tracking-wide">Muru Tech Group • AI • CONSULT • SMS • ROBOTICS • APP & LICENCES • ERP</span>
             </motion.div>
 
             {/* Main Headline */}
@@ -215,8 +216,8 @@ export default function Hero({ onOpenConsultation, onExploreSolutions }: HeroPro
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-display font-semibold text-sm sm:text-base text-zinc-200 bg-white/[0.04] border border-white/[0.1] hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
                 id="hero-explore-solutions-btn"
               >
-                <Workflow className="w-4 h-4 text-[#E59500]" />
-                <span>Explore Problem Matcher</span>
+                <Layers className="w-4 h-4 text-[#E59500]" />
+                <span>Explore 6 Divisions</span>
               </button>
             </motion.div>
 

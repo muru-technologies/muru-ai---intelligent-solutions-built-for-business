@@ -225,16 +225,54 @@ export default function ConsultationModal({
                     </div>
                   </div>
 
+                  {/* Division Quick Selector */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs font-mono text-zinc-300 uppercase">
+                        Select Muru Tech Division
+                      </label>
+                      <span className="text-[10px] font-mono text-[#E59500]">6 Core Practices</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 mb-2.5">
+                      {[
+                        { code: 'AI', label: 'Autonomous Agents & LLMs' },
+                        { code: 'CONSULT', label: 'Enterprise Tech Consulting' },
+                        { code: 'SMS', label: 'Bulk SMS, USSD & Gateways' },
+                        { code: 'ROBOTICS', label: 'RPA & Physical Automation' },
+                        { code: 'APP & LICENCES', label: 'Apps & Software Licensing' },
+                        { code: 'ERP', label: 'Enterprise ERP (Odoo/SAP)' },
+                      ].map((div) => {
+                        const isSelected = interest.includes(div.code);
+                        return (
+                          <button
+                            key={div.code}
+                            type="button"
+                            onClick={() =>
+                              setInterest(`Muru Tech Division: ${div.code} (${div.label})`)
+                            }
+                            className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-[#E59500] text-black border border-[#E59500] shadow-sm shadow-[#E59500]/25'
+                                : 'bg-white/[0.04] text-zinc-300 border border-white/[0.08] hover:text-white hover:border-white/20'
+                            }`}
+                          >
+                            {div.code}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
                   {/* Primary Interest */}
                   <div>
                     <label className="block text-xs font-mono text-zinc-300 uppercase mb-1.5">
-                      Primary Area of Interest
+                      Primary Area of Interest / Requirement
                     </label>
                     <input
                       type="text"
                       value={interest}
                       onChange={(e) => setInterest(e.target.value)}
-                      placeholder="e.g. Autonomous Sales Agent, WhatsApp Customer Bot, Document OCR"
+                      placeholder="e.g. Autonomous Agents, Bulk SMS Gateway, Odoo ERP, Tech Consulting"
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs text-white focus:outline-none focus:border-[#E59500] transition-colors"
                     />
                   </div>

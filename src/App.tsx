@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import DivisionsSection from './components/DivisionsSection';
 import ProblemMatcher from './components/ProblemMatcher';
 import ServicesSection from './components/ServicesSection';
 import AutonomousAgents from './components/AutonomousAgents';
@@ -75,8 +76,11 @@ export default function App() {
               {/* Hero with Live Pipeline Simulator */}
               <Hero
                 onOpenConsultation={handleOpenConsultation}
-                onExploreSolutions={() => scrollToSection('solutions')}
+                onExploreSolutions={() => scrollToSection('divisions')}
               />
+
+              {/* Muru Tech 6 Enterprise Divisions: AI, CONSULT, SMS, ROBOTICS, APP & LICENCES, ERP */}
+              <DivisionsSection onSelectDivision={handleOpenConsultation} />
 
               {/* Interactive Problem Matcher */}
               <ProblemMatcher onSelectSolution={handleOpenConsultation} />

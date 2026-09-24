@@ -26,8 +26,10 @@ import {
   Calculator,
   CheckCircle2,
   ExternalLink,
+  Compass,
+  Database,
 } from 'lucide-react';
-import { COMPANY_DETAILS } from '../data/siteData';
+import { COMPANY_DETAILS, COMPANY_DIVISIONS } from '../data/siteData';
 
 interface HeaderProps {
   currentView: 'website' | 'cockpit';
@@ -35,7 +37,7 @@ interface HeaderProps {
   onOpenConsultation: (initialInterest?: string) => void;
 }
 
-type MenuKey = 'products' | 'solutions' | 'platform' | 'resources' | null;
+type MenuKey = 'divisions' | 'products' | 'solutions' | 'platform' | 'resources' | null;
 
 export default function Header({
   currentView,
@@ -106,6 +108,57 @@ export default function Header({
   };
 
   // Engati-Style Mega Menu Content Data
+  const divisionsMenu = [
+    {
+      code: 'AI',
+      title: 'Artificial Intelligence & Agents',
+      desc: 'Autonomous digital workers, WhatsApp bots, and DocuSense enterprise RAG.',
+      icon: Bot,
+      targetId: 'divisions',
+      interest: 'Muru Tech Division: AI (Autonomous Agents & Cognitive Systems)',
+    },
+    {
+      code: 'CONSULT',
+      title: 'Enterprise Tech Consulting',
+      desc: 'Executive advisory, IT system audits, and digital transformation blueprints.',
+      icon: Compass,
+      targetId: 'divisions',
+      interest: 'Muru Tech Division: CONSULT (Enterprise Tech Consulting & Audits)',
+    },
+    {
+      code: 'SMS',
+      title: 'Carrier Bulk SMS & USSD',
+      desc: 'High-throughput SMPP broadcast, two-way shortcodes, and transactional OTPs.',
+      icon: MessageSquare,
+      targetId: 'divisions',
+      interest: 'Muru Tech Division: SMS (Bulk SMS, USSD & Telecom Gateways)',
+    },
+    {
+      code: 'ROBOTICS',
+      title: 'Robotics & Process Automation',
+      desc: 'RPA desktop/browser automation bots, physical automation, and IoT sensor fabrics.',
+      icon: Cpu,
+      targetId: 'divisions',
+      interest: 'Muru Tech Division: ROBOTICS (RPA & Industrial Automation)',
+    },
+    {
+      code: 'APP & LICENCES',
+      title: 'Apps & Software Licensing',
+      desc: 'Custom web/mobile app engineering & authorized Microsoft/Google/AWS software licensing.',
+      icon: Layers,
+      targetId: 'divisions',
+      interest: 'Muru Tech Division: APP & LICENCES (Custom Apps & Enterprise Software Licenses)',
+    },
+    {
+      code: 'ERP',
+      title: 'Enterprise Resource Planning (ERP)',
+      desc: 'Odoo, SAP Business One, Dynamics 365, inventory, accounting & HRMS.',
+      icon: Database,
+      targetId: 'divisions',
+      interest: 'Muru Tech Division: ERP (Odoo, SAP & Custom ERP Implementation)',
+    },
+  ];
+
   const products = [
     {
       title: 'Autonomous AI Agents',
@@ -297,6 +350,102 @@ export default function Header({
             className="hidden lg:flex items-center gap-1 xl:gap-2 text-sm font-medium"
             onMouseLeave={handleMouseLeave}
           >
+            {/* Divisions Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('divisions')}
+            >
+              <button
+                onClick={() => handleMouseEnter(activeDropdown === 'divisions' ? null : 'divisions')}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
+                  activeDropdown === 'divisions'
+                    ? 'text-[#E59500] bg-white/[0.05]'
+                    : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
+                }`}
+              >
+                <span className="font-semibold">Divisions</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#E59500]/20 text-[#E59500] border border-[#E59500]/30">
+                  6
+                </span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    activeDropdown === 'divisions' ? 'rotate-180 text-[#E59500]' : 'text-zinc-400'
+                  }`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {activeDropdown === 'divisions' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.16 }}
+                    className="absolute top-full left-0 mt-2 w-[600px] rounded-2xl bg-[#0B0E14] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-4 z-50"
+                  >
+                    <div className="flex items-center justify-between px-2 mb-2">
+                      <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">
+                        Muru Tech Enterprise Divisions (6 Practices)
+                      </div>
+                      <span className="text-[10px] font-mono text-[#E59500] bg-[#E59500]/10 px-2 py-0.5 rounded border border-[#E59500]/20">
+                        Nairobi • Global SLA
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {divisionsMenu.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={item.code}
+                            onClick={() => scrollToTarget('divisions', item.interest)}
+                            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/[0.05] border border-transparent hover:border-white/[0.08] transition-all text-left group cursor-pointer"
+                          >
+                            <div className="p-2 rounded-lg bg-[#E59500]/10 text-[#E59500] group-hover:bg-[#E59500] group-hover:text-black transition-colors shrink-0 mt-0.5">
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-white/[0.06] text-[#E59500]">
+                                  {item.code}
+                                </span>
+                                <span className="text-xs font-semibold text-white group-hover:text-[#E59500] truncate transition-colors">
+                                  {item.title}
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-zinc-400 leading-relaxed line-clamp-1 mt-1">
+                                {item.desc}
+                              </p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between px-2 text-xs">
+                      <button
+                        onClick={() => scrollToTarget('divisions')}
+                        className="text-zinc-400 hover:text-white flex items-center gap-1 cursor-pointer font-mono text-[11px]"
+                      >
+                        <span>Explore full division matrix</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          onOpenConsultation('Multi-Division Enterprise Consultation');
+                        }}
+                        className="text-[#E59500] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>Book Division Consultation</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* Products Dropdown */}
             <div
               className="relative"
@@ -722,6 +871,51 @@ export default function Header({
 
             {/* Accordion Categories */}
             <div className="space-y-2">
+              {/* Divisions Accordion */}
+              <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-white/[0.03]">
+                <button
+                  onClick={() =>
+                    setMobileExpandedSection(
+                      mobileExpandedSection === 'divisions' ? null : 'divisions'
+                    )
+                  }
+                  className="w-full flex items-center justify-between p-3 text-sm font-semibold text-white cursor-pointer"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#E59500]">Divisions</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#E59500]/20 text-[#E59500]">
+                      6 Practices
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-zinc-400 transition-transform ${
+                      mobileExpandedSection === 'divisions' ? 'rotate-180 text-[#E59500]' : ''
+                    }`}
+                  />
+                </button>
+                {mobileExpandedSection === 'divisions' && (
+                  <div className="p-2 pt-0 space-y-1 bg-black/20">
+                    {divisionsMenu.map((item) => (
+                      <button
+                        key={item.code}
+                        onClick={() => scrollToTarget('divisions', item.interest)}
+                        className="w-full text-left p-2.5 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.05] border border-transparent hover:border-white/[0.06]"
+                      >
+                        <div className="flex items-center gap-1.5 font-medium text-white">
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/[0.08] text-[#E59500]">
+                            {item.code}
+                          </span>
+                          <span>{item.title}</span>
+                        </div>
+                        <div className="text-[11px] text-zinc-400 mt-1 line-clamp-1">
+                          {item.desc}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Products Accordion */}
               <div className="border border-white/[0.05] rounded-xl overflow-hidden bg-white/[0.02]">
                 <button

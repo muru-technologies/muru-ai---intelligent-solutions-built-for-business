@@ -22,8 +22,8 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
   return (
     <footer className="bg-[#050709] border-t border-white/[0.08] text-zinc-400 pt-12 sm:pt-16 pb-10 sm:pb-12 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 pb-8 sm:pb-12 border-b border-white/[0.08] text-left">
-          {/* Col 1: Brand & Tagline */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 sm:gap-10 pb-8 sm:pb-12 border-b border-white/[0.08] text-left">
+          {/* Col 1 & 2: Brand & Tagline */}
           <div className="sm:col-span-2 lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <img
@@ -35,23 +35,53 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
             </div>
 
             <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm">
-              Intelligent Solutions Built for Business. We engineer practical, enterprise-grade AI
-              systems, autonomous agents, and end-to-end workflow automations that integrate with your
-              legacy tech stack.
+              Intelligent Solutions Built for Business. Muru Tech Group powers forward-thinking organizations across 6 specialized divisions: AI, Consulting, Bulk SMS, Robotics, Custom Apps & Licences, and Enterprise ERP.
             </p>
 
             <div className="pt-2">
-              <div className="text-xs font-mono text-zinc-500">
-                A Division of {COMPANY_DETAILS.legalName}
+              <div className="text-xs font-mono text-zinc-400">
+                {COMPANY_DETAILS.legalName} ({COMPANY_DETAILS.parentName})
               </div>
-              <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+              <div className="text-[11px] font-mono text-[#E59500] mt-1">
+                DIVISIONS: {COMPANY_DETAILS.divisionSummary}
+              </div>
+              <div className="text-xs text-zinc-400 mt-2 flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                 <span>Enterprise SLA • Private VPC • Zero Retained Data</span>
               </div>
             </div>
           </div>
 
-          {/* Col 2: Services */}
+          {/* Col 2: Muru Tech 6 Divisions */}
+          <div>
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#E59500] mb-3 sm:mb-4">
+              Muru Tech Divisions
+            </h4>
+            <ul className="space-y-2 text-xs">
+              {[
+                { code: 'AI', label: 'AI & Autonomous Agents' },
+                { code: 'CONSULT', label: 'Enterprise Tech Consulting' },
+                { code: 'SMS', label: 'Bulk SMS & USSD Gateways' },
+                { code: 'ROBOTICS', label: 'Robotics & Process Automation' },
+                { code: 'APP & LICENCES', label: 'Apps & Software Licensing' },
+                { code: 'ERP', label: 'Enterprise ERP Systems' },
+              ].map((division, i) => (
+                <li key={i}>
+                  <button
+                    onClick={() => onOpenConsultation(`Muru Tech Division: ${division.code} (${division.label})`)}
+                    className="hover:text-white text-zinc-300 transition-colors cursor-pointer text-left py-0.5 active:scale-98 flex items-center gap-1.5"
+                  >
+                    <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded bg-white/[0.08] text-[#E59500]">
+                      {division.code}
+                    </span>
+                    <span className="truncate">{division.label}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 3: Services */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-3 sm:mb-4">
               AI Capabilities
@@ -63,7 +93,7 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
                 'Workflow Automation',
                 'Custom AI Applications',
                 'WhatsApp API Integrations',
-                'Data & Decision Intelligence',
+                'DocuSense RAG Engine',
               ].map((item, i) => (
                 <li key={i}>
                   <button
@@ -77,7 +107,7 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
             </ul>
           </div>
 
-          {/* Col 3: Industries */}
+          {/* Col 4: Industries */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-3 sm:mb-4">
               Industry Verticals
@@ -103,7 +133,7 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
             </ul>
           </div>
 
-          {/* Col 4: Operations & Contact */}
+          {/* Col 5: Operations & Contact */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-3 sm:mb-4">
               Enterprise Contact

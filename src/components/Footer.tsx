@@ -12,9 +12,14 @@ import { COMPANY_DETAILS } from '../data/siteData';
 interface FooterProps {
   onOpenCockpit: () => void;
   onOpenConsultation: (topic?: string) => void;
+  onNavigateToDivision?: (divisionId: string) => void;
 }
 
-export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProps) {
+export default function Footer({
+  onOpenCockpit,
+  onOpenConsultation,
+  onNavigateToDivision,
+}: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -59,16 +64,22 @@ export default function Footer({ onOpenCockpit, onOpenConsultation }: FooterProp
             </h4>
             <ul className="space-y-2 text-xs">
               {[
-                { code: 'AI', label: 'AI & Autonomous Agents' },
-                { code: 'CONSULT', label: 'Enterprise Tech Consulting' },
-                { code: 'SMS', label: 'Bulk SMS & USSD Gateways' },
-                { code: 'ROBOTICS', label: 'Robotics & Process Automation' },
-                { code: 'APP & LICENCES', label: 'Apps & Software Licensing' },
-                { code: 'ERP', label: 'Enterprise ERP Systems' },
+                { id: 'ai', code: 'AI', label: 'AI & Autonomous Agents' },
+                { id: 'consult', code: 'CONSULT', label: 'Enterprise Tech Consulting' },
+                { id: 'sms', code: 'SMS', label: 'Bulk SMS & USSD Gateways' },
+                { id: 'robotics', code: 'ROBOTICS', label: 'Robotics & Process Automation' },
+                { id: 'app-licences', code: 'APP & LICENCES', label: 'Apps & Software Licensing' },
+                { id: 'erp', code: 'ERP', label: 'Enterprise ERP Systems' },
               ].map((division, i) => (
                 <li key={i}>
                   <button
-                    onClick={() => onOpenConsultation(`Muru Tech Division: ${division.code} (${division.label})`)}
+                    onClick={() => {
+                      if (onNavigateToDivision) {
+                        onNavigateToDivision(division.id);
+                      } else {
+                        onOpenConsultation(`Muru Tech Division: ${division.code} (${division.label})`);
+                      }
+                    }}
                     className="hover:text-white text-zinc-300 transition-colors cursor-pointer text-left py-0.5 active:scale-98 flex items-center gap-1.5"
                   >
                     <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded bg-white/[0.08] text-[#E59500]">

@@ -32,8 +32,10 @@ import {
 import { COMPANY_DETAILS, COMPANY_DIVISIONS } from '../data/siteData';
 
 interface HeaderProps {
-  currentView: 'website' | 'cockpit';
+  currentView: 'website' | 'cockpit' | 'division';
+  activeDivisionId?: string;
   onToggleView: (view: 'website' | 'cockpit') => void;
+  onNavigateToDivision?: (divisionId: string) => void;
   onOpenConsultation: (initialInterest?: string) => void;
 }
 
@@ -41,7 +43,9 @@ type MenuKey = 'divisions' | 'products' | 'solutions' | 'platform' | 'resources'
 
 export default function Header({
   currentView,
+  activeDivisionId: _activeDivisionId,
   onToggleView,
+  onNavigateToDivision,
   onOpenConsultation,
 }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -110,6 +114,7 @@ export default function Header({
   // Engati-Style Mega Menu Content Data
   const divisionsMenu = [
     {
+      id: 'ai',
       code: 'AI',
       title: 'Artificial Intelligence & Agents',
       desc: 'Autonomous digital workers, WhatsApp bots, and DocuSense enterprise RAG.',
@@ -118,6 +123,7 @@ export default function Header({
       interest: 'Muru Tech Division: AI (Autonomous Agents & Cognitive Systems)',
     },
     {
+      id: 'consult',
       code: 'CONSULT',
       title: 'Enterprise Tech Consulting',
       desc: 'Executive advisory, IT system audits, and digital transformation blueprints.',
@@ -126,6 +132,7 @@ export default function Header({
       interest: 'Muru Tech Division: CONSULT (Enterprise Tech Consulting & Audits)',
     },
     {
+      id: 'sms',
       code: 'SMS',
       title: 'Carrier Bulk SMS & USSD',
       desc: 'High-throughput SMPP broadcast, two-way shortcodes, and transactional OTPs.',
@@ -134,6 +141,7 @@ export default function Header({
       interest: 'Muru Tech Division: SMS (Bulk SMS, USSD & Telecom Gateways)',
     },
     {
+      id: 'robotics',
       code: 'ROBOTICS',
       title: 'Robotics & Process Automation',
       desc: 'RPA desktop/browser automation bots, physical automation, and IoT sensor fabrics.',
@@ -142,6 +150,7 @@ export default function Header({
       interest: 'Muru Tech Division: ROBOTICS (RPA & Industrial Automation)',
     },
     {
+      id: 'app-licences',
       code: 'APP & LICENCES',
       title: 'Apps & Software Licensing',
       desc: 'Custom web/mobile app engineering & authorized Microsoft/Google/AWS software licensing.',
@@ -150,6 +159,7 @@ export default function Header({
       interest: 'Muru Tech Division: APP & LICENCES (Custom Apps & Enterprise Software Licenses)',
     },
     {
+      id: 'erp',
       code: 'ERP',
       title: 'Enterprise Resource Planning (ERP)',
       desc: 'Odoo, SAP Business One, Dynamics 365, inventory, accounting & HRMS.',
@@ -398,7 +408,14 @@ export default function Header({
                         return (
                           <button
                             key={item.code}
-                            onClick={() => scrollToTarget('divisions', item.interest)}
+                            onClick={() => {
+                              setActiveDropdown(null);
+                              if (onNavigateToDivision) {
+                                onNavigateToDivision(item.id);
+                              } else {
+                                scrollToTarget('divisions');
+                              }
+                            }}
                             className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/[0.05] border border-transparent hover:border-white/[0.08] transition-all text-left group cursor-pointer"
                           >
                             <div className="p-2 rounded-lg bg-[#E59500]/10 text-[#E59500] group-hover:bg-[#E59500] group-hover:text-black transition-colors shrink-0 mt-0.5">
@@ -898,8 +915,15 @@ export default function Header({
                     {divisionsMenu.map((item) => (
                       <button
                         key={item.code}
-                        onClick={() => scrollToTarget('divisions', item.interest)}
-                        className="w-full text-left p-2.5 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.05] border border-transparent hover:border-white/[0.06]"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          if (onNavigateToDivision) {
+                            onNavigateToDivision(item.id);
+                          } else {
+                            scrollToTarget('divisions');
+                          }
+                        }}
+                        className="w-full text-left p-2.5 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.05] border border-transparent hover:border-white/[0.06] cursor-pointer"
                       >
                         <div className="flex items-center gap-1.5 font-medium text-white">
                           <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/[0.08] text-[#E59500]">

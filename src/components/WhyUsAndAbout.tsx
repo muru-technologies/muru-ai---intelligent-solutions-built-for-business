@@ -17,9 +17,10 @@ import { ENGINEERING_CREED, COMPANY_DETAILS } from '../data/siteData';
 
 interface WhyUsAndAboutProps {
   onOpenConsultation: () => void;
+  onNavigateToDivision?: (divisionId: string) => void;
 }
 
-export default function WhyUsAndAbout({ onOpenConsultation }: WhyUsAndAboutProps) {
+export default function WhyUsAndAbout({ onOpenConsultation, onNavigateToDivision }: WhyUsAndAboutProps) {
   const getIcon = (icon: string) => {
     switch (icon) {
       case 'Target':
@@ -109,22 +110,24 @@ export default function WhyUsAndAbout({ onOpenConsultation }: WhyUsAndAboutProps
               {/* 6 Divisions Tag Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 pb-2">
                 {[
-                  { code: 'AI', name: 'Artificial Intelligence' },
-                  { code: 'CONSULT', name: 'Technology Consulting' },
-                  { code: 'SMS', name: 'Bulk SMS & USSD' },
-                  { code: 'ROBOTICS', name: 'Robotics & RPA' },
-                  { code: 'APP & LICENCES', name: 'Apps & Licensing' },
-                  { code: 'ERP', name: 'Enterprise ERP' },
+                  { id: 'ai', code: 'AI', name: 'Artificial Intelligence' },
+                  { id: 'consult', code: 'CONSULT', name: 'Technology Consulting' },
+                  { id: 'sms', code: 'SMS', name: 'Bulk SMS & USSD' },
+                  { id: 'robotics', code: 'ROBOTICS', name: 'Robotics & RPA' },
+                  { id: 'app-licences', code: 'APP & LICENCES', name: 'Apps & Licensing' },
+                  { id: 'erp', code: 'ERP', name: 'Enterprise ERP' },
                 ].map((d, i) => (
-                  <div
+                  <button
                     key={i}
-                    className="p-2.5 rounded-lg bg-black/50 border border-white/[0.06] flex items-center gap-2 text-left"
+                    onClick={() => onNavigateToDivision && onNavigateToDivision(d.id)}
+                    className="p-2.5 rounded-lg bg-black/50 hover:bg-white/[0.06] border border-white/[0.06] hover:border-[#E59500]/50 flex items-center gap-2 text-left cursor-pointer transition-all active:scale-98 group"
+                    title={`Explore Muru Tech ${d.code} Division`}
                   >
-                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30">
+                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#E59500]/15 text-[#E59500] border border-[#E59500]/30 group-hover:bg-[#E59500] group-hover:text-black transition-colors">
                       {d.code}
                     </span>
-                    <span className="text-xs text-zinc-300 font-medium truncate">{d.name}</span>
-                  </div>
+                    <span className="text-xs text-zinc-300 font-medium truncate group-hover:text-white transition-colors">{d.name}</span>
+                  </button>
                 ))}
               </div>
 

@@ -20,9 +20,13 @@ import { CompanyDivision } from '../types';
 
 interface DivisionsSectionProps {
   onSelectDivision: (interestTopic: string) => void;
+  onNavigateToDivision?: (divisionId: string) => void;
 }
 
-export default function DivisionsSection({ onSelectDivision }: DivisionsSectionProps) {
+export default function DivisionsSection({
+  onSelectDivision,
+  onNavigateToDivision,
+}: DivisionsSectionProps) {
   const [selectedDivisionId, setSelectedDivisionId] = useState<string>('ai');
 
   const activeDivision =
@@ -244,22 +248,38 @@ export default function DivisionsSection({ onSelectDivision }: DivisionsSectionP
                   {/* Action CTA */}
                   <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <button
+                      onClick={() => {
+                        if (onNavigateToDivision) {
+                          onNavigateToDivision(activeDivision.id);
+                        } else {
+                          onSelectDivision(
+                            `Muru Tech Division: ${activeDivision.code} (${activeDivision.name})`
+                          );
+                        }
+                      }}
+                      className="py-3 px-6 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-98 shadow-lg shadow-[#E59500]/20"
+                    >
+                      <Sparkles className="w-4 h-4 fill-black/20 text-black" />
+                      <span>Explore {activeDivision.code} Division Page</span>
+                      <ArrowRight className="w-4 h-4 text-black" />
+                    </button>
+
+                    <button
                       onClick={() =>
                         onSelectDivision(
                           `Muru Tech Division: ${activeDivision.code} (${activeDivision.name})`
                         )
                       }
-                      className="py-3 px-6 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-98 shadow-lg shadow-[#E59500]/20"
+                      className="py-3 px-4 rounded-xl text-xs font-mono text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center gap-2 transition-all active:scale-98 cursor-pointer"
                     >
-                      <span>Consult with {activeDivision.code} Practice</span>
-                      <ArrowRight className="w-4 h-4 text-black" />
+                      <span>Inquire Directly</span>
                     </button>
 
                     <a
                       href={COMPANY_DETAILS.whatsappDirectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="py-3 px-5 rounded-xl text-xs font-mono text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center gap-2 transition-all active:scale-98"
+                      className="py-3 px-4 rounded-xl text-xs font-mono text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center gap-2 transition-all active:scale-98"
                     >
                       <MessageSquare className="w-4 h-4 text-emerald-400" />
                       <span>WhatsApp Practice Lead</span>
@@ -310,7 +330,13 @@ export default function DivisionsSection({ onSelectDivision }: DivisionsSectionP
           {COMPANY_DIVISIONS.map((division) => (
             <div
               key={division.id}
-              onClick={() => setSelectedDivisionId(division.id)}
+              onClick={() => {
+                if (onNavigateToDivision) {
+                  onNavigateToDivision(division.id);
+                } else {
+                  setSelectedDivisionId(division.id);
+                }
+              }}
               className={`p-5 rounded-xl border transition-all cursor-pointer group ${
                 selectedDivisionId === division.id
                   ? 'bg-white/[0.06] border-[#E59500]/60 ring-1 ring-[#E59500]/30'
@@ -321,8 +347,8 @@ export default function DivisionsSection({ onSelectDivision }: DivisionsSectionP
                 <span className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-white/[0.05] text-[#E59500] border border-white/[0.08]">
                   {division.code}
                 </span>
-                <span className="text-xs font-mono text-zinc-400 group-hover:text-white flex items-center gap-1">
-                  <span>Explore</span>
+                <span className="text-xs font-mono text-[#E59500] group-hover:text-white flex items-center gap-1 font-semibold">
+                  <span>Explore Division Page</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>

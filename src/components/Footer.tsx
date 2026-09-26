@@ -13,12 +13,16 @@ interface FooterProps {
   onOpenCockpit: () => void;
   onOpenConsultation: (topic?: string) => void;
   onNavigateToDivision?: (divisionId: string) => void;
+  onNavigateToProduct?: (productId: string) => void;
+  onNavigateToSolution?: (solutionId: string) => void;
 }
 
 export default function Footer({
   onOpenCockpit,
   onOpenConsultation,
   onNavigateToDivision,
+  onNavigateToProduct,
+  onNavigateToSolution,
 }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -27,7 +31,7 @@ export default function Footer({
   return (
     <footer className="bg-[#050709] border-t border-white/[0.08] text-zinc-400 pt-12 sm:pt-16 pb-10 sm:pb-12 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 sm:gap-10 pb-8 sm:pb-12 border-b border-white/[0.08] text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 pb-8 sm:pb-12 border-b border-white/[0.08] text-left">
           {/* Col 1 & 2: Brand & Tagline */}
           <div className="sm:col-span-2 lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
@@ -57,61 +61,34 @@ export default function Footer({
             </div>
           </div>
 
-          {/* Col 2: Muru Tech 6 Divisions */}
-          <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#E59500] mb-3 sm:mb-4">
-              Muru Tech Divisions
-            </h4>
-            <ul className="space-y-2 text-xs">
-              {[
-                { id: 'ai', code: 'AI', label: 'AI & Autonomous Agents' },
-                { id: 'consult', code: 'CONSULT', label: 'Enterprise Tech Consulting' },
-                { id: 'sms', code: 'SMS', label: 'Bulk SMS & USSD Gateways' },
-                { id: 'robotics', code: 'ROBOTICS', label: 'Robotics & Process Automation' },
-                { id: 'app-licences', code: 'APP & LICENCES', label: 'Apps & Software Licensing' },
-                { id: 'erp', code: 'ERP', label: 'Enterprise ERP Systems' },
-              ].map((division, i) => (
-                <li key={i}>
-                  <button
-                    onClick={() => {
-                      if (onNavigateToDivision) {
-                        onNavigateToDivision(division.id);
-                      } else {
-                        onOpenConsultation(`Muru Tech Division: ${division.code} (${division.label})`);
-                      }
-                    }}
-                    className="hover:text-white text-zinc-300 transition-colors cursor-pointer text-left py-0.5 active:scale-98 flex items-center gap-1.5"
-                  >
-                    <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded bg-white/[0.08] text-[#E59500]">
-                      {division.code}
-                    </span>
-                    <span className="truncate">{division.label}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 3: Services */}
+          {/* Col 3: Products & Capabilities */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-3 sm:mb-4">
-              AI Capabilities
+              AI Products
             </h4>
             <ul className="space-y-2 text-xs">
               {[
-                'Autonomous AI Agents',
-                'Conversational Chatbots',
-                'Workflow Automation',
-                'Custom AI Applications',
-                'WhatsApp API Integrations',
-                'DocuSense RAG Engine',
+                { id: 'ai-agents', label: 'Autonomous AI Agents' },
+                { id: 'ai-chatbots', label: 'WhatsApp & Web Bots' },
+                { id: 'docusense-rag', label: 'DocuSense RAG Engine' },
+                { id: 'live-agent-assist', label: 'Live Agent Assist' },
+                { id: 'ai-automation', label: 'Workflow Automation' },
+                { id: 'custom-ai-applications', label: 'Custom AI Applications' },
+                { id: 'ai-integrations', label: 'Enterprise AI Integrations' },
+                { id: 'ai-data-analytics', label: 'AI Data & Analytics' },
               ].map((item, i) => (
                 <li key={i}>
                   <button
-                    onClick={() => onOpenConsultation(item)}
+                    onClick={() => {
+                      if (onNavigateToProduct) {
+                        onNavigateToProduct(item.id);
+                      } else {
+                        onOpenConsultation(item.label);
+                      }
+                    }}
                     className="hover:text-[#E59500] transition-colors cursor-pointer text-left py-0.5 active:scale-98"
                   >
-                    {item}
+                    {item.label}
                   </button>
                 </li>
               ))}
@@ -125,19 +102,26 @@ export default function Footer({
             </h4>
             <ul className="space-y-2 text-xs">
               {[
-                'Hospitality & Tourism',
-                'E-commerce & Retail',
-                'Real Estate & Advisory',
-                'Financial Services & Fintech',
-                'Logistics & Distribution',
-                'Education & EdTech',
+                { id: 'hospitality', label: 'Hospitality & Tourism' },
+                { id: 'retail-ecommerce', label: 'E-commerce & Retail' },
+                { id: 'real-estate', label: 'Real Estate & Advisory' },
+                { id: 'financial-services', label: 'Financial Services & Fintech' },
+                { id: 'logistics-fleet', label: 'Logistics & Distribution' },
+                { id: 'healthcare-clinics', label: 'Healthcare & Clinics' },
+                { id: 'education', label: 'Education & EdTech' },
               ].map((item, i) => (
                 <li key={i}>
                   <button
-                    onClick={() => onOpenConsultation(`Industry: ${item}`)}
+                    onClick={() => {
+                      if (onNavigateToSolution) {
+                        onNavigateToSolution(item.id);
+                      } else {
+                        onOpenConsultation(`Industry: ${item.label}`);
+                      }
+                    }}
                     className="hover:text-[#E59500] transition-colors cursor-pointer text-left py-0.5 active:scale-98"
                   >
-                    {item}
+                    {item.label}
                   </button>
                 </li>
               ))}

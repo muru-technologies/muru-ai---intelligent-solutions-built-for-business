@@ -28,14 +28,26 @@ import {
   ExternalLink,
   Compass,
   Database,
+  Hotel,
+  GraduationCap,
+  HeartHandshake,
+  Briefcase,
 } from 'lucide-react';
-import { COMPANY_DETAILS, COMPANY_DIVISIONS } from '../data/siteData';
+import { COMPANY_DETAILS } from '../data/siteData';
 
 interface HeaderProps {
-  currentView: 'website' | 'cockpit' | 'division';
+  currentView: 'website' | 'cockpit' | 'division' | 'product' | 'solution' | 'platform' | 'resource';
   activeDivisionId?: string;
+  activeProductId?: string;
+  activeSolutionId?: string;
+  activePlatformId?: string;
+  activeResourceId?: string;
   onToggleView: (view: 'website' | 'cockpit') => void;
-  onNavigateToDivision?: (divisionId: string) => void;
+  onNavigateToDivision: (divisionId: string) => void;
+  onNavigateToProduct: (productId: string) => void;
+  onNavigateToSolution: (solutionId: string) => void;
+  onNavigateToPlatform: (platformId: string) => void;
+  onNavigateToResource: (resourceId: string) => void;
   onOpenConsultation: (initialInterest?: string) => void;
 }
 
@@ -43,9 +55,17 @@ type MenuKey = 'divisions' | 'products' | 'solutions' | 'platform' | 'resources'
 
 export default function Header({
   currentView,
-  activeDivisionId: _activeDivisionId,
+  activeDivisionId,
+  activeProductId,
+  activeSolutionId,
+  activePlatformId,
+  activeResourceId,
   onToggleView,
   onNavigateToDivision,
+  onNavigateToProduct,
+  onNavigateToSolution,
+  onNavigateToPlatform,
+  onNavigateToResource,
   onOpenConsultation,
 }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -90,14 +110,9 @@ export default function Header({
     }, 180);
   };
 
-  const scrollToTarget = (targetId: string, consultationInterest?: string) => {
+  const scrollToTarget = (targetId: string) => {
     setActiveDropdown(null);
     setMobileMenuOpen(false);
-
-    if (consultationInterest) {
-      onOpenConsultation(consultationInterest);
-      return;
-    }
 
     if (currentView !== 'website') {
       onToggleView('website');
@@ -171,152 +186,213 @@ export default function Header({
 
   const products = [
     {
+      id: 'ai-agents',
+      code: '01',
       title: 'Autonomous AI Agents',
       desc: 'Multi-step goal-seeking agents that query DBs, call APIs, and execute workflows.',
       icon: Bot,
-      targetId: 'agents',
-      interest: 'Autonomous AI Agents Deployment',
+      targetId: 'services',
     },
     {
+      id: 'ai-chatbots',
+      code: '02',
       title: 'WhatsApp & Omnichannel Bots',
       desc: 'Official WhatsApp Business API bots with 24/7 natural conversational intelligence.',
       icon: MessageSquare,
       targetId: 'services',
-      interest: 'WhatsApp & Omnichannel Bot Integration',
     },
     {
+      id: 'docusense-rag',
+      code: '03',
       title: 'DocuSense & Enterprise RAG',
       desc: 'Accurate knowledge engines grounded in your PDFs, contracts, and internal manuals.',
       icon: FileText,
       targetId: 'services',
-      interest: 'DocuSense & Knowledge Retrieval RAG',
     },
     {
+      id: 'live-agent-assist',
+      code: '04',
       title: 'Live Agent Assist & Handoff',
       desc: 'Smart human-in-the-loop escalation with real-time AI reply suggestions.',
       icon: Headphones,
       targetId: 'services',
-      interest: 'Live Agent Assist & Human Handoff',
     },
     {
-      title: 'Workflow Automation Engine',
+      id: 'ai-automation',
+      code: '05',
+      title: 'AI Workflow Automation Engine',
       desc: 'Seamless multi-app bridges connecting CRM, ERP, payments, and logistics.',
       icon: Workflow,
       targetId: 'services',
-      interest: 'Workflow Automation & System Integration',
+    },
+    {
+      id: 'custom-ai-applications',
+      code: '06',
+      title: 'Custom AI Applications',
+      desc: 'Bespoke AI-native web & mobile platforms engineered for your business.',
+      icon: Layers,
+      targetId: 'services',
+    },
+    {
+      id: 'ai-integrations',
+      code: '07',
+      title: 'Enterprise AI Integrations',
+      desc: 'Bidirectional API & webhook gateways for HubSpot, SAP, Odoo, and M-Pesa.',
+      icon: Cpu,
+      targetId: 'services',
+    },
+    {
+      id: 'ai-data-analytics',
+      code: '08',
+      title: 'AI Data & Predictive Analytics',
+      desc: 'Natural-language Text-to-SQL studio, executive digests, and demand forecasting.',
+      icon: BarChart3,
+      targetId: 'services',
     },
   ];
 
   const industrySolutions = [
     {
+      id: 'retail-ecommerce',
       title: 'Retail & E-Commerce',
       desc: 'WhatsApp catalog checkout, automated order tracking, and abandoned cart recovery.',
       icon: ShoppingBag,
       targetId: 'industries',
-      interest: 'E-Commerce & Retail AI Automation',
     },
     {
+      id: 'healthcare-clinics',
       title: 'Healthcare & Clinics',
       desc: 'Automated appointment triage, patient SMS reminders, and clinic inquiry handling.',
       icon: HeartPulse,
       targetId: 'industries',
-      interest: 'Healthcare & Clinic AI Solutions',
     },
     {
+      id: 'logistics-fleet',
       title: 'Logistics & Fleet Ops',
       desc: 'Real-time consignment tracking, driver dispatch bots, and waybill data extraction.',
       icon: Truck,
       targetId: 'industries',
-      interest: 'Logistics & Fleet AI Automation',
     },
     {
+      id: 'financial-services',
       title: 'Financial Services & SACCOs',
       desc: 'Loan pre-screening, KYC document verification, and account balance assistants.',
       icon: Landmark,
       targetId: 'industries',
-      interest: 'Financial Services AI Solutions',
     },
     {
+      id: 'real-estate',
       title: 'Real Estate & Property',
       desc: '24/7 lead qualification, automated viewing scheduling, and tenant query desks.',
       icon: Building2,
       targetId: 'industries',
-      interest: 'Real Estate & Property Management AI',
+    },
+    {
+      id: 'hospitality',
+      title: 'Hospitality & Tourism',
+      desc: 'Multilingual reservation concierges, dynamic itineraries, and guest dispatch.',
+      icon: Hotel,
+      targetId: 'industries',
+    },
+    {
+      id: 'education',
+      title: 'Education & EdTech',
+      desc: 'Student admissions bots, fee balance portals, and AI course study tutors.',
+      icon: GraduationCap,
+      targetId: 'industries',
+    },
+    {
+      id: 'ngos',
+      title: 'NGOs & Non-Profits',
+      desc: 'Automated grant compliance reporting, field survey intake, and beneficiary SMS.',
+      icon: HeartHandshake,
+      targetId: 'industries',
+    },
+    {
+      id: 'professional-services',
+      title: 'Professional Services',
+      desc: 'Legal & advisory document RAG search, automated client intake, and bid drafting.',
+      icon: Briefcase,
+      targetId: 'industries',
     },
   ];
 
   const useCaseSolutions = [
     {
+      id: 'customer-support-automation',
       title: 'Customer Support Automation',
       desc: 'Resolve 80%+ of repetitive queries with < 1.2s response time.',
       targetId: 'solutions',
-      interest: 'Customer Support Automation',
     },
     {
+      id: 'inbound-lead-qualification',
       title: 'Inbound Lead Qualification',
       desc: 'Engage website visitors instantly and auto-book qualified demos.',
       targetId: 'solutions',
-      interest: 'Inbound Lead Qualification Bot',
     },
     {
+      id: 'document-processing',
       title: 'Back-Office Document Processing',
       desc: 'Parse invoices, receipts, and compliance forms straight to your database.',
       targetId: 'solutions',
-      interest: 'Document Extraction & OCR Pipelines',
     },
   ];
 
   const platformFeatures = [
     {
+      id: 'hybrid-llm-routing',
       title: 'Hybrid Multi-LLM Routing',
       desc: 'Dynamic load balancing across Gemini 2.5, Claude 3.7, DeepSeek R1, and GPT-4o.',
       icon: Cpu,
       targetId: 'technology',
-      interest: 'Multi-LLM Hybrid Core Architecture',
     },
     {
+      id: 'enterprise-security',
       title: 'Enterprise Security & SOC 2 Readiness',
       desc: 'VPC isolation, zero data retention for training, audit logs, and strict RBAC.',
       icon: ShieldCheck,
       targetId: 'technology',
-      interest: 'Enterprise AI Security & Data Governance',
     },
     {
+      id: 'omnichannel-api-gateway',
       title: 'Omnichannel API Gateway',
       desc: 'Unified connectors for WhatsApp Business, Webchat, Instagram, Slack, and Email.',
       icon: Layers,
       targetId: 'technology',
-      interest: 'Omnichannel API Gateway Integration',
     },
     {
+      id: 'command-cockpit',
       title: 'Real-time Command Cockpit',
       desc: 'Live telemetry, agent execution traces, manual override switch, and analytics.',
       icon: Terminal,
       targetId: 'cockpit-switch',
-      interest: 'Live Command Center Access',
     },
   ];
 
   const resources = [
     {
+      id: 'case-studies',
       title: 'Case Studies & Client ROI',
       desc: 'Read real production results, hours saved, and verified performance benchmarks.',
       icon: BarChart3,
       targetId: 'case-studies',
     },
     {
+      id: 'engineering-process',
       title: '6-Stage Engineering Delivery Process',
       desc: 'From initial feasibility audit to hardened production rollout and 24/7 SLA.',
       icon: CheckCircle2,
       targetId: 'process',
     },
     {
+      id: 'roi-calculator',
       title: 'Interactive ROI & Savings Calculator',
       desc: 'Model your team size, repetitive hours, and calculate annualized ROI.',
       icon: Calculator,
       targetId: 'calculator',
     },
     {
+      id: 'problem-matcher',
       title: 'Interactive Problem Matcher',
       desc: 'Select your operational bottleneck to generate an immediate architecture blueprint.',
       icon: Zap,
@@ -366,9 +442,12 @@ export default function Header({
               onMouseEnter={() => handleMouseEnter('divisions')}
             >
               <button
-                onClick={() => handleMouseEnter(activeDropdown === 'divisions' ? null : 'divisions')}
+                onClick={() => {
+                  setActiveDropdown(null);
+                  onNavigateToDivision(activeDivisionId || 'ai');
+                }}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                  activeDropdown === 'divisions'
+                  activeDropdown === 'divisions' || currentView === 'division'
                     ? 'text-[#E59500] bg-white/[0.05]'
                     : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
                 }`}
@@ -398,7 +477,7 @@ export default function Header({
                         Muru Tech Enterprise Divisions (6 Practices)
                       </div>
                       <span className="text-[10px] font-mono text-[#E59500] bg-[#E59500]/10 px-2 py-0.5 rounded border border-[#E59500]/20">
-                        Nairobi • Global SLA
+                        Click any division to open its page
                       </span>
                     </div>
 
@@ -410,11 +489,7 @@ export default function Header({
                             key={item.code}
                             onClick={() => {
                               setActiveDropdown(null);
-                              if (onNavigateToDivision) {
-                                onNavigateToDivision(item.id);
-                              } else {
-                                scrollToTarget('divisions');
-                              }
+                              onNavigateToDivision(item.id);
                             }}
                             className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/[0.05] border border-transparent hover:border-white/[0.08] transition-all text-left group cursor-pointer"
                           >
@@ -444,17 +519,17 @@ export default function Header({
                         onClick={() => scrollToTarget('divisions')}
                         className="text-zinc-400 hover:text-white flex items-center gap-1 cursor-pointer font-mono text-[11px]"
                       >
-                        <span>Explore full division matrix</span>
+                        <span>Explore homepage division matrix</span>
                         <ArrowRight className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => {
                           setActiveDropdown(null);
-                          onOpenConsultation('Multi-Division Enterprise Consultation');
+                          onNavigateToDivision(activeDivisionId || 'ai');
                         }}
                         className="text-[#E59500] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                       >
-                        <span>Book Division Consultation</span>
+                        <span>Open Division Portal Page</span>
                         <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
@@ -469,9 +544,12 @@ export default function Header({
               onMouseEnter={() => handleMouseEnter('products')}
             >
               <button
-                onClick={() => handleMouseEnter(activeDropdown === 'products' ? null : 'products')}
+                onClick={() => {
+                  setActiveDropdown(null);
+                  onNavigateToProduct(activeProductId || 'ai-agents');
+                }}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                  activeDropdown === 'products'
+                  activeDropdown === 'products' || currentView === 'product'
                     ? 'text-[#E59500] bg-white/[0.05]'
                     : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
                 }`}
@@ -491,29 +569,37 @@ export default function Header({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.16 }}
-                    className="absolute top-full left-0 mt-2 w-[520px] rounded-2xl bg-[#0B0E14] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-4 z-50"
+                    className="absolute top-full left-0 mt-2 w-[620px] rounded-2xl bg-[#0B0E14] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-4 z-50"
                   >
-                    <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider px-2 mb-2">
-                      Core Conversational & Autonomous AI Products
+                    <div className="flex items-center justify-between px-2 mb-2">
+                      <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">
+                        Core Conversational & Autonomous AI Products (8 Products)
+                      </div>
+                      <span className="text-[10px] font-mono text-[#E59500]">
+                        Click any product to explore its page
+                      </span>
                     </div>
-                    <div className="grid grid-cols-1 gap-1">
+                    <div className="grid grid-cols-2 gap-1.5">
                       {products.map((item) => {
                         const Icon = item.icon;
                         return (
                           <button
-                            key={item.title}
-                            onClick={() => scrollToTarget(item.targetId, item.interest)}
-                            className="flex items-start gap-3.5 p-2.5 rounded-xl hover:bg-white/[0.04] transition-all text-left group cursor-pointer"
+                            key={item.id}
+                            onClick={() => {
+                              setActiveDropdown(null);
+                              onNavigateToProduct(item.id);
+                            }}
+                            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/[0.05] border border-transparent hover:border-white/[0.08] transition-all text-left group cursor-pointer"
                           >
                             <div className="p-2 rounded-lg bg-[#E59500]/10 text-[#E59500] group-hover:bg-[#E59500] group-hover:text-black transition-colors shrink-0 mt-0.5">
                               <Icon className="w-4 h-4" />
                             </div>
-                            <div>
-                              <div className="text-sm font-semibold text-white group-hover:text-[#E59500] flex items-center gap-1.5 transition-colors">
-                                <span>{item.title}</span>
-                                <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#E59500]" />
+                            <div className="min-w-0">
+                              <div className="text-xs font-semibold text-white group-hover:text-[#E59500] flex items-center gap-1.5 transition-colors">
+                                <span className="font-mono text-[10px] text-[#E59500]">{item.code}.</span>
+                                <span className="truncate">{item.title}</span>
                               </div>
-                              <p className="text-xs text-zinc-400 leading-relaxed line-clamp-1 mt-0.5">
+                              <p className="text-[11px] text-zinc-400 leading-relaxed line-clamp-1 mt-0.5">
                                 {item.desc}
                               </p>
                             </div>
@@ -523,15 +609,21 @@ export default function Header({
                     </div>
 
                     <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between px-2 text-xs">
-                      <span className="text-zinc-400">Need a custom AI workforce architecture?</span>
+                      <button
+                        onClick={() => scrollToTarget('services')}
+                        className="text-zinc-400 hover:text-white flex items-center gap-1 cursor-pointer font-mono text-[11px]"
+                      >
+                        <span>View homepage product catalog</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
                       <button
                         onClick={() => {
                           setActiveDropdown(null);
-                          onOpenConsultation('Custom AI Workforce Architecture');
+                          onNavigateToProduct(activeProductId || 'ai-agents');
                         }}
                         className="text-[#E59500] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                       >
-                        <span>Talk to an Architect</span>
+                        <span>Open Product Suite Page</span>
                         <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
@@ -546,9 +638,12 @@ export default function Header({
               onMouseEnter={() => handleMouseEnter('solutions')}
             >
               <button
-                onClick={() => handleMouseEnter(activeDropdown === 'solutions' ? null : 'solutions')}
+                onClick={() => {
+                  setActiveDropdown(null);
+                  onNavigateToSolution(activeSolutionId || 'retail-ecommerce');
+                }}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                  activeDropdown === 'solutions'
+                  activeDropdown === 'solutions' || currentView === 'solution'
                     ? 'text-[#E59500] bg-white/[0.05]'
                     : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
                 }`}
@@ -568,31 +663,35 @@ export default function Header({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.16 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] rounded-2xl bg-[#0B0E14] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-5 z-50"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[740px] rounded-2xl bg-[#0B0E14] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-5 z-50"
                   >
-                    <div className="grid grid-cols-2 gap-6">
-                      {/* Column 1: By Industry */}
-                      <div>
-                        <div className="text-[11px] font-mono text-[#E59500] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                          <span>By Industry</span>
+                    <div className="grid grid-cols-12 gap-5">
+                      {/* Column 1: By Industry (9 Verticals) */}
+                      <div className="col-span-7">
+                        <div className="text-[11px] font-mono text-[#E59500] uppercase tracking-wider mb-2.5 flex items-center justify-between">
+                          <span>By Industry Vertical (9 Pages)</span>
+                          <span className="text-[10px] text-zinc-400">Click to open solution page</span>
                         </div>
-                        <div className="space-y-1">
+                        <div className="grid grid-cols-2 gap-1">
                           {industrySolutions.map((item) => {
                             const Icon = item.icon;
                             return (
                               <button
-                                key={item.title}
-                                onClick={() => scrollToTarget(item.targetId, item.interest)}
+                                key={item.id}
+                                onClick={() => {
+                                  setActiveDropdown(null);
+                                  onNavigateToSolution(item.id);
+                                }}
                                 className="w-full flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/[0.04] transition-all text-left group cursor-pointer"
                               >
                                 <div className="p-1.5 rounded-lg bg-white/[0.05] text-zinc-300 group-hover:text-[#E59500] group-hover:bg-[#E59500]/10 shrink-0 mt-0.5 transition-colors">
                                   <Icon className="w-3.5 h-3.5" />
                                 </div>
-                                <div>
-                                  <div className="text-xs font-semibold text-white group-hover:text-[#E59500] transition-colors">
+                                <div className="min-w-0">
+                                  <div className="text-xs font-semibold text-white group-hover:text-[#E59500] transition-colors truncate">
                                     {item.title}
                                   </div>
-                                  <p className="text-[11px] text-zinc-400 line-clamp-1 mt-0.5">
+                                  <p className="text-[10px] text-zinc-400 line-clamp-1 mt-0.5">
                                     {item.desc}
                                   </p>
                                 </div>
@@ -603,16 +702,19 @@ export default function Header({
                       </div>
 
                       {/* Column 2: By Use Case + Highlight Card */}
-                      <div className="flex flex-col justify-between border-l border-white/[0.06] pl-6">
+                      <div className="col-span-5 flex flex-col justify-between border-l border-white/[0.06] pl-5">
                         <div>
                           <div className="text-[11px] font-mono text-[#E59500] uppercase tracking-wider mb-2.5">
                             By Business Use Case
                           </div>
-                          <div className="space-y-2">
+                          <div className="space-y-1.5">
                             {useCaseSolutions.map((useCase) => (
                               <button
-                                key={useCase.title}
-                                onClick={() => scrollToTarget(useCase.targetId, useCase.interest)}
+                                key={useCase.id}
+                                onClick={() => {
+                                  setActiveDropdown(null);
+                                  onNavigateToSolution(useCase.id);
+                                }}
                                 className="w-full p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#E59500]/40 hover:bg-white/[0.04] text-left group cursor-pointer transition-all"
                               >
                                 <div className="text-xs font-semibold text-white group-hover:text-[#E59500] flex items-center justify-between">
@@ -627,25 +729,25 @@ export default function Header({
                           </div>
                         </div>
 
-                        {/* Engati-style Spotlight Callout Card */}
-                        <div className="mt-4 p-3 rounded-xl bg-gradient-to-br from-[#E59500]/10 to-transparent border border-[#E59500]/20 text-xs">
-                          <div className="font-semibold text-white flex items-center gap-1.5">
+                        {/* 14-Day Proof-of-Concept Solution Page Card */}
+                        <div
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            onNavigateToSolution('14-day-poc');
+                          }}
+                          className="mt-3 p-3 rounded-xl bg-gradient-to-br from-[#E59500]/10 to-transparent border border-[#E59500]/20 hover:border-[#E59500]/50 text-xs cursor-pointer transition-all group"
+                        >
+                          <div className="font-semibold text-white group-hover:text-[#E59500] flex items-center gap-1.5 transition-colors">
                             <Sparkles className="w-3.5 h-3.5 text-[#E59500]" />
                             <span>14-Day Proof-of-Concept</span>
                           </div>
                           <p className="text-zinc-400 text-[11px] mt-1">
                             Deploy a working prototype on your business data before commitment.
                           </p>
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              onOpenConsultation('14-Day Pilot Prototype');
-                            }}
-                            className="mt-2 text-[11px] text-[#E59500] font-bold flex items-center gap-1 hover:underline cursor-pointer"
-                          >
-                            <span>Request Pilot Access</span>
+                          <div className="mt-2 text-[11px] text-[#E59500] font-bold flex items-center gap-1 group-hover:underline">
+                            <span>Explore 14-Day Pilot Page</span>
                             <ArrowRight className="w-3 h-3" />
-                          </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -660,9 +762,12 @@ export default function Header({
               onMouseEnter={() => handleMouseEnter('platform')}
             >
               <button
-                onClick={() => handleMouseEnter(activeDropdown === 'platform' ? null : 'platform')}
+                onClick={() => {
+                  setActiveDropdown(null);
+                  onNavigateToPlatform(activePlatformId || 'hybrid-llm-routing');
+                }}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                  activeDropdown === 'platform'
+                  activeDropdown === 'platform' || currentView === 'platform'
                     ? 'text-[#E59500] bg-white/[0.05]'
                     : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
                 }`}
@@ -684,8 +789,13 @@ export default function Header({
                     transition={{ duration: 0.16 }}
                     className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[480px] rounded-2xl bg-[#0B0E14] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-4 z-50"
                   >
-                    <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider px-2 mb-2">
-                      Enterprise AI Engine & Infrastructure
+                    <div className="flex items-center justify-between px-2 mb-2">
+                      <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">
+                        Enterprise AI Engine & Infrastructure
+                      </div>
+                      <span className="text-[10px] font-mono text-[#E59500]">
+                        Click to open platform page
+                      </span>
                     </div>
                     <div className="grid grid-cols-1 gap-1">
                       {platformFeatures.map((item) => {
@@ -693,14 +803,10 @@ export default function Header({
                         const isCockpit = item.targetId === 'cockpit-switch';
                         return (
                           <button
-                            key={item.title}
+                            key={item.id}
                             onClick={() => {
                               setActiveDropdown(null);
-                              if (isCockpit) {
-                                onToggleView('cockpit');
-                              } else {
-                                scrollToTarget(item.targetId, item.interest);
-                              }
+                              onNavigateToPlatform(item.id);
                             }}
                             className="flex items-start gap-3.5 p-2.5 rounded-xl hover:bg-white/[0.04] transition-all text-left group cursor-pointer"
                           >
@@ -729,10 +835,17 @@ export default function Header({
               </AnimatePresence>
             </div>
 
-            {/* Pricing / ROI Direct Link */}
+            {/* Pricing / ROI Direct Page Link */}
             <button
-              onClick={() => scrollToTarget('calculator')}
-              className="px-3 py-2 rounded-lg text-sm text-zinc-300 hover:text-white hover:bg-white/[0.03] transition-colors cursor-pointer"
+              onClick={() => {
+                setActiveDropdown(null);
+                onNavigateToResource('roi-calculator');
+              }}
+              className={`px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
+                currentView === 'resource' && activeResourceId === 'roi-calculator'
+                  ? 'text-[#E59500] bg-white/[0.05]'
+                  : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
+              }`}
             >
               Pricing & ROI
             </button>
@@ -743,9 +856,13 @@ export default function Header({
               onMouseEnter={() => handleMouseEnter('resources')}
             >
               <button
-                onClick={() => handleMouseEnter(activeDropdown === 'resources' ? null : 'resources')}
+                onClick={() => {
+                  setActiveDropdown(null);
+                  onNavigateToResource(activeResourceId || 'case-studies');
+                }}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                  activeDropdown === 'resources'
+                  activeDropdown === 'resources' ||
+                  (currentView === 'resource' && activeResourceId !== 'roi-calculator')
                     ? 'text-[#E59500] bg-white/[0.05]'
                     : 'text-zinc-300 hover:text-white hover:bg-white/[0.03]'
                 }`}
@@ -775,8 +892,11 @@ export default function Header({
                         const Icon = item.icon;
                         return (
                           <button
-                            key={item.title}
-                            onClick={() => scrollToTarget(item.targetId)}
+                            key={item.id}
+                            onClick={() => {
+                              setActiveDropdown(null);
+                              onNavigateToResource(item.id);
+                            }}
                             className="flex items-start gap-3.5 p-2.5 rounded-xl hover:bg-white/[0.04] transition-all text-left group cursor-pointer"
                           >
                             <div className="p-2 rounded-lg bg-white/[0.05] text-[#E59500] group-hover:bg-[#E59500] group-hover:text-black transition-colors shrink-0 mt-0.5">
@@ -917,11 +1037,7 @@ export default function Header({
                         key={item.code}
                         onClick={() => {
                           setMobileMenuOpen(false);
-                          if (onNavigateToDivision) {
-                            onNavigateToDivision(item.id);
-                          } else {
-                            scrollToTarget('divisions');
-                          }
+                          onNavigateToDivision(item.id);
                         }}
                         className="w-full text-left p-2.5 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.05] border border-transparent hover:border-white/[0.06] cursor-pointer"
                       >
@@ -961,11 +1077,17 @@ export default function Header({
                   <div className="p-2 pt-0 space-y-1 bg-black/20">
                     {products.map((item) => (
                       <button
-                        key={item.title}
-                        onClick={() => scrollToTarget(item.targetId, item.interest)}
-                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04]"
+                        key={item.id}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onNavigateToProduct(item.id);
+                        }}
+                        className="w-full text-left p-2.5 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.05] border border-transparent hover:border-white/[0.06] cursor-pointer"
                       >
-                        <div className="font-medium text-white">{item.title}</div>
+                        <div className="font-medium text-white flex items-center gap-1.5">
+                          <span className="text-[10px] font-mono text-[#E59500]">{item.code}.</span>
+                          <span>{item.title}</span>
+                        </div>
                         <div className="text-[11px] text-zinc-400 mt-0.5 line-clamp-1">
                           {item.desc}
                         </div>
@@ -995,13 +1117,16 @@ export default function Header({
                 {mobileExpandedSection === 'solutions' && (
                   <div className="p-2 pt-0 space-y-1 bg-black/20">
                     <div className="text-[10px] font-mono text-[#E59500] px-2 py-1 uppercase">
-                      Industries & Use Cases
+                      By Industry
                     </div>
-                    {industrySolutions.slice(0, 4).map((item) => (
+                    {industrySolutions.map((item) => (
                       <button
-                        key={item.title}
-                        onClick={() => scrollToTarget(item.targetId, item.interest)}
-                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04]"
+                        key={item.id}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onNavigateToSolution(item.id);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04] cursor-pointer"
                       >
                         <div className="font-medium text-white">{item.title}</div>
                         <div className="text-[11px] text-zinc-400 mt-0.5 line-clamp-1">
@@ -1009,6 +1134,39 @@ export default function Header({
                         </div>
                       </button>
                     ))}
+                    <div className="text-[10px] font-mono text-[#E59500] px-2 py-1 pt-2 uppercase">
+                      By Business Use Case
+                    </div>
+                    {useCaseSolutions.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onNavigateToSolution(item.id);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04] cursor-pointer"
+                      >
+                        <div className="font-medium text-white">{item.title}</div>
+                        <div className="text-[11px] text-zinc-400 mt-0.5 line-clamp-1">
+                          {item.desc}
+                        </div>
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onNavigateToSolution('14-day-poc');
+                      }}
+                      className="w-full text-left p-2.5 mt-1 rounded-lg text-xs bg-[#E59500]/10 border border-[#E59500]/25 text-[#E59500] hover:bg-[#E59500]/20 cursor-pointer"
+                    >
+                      <div className="font-semibold flex items-center justify-between">
+                        <span>14-Day Proof-of-Concept Pilot</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="text-[11px] text-zinc-300 mt-0.5">
+                        Deploy a working prototype on your business data before commitment.
+                      </div>
+                    </button>
                   </div>
                 )}
               </div>
@@ -1034,9 +1192,12 @@ export default function Header({
                   <div className="p-2 pt-0 space-y-1 bg-black/20">
                     {platformFeatures.map((item) => (
                       <button
-                        key={item.title}
-                        onClick={() => scrollToTarget(item.targetId, item.interest)}
-                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04]"
+                        key={item.id}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onNavigateToPlatform(item.id);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04] cursor-pointer"
                       >
                         <div className="font-medium text-white">{item.title}</div>
                         <div className="text-[11px] text-zinc-400 mt-0.5 line-clamp-1">
@@ -1048,19 +1209,54 @@ export default function Header({
                 )}
               </div>
 
-              {/* Direct Links */}
-              <button
-                onClick={() => scrollToTarget('calculator')}
-                className="w-full text-left p-3 text-sm font-semibold text-white border border-white/[0.05] rounded-xl bg-white/[0.02] hover:bg-white/[0.04]"
-              >
-                Pricing & ROI Calculator
-              </button>
+              {/* Resources Accordion */}
+              <div className="border border-white/[0.05] rounded-xl overflow-hidden bg-white/[0.02]">
+                <button
+                  onClick={() =>
+                    setMobileExpandedSection(
+                      mobileExpandedSection === 'resources' ? null : 'resources'
+                    )
+                  }
+                  className="w-full flex items-center justify-between p-3 text-sm font-semibold text-white cursor-pointer"
+                >
+                  <span>Resources</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-zinc-400 transition-transform ${
+                      mobileExpandedSection === 'resources' ? 'rotate-180 text-[#E59500]' : ''
+                    }`}
+                  />
+                </button>
+                {mobileExpandedSection === 'resources' && (
+                  <div className="p-2 pt-0 space-y-1 bg-black/20">
+                    {resources.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onNavigateToResource(item.id);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.04] cursor-pointer"
+                      >
+                        <div className="font-medium text-white">{item.title}</div>
+                        <div className="text-[11px] text-zinc-400 mt-0.5 line-clamp-1">
+                          {item.desc}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
+              {/* Direct Page Link: Pricing & ROI Calculator */}
               <button
-                onClick={() => scrollToTarget('case-studies')}
-                className="w-full text-left p-3 text-sm font-semibold text-white border border-white/[0.05] rounded-xl bg-white/[0.02] hover:bg-white/[0.04]"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onNavigateToResource('roi-calculator');
+                }}
+                className="w-full text-left p-3 text-sm font-semibold text-[#E59500] border border-[#E59500]/30 rounded-xl bg-[#E59500]/10 hover:bg-[#E59500]/20 cursor-pointer flex items-center justify-between"
               >
-                Case Studies & Benchmarks
+                <span>Pricing & ROI Calculator</span>
+                <ArrowRight className="w-4 h-4 text-[#E59500]" />
               </button>
             </div>
 

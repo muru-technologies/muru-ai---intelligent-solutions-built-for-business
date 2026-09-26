@@ -17,13 +17,55 @@ import { PROBLEM_MATCHER_DATA } from '../data/siteData';
 
 interface ProblemMatcherProps {
   onSelectSolution: (solutionTitle: string) => void;
+  onNavigateToProduct?: (productId: string) => void;
+  onNavigateToSolution?: (solutionId: string) => void;
 }
 
-export default function ProblemMatcher({ onSelectSolution }: ProblemMatcherProps) {
+export default function ProblemMatcher({
+  onSelectSolution,
+  onNavigateToProduct,
+  onNavigateToSolution,
+}: ProblemMatcherProps) {
   const [selectedId, setSelectedId] = useState(PROBLEM_MATCHER_DATA[0].id);
 
   const activeProblem =
     PROBLEM_MATCHER_DATA.find((p) => p.id === selectedId) || PROBLEM_MATCHER_DATA[0];
+
+  const getSolutionMapId = (problemId: string): string => {
+    switch (problemId) {
+      case 'customer-questions':
+        return 'customer-support-automation';
+      case 'repetitive-work':
+        return 'document-processing';
+      case 'lost-leads':
+        return 'inbound-lead-qualification';
+      case 'scattered-info':
+        return 'professional-services';
+      case 'data-blindness':
+        return 'financial-services';
+      case 'ai-product-idea':
+      default:
+        return '14-day-poc';
+    }
+  };
+
+  const getProductMapId = (problemId: string): string => {
+    switch (problemId) {
+      case 'customer-questions':
+        return 'ai-chatbots';
+      case 'repetitive-work':
+        return 'ai-automation';
+      case 'lost-leads':
+        return 'ai-agents';
+      case 'scattered-info':
+        return 'docusense-rag';
+      case 'data-blindness':
+        return 'ai-data-analytics';
+      case 'ai-product-idea':
+      default:
+        return 'custom-ai-applications';
+    }
+  };
 
   const getIcon = (id: string) => {
     switch (id) {
@@ -205,15 +247,34 @@ export default function ProblemMatcher({ onSelectSolution }: ProblemMatcherProps
                 {/* Action CTA */}
                 <div className="pt-3 sm:pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 border-t border-white/[0.06]">
                   <span className="text-xs text-zinc-400 text-center sm:text-left">
-                    Ready to eliminate this bottleneck in your operations?
+                    Explore this solution’s dedicated page & live sandbox before booking:
                   </span>
-                  <button
-                    onClick={() => onSelectSolution(activeProblem.solutionTitle)}
-                    className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] to-[#CC7A00] hover:shadow-lg hover:shadow-[#E59500]/25 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
-                  >
-                    <span>Deploy This Solution</span>
-                    <ArrowRight className="w-4 h-4 text-black" />
-                  </button>
+                  <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-end">
+                    {onNavigateToSolution && (
+                      <button
+                        onClick={() => onNavigateToSolution(getSolutionMapId(activeProblem.id))}
+                        className="w-full sm:w-auto px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-white bg-white/[0.06] border border-white/[0.12] hover:border-[#E59500] hover:text-[#E59500] transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
+                      >
+                        <span>Open Solution Blueprint Page</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        if (onNavigateToProduct) {
+                          onNavigateToProduct(getProductMapId(activeProblem.id));
+                        } else if (onNavigateToSolution) {
+                          onNavigateToSolution(getSolutionMapId(activeProblem.id));
+                        } else {
+                          onSelectSolution(activeProblem.solutionTitle);
+                        }
+                      }}
+                      className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] to-[#CC7A00] hover:shadow-lg hover:shadow-[#E59500]/25 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
+                    >
+                      <span>Explore Product Page</span>
+                      <ArrowRight className="w-4 h-4 text-black" />
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>

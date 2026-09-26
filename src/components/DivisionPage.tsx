@@ -116,7 +116,7 @@ export default function DivisionPage({
     } else if (choice === '2') {
       setUssdResponseMsg('END Tier 1 Enterprise Bulk SMS Package:\nRate: 0.25 KES / SMS\nInstant Carrier Routing\nDial 0716748685 to recharge.');
     } else if (choice === '3') {
-      setUssdResponseMsg('END Connecting you to Muru Tech Nairobi Desk.\nA lead engineer will reach out on WhatsApp within 10 minutes.');
+      setUssdResponseMsg("END Connecting you to Muru Tech Voi HQ Desk (Mb'yuni, Maghonyi Gym Street).\nA lead engineer will reach out on WhatsApp within 10 minutes.");
     } else {
       setUssdSessionState('menu');
       setUssdResponseMsg('CON Welcome to Muru Tech Telecom Gateway:\n1. Check Account Balance\n2. Buy SMS Package\n3. Connect with Support\n0. Exit');
@@ -159,7 +159,7 @@ export default function DivisionPage({
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Practice Active • Nairobi HQ & Global SLA</span>
+              <span>Practice Active • Voi HQ (Mb&apos;yuni) &amp; Global SLA</span>
             </span>
           </div>
         </div>
@@ -271,7 +271,9 @@ export default function DivisionPage({
               <div className="space-y-3.5 text-xs">
                 <div>
                   <span className="text-zinc-500 font-mono text-[11px] block">PRACTICE LEAD DESK:</span>
-                  <span className="text-zinc-200 font-medium">Nairobi Engineering Hub</span>
+                  <span className="text-zinc-200 font-medium">
+                    Mb&apos;yuni, Maghonyi Gym Street, Along Voi Town–Mombasa Road Through River Voi
+                  </span>
                 </div>
                 <div>
                   <span className="text-zinc-500 font-mono text-[11px] block">DIRECT EMAIL:</span>
@@ -1010,7 +1012,7 @@ export default function DivisionPage({
               <div className="divide-y divide-white/[0.08] text-xs">
                 {[
                   { label: 'Division Identity', val: `${division.name} (Code: ${division.code})` },
-                  { label: 'Primary Delivery Center', val: 'Nairobi HQ Engineering Practice • Global Reach' },
+                  { label: 'Primary Delivery Center', val: "Mb'yuni, Maghonyi Gym Street, Along Voi Town–Mombasa Road Through River Voi" },
                   { label: 'Uptime Availability SLA', val: '99.98% Financially-Backed Service Level Agreement' },
                   { label: 'Critical Incident Response', val: '< 15 Minutes for P1 Production Events' },
                   { label: 'Supported Deployment Targets', val: 'AWS, Microsoft Azure, Google Cloud, On-Premises Kubernetes, Hybrid Bare-Metal' },
@@ -1039,7 +1041,7 @@ export default function DivisionPage({
             </h3>
 
             <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-              Speak directly with our principal engineers in Nairobi. We provide an initial technical audit, feasibility briefing, and fixed-cost delivery roadmap within 48 hours.
+              Speak directly with our principal engineers at Mb&apos;yuni, Maghonyi Gym Street, Along Voi Town–Mombasa Road Through River Voi. We provide an initial technical audit, feasibility briefing, and fixed-cost delivery roadmap within 48 hours.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -1063,7 +1065,7 @@ export default function DivisionPage({
                 className="py-3 px-5 rounded-xl text-xs sm:text-sm font-mono text-white bg-black/60 hover:bg-black border border-white/[0.1] flex items-center gap-2 transition-all active:scale-95"
               >
                 <MessageSquare className="w-4 h-4 text-emerald-400" />
-                <span>WhatsApp Nairobi Lead</span>
+                <span>WhatsApp Engineering Lead</span>
               </a>
             </div>
           </div>

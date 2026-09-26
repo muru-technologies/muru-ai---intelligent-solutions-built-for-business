@@ -17,10 +17,19 @@ import { INDUSTRIES_DATA } from '../data/siteData';
 
 interface IndustriesSectionProps {
   onSelectIndustry: (industryName: string) => void;
+  onNavigateToSolution?: (solutionId: string) => void;
 }
 
-export default function IndustriesSection({ onSelectIndustry }: IndustriesSectionProps) {
+export default function IndustriesSection({
+  onSelectIndustry,
+  onNavigateToSolution,
+}: IndustriesSectionProps) {
   const [activeIndustryId, setActiveIndustryId] = useState(INDUSTRIES_DATA[0].id);
+
+  const mapIndustryToSolutionId = (id: string) => {
+    if (id === 'ecommerce' || id === 'retail') return 'retail-ecommerce';
+    return id;
+  };
 
   const activeIndustry =
     INDUSTRIES_DATA.find((i) => i.id === activeIndustryId) || INDUSTRIES_DATA[0];
@@ -143,17 +152,25 @@ export default function IndustriesSection({ onSelectIndustry }: IndustriesSectio
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
+            <div className="pt-4 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
               <span className="text-xs text-zinc-400">
-                Operating in {activeIndustry.name}? Let’s design your tailored system.
+                Operating in {activeIndustry.name}? Explore the full industry solution page before booking.
               </span>
-              <button
-                onClick={() => onSelectIndustry(activeIndustry.name)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <span>Consult on {activeIndustry.name}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              <div className="flex items-center gap-2.5">
+                <button
+                  onClick={() => {
+                    if (onNavigateToSolution) {
+                      onNavigateToSolution(mapIndustryToSolutionId(activeIndustry.id));
+                    } else {
+                      onSelectIndustry(activeIndustry.name);
+                    }
+                  }}
+                  className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-display font-semibold text-black bg-[#E59500] hover:bg-[#CC7A00] transition-colors flex items-center gap-2 cursor-pointer shadow-lg shadow-[#E59500]/20"
+                >
+                  <span>Explore {activeIndustry.name} Solution Page</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>

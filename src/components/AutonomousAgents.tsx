@@ -20,9 +20,13 @@ import { AUTONOMOUS_AGENTS_DATA } from '../data/siteData';
 
 interface AutonomousAgentsProps {
   onDeployAgent: (agentName: string) => void;
+  onNavigateToProduct?: (productId: string) => void;
 }
 
-export default function AutonomousAgents({ onDeployAgent }: AutonomousAgentsProps) {
+export default function AutonomousAgents({
+  onDeployAgent,
+  onNavigateToProduct,
+}: AutonomousAgentsProps) {
   const [selectedAgentId, setSelectedAgentId] = useState(AUTONOMOUS_AGENTS_DATA[0].id);
   const [isSimulating, setIsSimulating] = useState(false);
   const [simulationStep, setSimulationStep] = useState(0);
@@ -208,12 +212,18 @@ export default function AutonomousAgents({ onDeployAgent }: AutonomousAgentsProp
               </div>
 
               {/* CTA */}
-              <div className="mt-6 sm:mt-8 pt-4 border-t border-white/[0.06]">
+              <div className="mt-6 sm:mt-8 pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row gap-2.5">
                 <button
-                  onClick={() => onDeployAgent(activeAgent.name)}
-                  className="w-full py-3 px-5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] to-[#CC7A00] hover:shadow-lg hover:shadow-[#E59500]/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={() => {
+                    if (onNavigateToProduct) {
+                      onNavigateToProduct('ai-agents');
+                    } else {
+                      onDeployAgent(activeAgent.name);
+                    }
+                  }}
+                  className="flex-1 py-3 px-5 rounded-xl font-display font-semibold text-xs sm:text-sm text-black bg-gradient-to-r from-[#E59500] to-[#CC7A00] hover:shadow-lg hover:shadow-[#E59500]/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Deploy {activeAgent.name} in My Stack</span>
+                  <span>Explore {activeAgent.name} Product Page</span>
                   <ArrowRight className="w-4 h-4 text-black" />
                 </button>
               </div>

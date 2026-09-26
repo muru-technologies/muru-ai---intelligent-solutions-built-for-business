@@ -128,3 +128,41 @@ export interface CompanyDivision {
     value: string;
   };
 }
+
+export interface EnterpriseProduct {
+  id: string;
+  code: string;
+  number: string;
+  title: string;
+  shortTitle: string;
+  tagline: string;
+  category: 'core' | 'automation' | 'custom' | 'analytics';
+  description: string;
+  longDescription: string;
+  iconName: string;
+  metrics: {
+    primaryLabel: string;
+    primaryValue: string;
+    secondaryLabel: string;
+    secondaryValue: string;
+    deploymentTime: string;
+  };
+  capabilities: string[];
+  deliverables: {
+    title: string;
+    description: string;
+  }[];
+  useCases: {
+    industry: string;
+    scenario: string;
+    outcome: string;
+  }[];
+  integrations: string[];
+  technologies: string[];
+  architectureSteps: {
+    step: string;
+    title: string;
+    detail: string;
+  }[];
+  ctaText: string;
+}

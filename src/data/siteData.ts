@@ -11,6 +11,7 @@ import {
   SystemServiceNode,
   WorkflowActivityEvent,
   CompanyDivision,
+  EnterpriseProduct,
 } from '../types';
 
 export const COMPANY_DETAILS = {
@@ -23,7 +24,7 @@ export const COMPANY_DETAILS = {
   divisionList: ['AI', 'CONSULT', 'SMS', 'ROBOTICS', 'APP & LICENCES', 'ERP'] as const,
   tagline: 'Intelligent Solutions. Built for Business.',
   mission: 'Delivering end-to-end technology excellence across 6 specialized enterprise divisions: AI, Consulting, Bulk SMS, Robotics, Custom Apps & Licences, and Enterprise ERP.',
-  location: 'Nairobi, Kenya • Serving East Africa & Global Enterprises',
+  location: "Mb'yuni, Maghonyi Gym Street, Along Voi Town–Mombasa Road Through River Voi",
   email: 'support@murutechinc.com',
   phone: '+254 716 748 685',
   whatsappNumber: '+254 716 748685',
@@ -219,128 +220,701 @@ export const COMPANY_DIVISIONS: CompanyDivision[] = [
   },
 ];
 
-export const SERVICES_DATA: ServiceItem[] = [
+export const COMPANY_PRODUCTS: EnterpriseProduct[] = [
   {
     id: 'ai-agents',
+    code: 'AGENT FLEET',
     number: '01',
-    title: 'AI Agents',
-    tagline: 'AI employees for repetitive digital tasks.',
+    title: 'Autonomous AI Agents',
+    shortTitle: 'AI Agents',
+    tagline: 'Goal-seeking digital employees that execute multi-step operations 24/7.',
     category: 'core',
     description:
       'Build autonomous, goal-oriented intelligent agents that act as digital staff members, capable of executing multi-step business procedures across your tools without human intervention.',
-    capabilities: [
-      'Answer questions accurately using company guidelines',
-      'Process complex requests & multi-step approvals',
-      'Search information across dispersed business drives',
-      'Qualify incoming leads and score purchase intent',
-      'Perform repetitive tasks across back-office tools',
-      'Connect natively with business systems and APIs',
-    ],
-    examples: ['Inbound Sales Qualifier', 'Procurement Bot', 'Policy Auditor'],
-    ctaText: 'Explore AI Agents',
+    longDescription:
+      'Muru Autonomous AI Agents go beyond static chat scripts. Powered by deterministic tool-calling, state machines, and enterprise memory, each agent monitors live business events, reasons over company rules, queries internal databases, and executes multi-step transactions across your CRM, ERP, billing, and communication systems.',
     iconName: 'Cpu',
+    metrics: {
+      primaryLabel: 'Avg Reasoning Latency',
+      primaryValue: '< 1.2s',
+      secondaryLabel: 'Task Accuracy SLA',
+      secondaryValue: '99.4%',
+      deploymentTime: '7–14 Days',
+    },
+    capabilities: [
+      'Execute multi-step approvals, procurement checks, and order workflows',
+      'Autonomously qualify inbound leads using BANT methodology & book calendars',
+      'Query dispersed enterprise drives, SQL databases, and REST APIs securely',
+      'Cross-check vendor invoices against purchase orders and flag variances',
+      'Enforce strict role-based access control (RBAC) and human-in-the-loop thresholds',
+      'Maintain full cryptographic audit logs for every reasoning step and tool call',
+    ],
+    deliverables: [
+      {
+        title: 'Custom Agent State Machine & Tool Registry',
+        description: 'LangGraph/FastAPI orchestration engine with deterministic fallback guardrails and API schema validation.',
+      },
+      {
+        title: 'CRM, ERP & Calendar Bidirectional Connectors',
+        description: 'Native read/write webhooks connected to HubSpot, Salesforce, SAP, Odoo, Google Calendar, and Slack.',
+      },
+      {
+        title: 'Live Telemetry & Override Cockpit',
+        description: 'Real-time supervisor console allowing your team to inspect reasoning traces or pause agent execution instantly.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Real Estate & B2B Sales',
+        scenario: '24/7 Inbound Lead Qualification & Site Visit Booking',
+        outcome: '+44% lead-to-meeting conversion with sub-30s response time.',
+      },
+      {
+        industry: 'Supply Chain & Procurement',
+        scenario: 'Automated 3-Way PO, Waybill & Invoice Reconciliation',
+        outcome: 'Saved 1,200 clerk hours/month with 99.8% line-item matching accuracy.',
+      },
+      {
+        industry: 'Financial Services',
+        scenario: 'Automated KYC Verification & Loan Pre-Screening Agent',
+        outcome: 'Reduced loan intake cycle from 48 hours to 4 minutes.',
+      },
+    ],
+    integrations: ['WhatsApp Business API', 'HubSpot & Salesforce', 'SAP & Odoo ERP', 'PostgreSQL', 'Google Calendar', 'Slack & Teams'],
+    technologies: ['Gemini 2.5 Pro', 'Claude 3.7 Sonnet', 'LangGraph', 'Python FastAPI', 'pgvector', 'Redis State Store'],
+    architectureSteps: [
+      {
+        step: '01. Event Ingestion',
+        title: 'Inbound Trigger & Context Sanitization',
+        detail: 'Webhook receives WhatsApp message, email, or ERP event and strips prompt-injection vectors.',
+      },
+      {
+        step: '02. Cognitive Planning',
+        title: 'Policy Grounding & Multi-Step Reasoning',
+        detail: 'Orchestrator retrieves relevant SOPs from vector memory and formulates an execution plan.',
+      },
+      {
+        step: '03. Tool Execution',
+        title: 'API Invocations & Database Transactions',
+        detail: 'Agent executes authorized API calls (CRM lookup, stock check, calendar booking) with retry resilience.',
+      },
+      {
+        step: '04. Verification & Audit',
+        title: 'Guardrail Validation & Output Dispatch',
+        detail: 'Output is verified against SLA compliance rules before replying to the user and logging to the audit trail.',
+      },
+    ],
+    ctaText: 'Explore AI Agents',
   },
   {
     id: 'ai-chatbots',
+    code: 'OMNICHANNEL AI',
     number: '02',
-    title: 'AI Chatbots',
-    tagline: 'Turn every conversation into an opportunity.',
+    title: 'WhatsApp & Omnichannel Bots',
+    shortTitle: 'WhatsApp & Web Bots',
+    tagline: 'Official WhatsApp Business API & web concierges that convert and resolve 24/7.',
     category: 'core',
     description:
       'Modern conversational AI tailored specifically for customer touchpoints. Unlike legacy scripted bots, our assistants truly comprehend nuanced customer intent in English, Swahili, and regional dialects.',
-    capabilities: [
-      'Website 24/7 intelligent concierge & booking',
-      'Official WhatsApp Business API integration',
-      'Customer support tier-1 resolution and routing',
-      'Interactive sales consultation and product advice',
-      'Internal team helpdesk for HR and IT support',
-      'CRM synchronization of client inquiries and preferences',
-    ],
-    examples: ['WhatsApp Support Concierge', 'Website Conversational Rep'],
-    ctaText: 'Build an AI Assistant',
+    longDescription:
+      'Meet your customers where they already are. We engineer verified Meta WhatsApp Business Cloud API bots, website concierges, and Instagram/Telegram assistants that handle product catalog browsing, instant M-Pesa/Stripe checkout, live order tracking, and tier-1 technical troubleshooting with natural human warmth.',
     iconName: 'MessageSquareText',
+    metrics: {
+      primaryLabel: 'Queries Auto-Resolved',
+      primaryValue: '78%+',
+      secondaryLabel: 'First Response Time',
+      secondaryValue: '< 1.5s',
+      deploymentTime: '5–10 Days',
+    },
+    capabilities: [
+      'Official Meta WhatsApp Business Cloud API integration with green-tick verification support',
+      'Fluent comprehension across English, Swahili, Sheng, French, and regional dialects',
+      'Interactive WhatsApp product catalogs, cart recovery, and instant M-Pesa STK push payments',
+      'Live customer account lookups, billing balance checks, and automated service diagnostics',
+      'Voice note transcription and multimodal image/receipt comprehension inside WhatsApp',
+      'Seamless escalation to human support desks with full conversation history attached',
+    ],
+    deliverables: [
+      {
+        title: 'Verified WhatsApp Cloud API & Web Widget Gateway',
+        description: 'High-throughput webhook router supporting rich interactive buttons, list messages, and media attachments.',
+      },
+      {
+        title: 'Multilingual Intent & Policy Knowledge Base',
+        description: 'Domain-tuned conversational engine grounded in your pricing sheets, FAQs, and return policies.',
+      },
+      {
+        title: 'Payment & CRM Synchronization Pipeline',
+        description: 'Direct integration with Safaricom Daraja (M-Pesa), Stripe, Shopify, Zendesk, and Zoho/HubSpot.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Telecommunications & ISPs',
+        scenario: 'Automated Billing Lookup & Router Line Diagnostics on WhatsApp',
+        outcome: '74% of 12,000+ monthly tickets resolved automatically; 4.8/5 CSAT.',
+      },
+      {
+        industry: 'Hospitality & Travel',
+        scenario: 'Multilingual Room Booking & Guest Concierge Desk',
+        outcome: '24/7 instant reservation quotes and +32% direct booking conversion.',
+      },
+      {
+        industry: 'E-Commerce & Retail',
+        scenario: 'Conversational Catalog Checkout & Abandoned Cart Recovery',
+        outcome: '+28% average order value through personalized WhatsApp follow-ups.',
+      },
+    ],
+    integrations: ['Meta WhatsApp Cloud API', 'Safaricom M-Pesa Daraja', 'Shopify & WooCommerce', 'Zendesk & Freshdesk', 'Webchat SDK', 'Instagram & Messenger'],
+    technologies: ['WhatsApp Business API', 'Gemini 2.5 Flash', 'Whisper Audio ASR', 'Node.js & TypeScript', 'PostgreSQL', 'Redis Session Cache'],
+    architectureSteps: [
+      {
+        step: '01. Omnichannel Ingress',
+        title: 'WhatsApp / Web Message & Media Intake',
+        detail: 'Captures text, voice notes, or images from WhatsApp Cloud API and normalizes session state.',
+      },
+      {
+        step: '02. Intent & Identity',
+        title: 'Customer Verification & Dialect Detection',
+        detail: 'Identifies language (EN/SW), matches phone number to CRM profile, and loads active order context.',
+      },
+      {
+        step: '03. Action & Fulfillment',
+        title: 'Live API Lookup or Payment Trigger',
+        detail: 'Queries inventory/billing APIs or dispatches an M-Pesa STK push prompt directly to the customer phone.',
+      },
+      {
+        step: '04. Resolution or Handoff',
+        title: 'Instant Reply or Smart Human Escalation',
+        detail: 'Delivers rich interactive WhatsApp response or routes high-priority edge cases to a live agent.',
+      },
+    ],
+    ctaText: 'Explore WhatsApp & Web Bots',
+  },
+  {
+    id: 'docusense-rag',
+    code: 'DOCUSENSE RAG',
+    number: '03',
+    title: 'DocuSense & Enterprise RAG',
+    shortTitle: 'DocuSense RAG',
+    tagline: 'Zero-hallucination knowledge engine grounded in your PDFs, contracts & SOPs.',
+    category: 'analytics',
+    description:
+      'Unlock institutional intelligence buried across thousands of PDFs, legal contracts, technical manuals, and SharePoint drives with cited, verifiable answers in under a second.',
+    longDescription:
+      'DocuSense is Muru AI’s proprietary Retrieval-Augmented Generation (RAG) and multimodal document intelligence platform. It ingests scanned PDFs, complex financial tables, legal agreements, and internal wikis into an encrypted vector store—allowing your staff or customers to ask complex questions and receive exact answers with page-level citations.',
+    iconName: 'FileText',
+    metrics: {
+      primaryLabel: 'Citation Precision',
+      primaryValue: '99.7%',
+      secondaryLabel: 'Retrieval Speed',
+      secondaryValue: '< 350ms',
+      deploymentTime: '5–12 Days',
+    },
+    capabilities: [
+      'Hybrid semantic vector + BM25 keyword search for exact clause and statute retrieval',
+      'Multimodal OCR table, chart, and scanned stamp extraction across multi-page PDFs',
+      'Strict citation enforcement: every claim links directly to source document, page, and paragraph',
+      'Document-level Role-Based Access Control (RBAC) respecting SharePoint/Google Drive permissions',
+      'Automated incremental syncing whenever files are added or updated in company drives',
+      'Zero hallucination guardrails: refuses to speculate if answer is absent from verified sources',
+    ],
+    deliverables: [
+      {
+        title: 'Private Vector & Hybrid Search Index',
+        description: 'Dedicated pgvector / Qdrant cluster deployed in your VPC with automated chunking and re-ranking.',
+      },
+      {
+        title: 'Automated Document Ingestion Connectors',
+        description: 'Live sync pipelines for SharePoint, Google Drive, Notion, Confluence, and local S3/MinIO buckets.',
+      },
+      {
+        title: 'Cited Copilot Web Portal & Slack/Teams Bot',
+        description: 'Clean search and chat interface with side-by-side PDF viewer highlighting exact cited passages.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Legal, Audit & Advisory Firms',
+        scenario: 'Cross-Precedent Contract & Regulatory Gazette Research',
+        outcome: 'Reduced initial legal research and bid drafting from 6 hours to 12 minutes.',
+      },
+      {
+        industry: 'Banking & Insurance',
+        scenario: 'Underwriting Policy & Compliance Manual Copilot',
+        outcome: 'Staff save 45 minutes/day locating exact policy clauses with 100% auditability.',
+      },
+      {
+        industry: 'Engineering & Operations',
+        scenario: 'Technical Maintenance Manual & SOP Assistant',
+        outcome: 'Slashed new technician onboarding time by 50% across regional facilities.',
+      },
+    ],
+    integrations: ['Microsoft SharePoint', 'Google Drive', 'Notion & Confluence', 'AWS S3 / Private MinIO', 'Slack & Microsoft Teams', 'PDF / DOCX / XLSX'],
+    technologies: ['Muru DocuSense Engine', 'Qdrant & pgvector', 'Hybrid Rerankers', 'Vision OCR Pipeline', 'Private VPC Encryption', 'FastAPI'],
+    architectureSteps: [
+      {
+        step: '01. Multimodal Parsing',
+        title: 'Layout-Aware Document & Table Extraction',
+        detail: 'Parses PDFs, scanned contracts, and spreadsheets while preserving table headers and section hierarchy.',
+      },
+      {
+        step: '02. Hybrid Indexing',
+        title: 'Dense Vector + Sparse Keyword Embeddings',
+        detail: 'Generates high-dimensional semantic vectors alongside lexical indexes with ACL permission tags.',
+      },
+      {
+        step: '03. Cross-Encoder Reranking',
+        title: 'Permission-Filtered Sub-Second Retrieval',
+        detail: 'Filters chunks by user role and re-ranks top passages for maximum relevance before synthesis.',
+      },
+      {
+        step: '04. Grounded Synthesis',
+        title: 'Cited Response with Source Verification',
+        detail: 'Generates answer strictly from retrieved passages and attaches clickable page/clause citations.',
+      },
+    ],
+    ctaText: 'Explore DocuSense RAG',
+  },
+  {
+    id: 'live-agent-assist',
+    code: 'COPILOT DESK',
+    number: '04',
+    title: 'Live Agent Assist & Human Handoff',
+    shortTitle: 'Live Agent Assist',
+    tagline: 'Smart human-in-the-loop escalation with real-time AI reply drafting.',
+    category: 'core',
+    description:
+      'Supercharge your human support and sales teams with an intelligent copilot that summarizes escalations, detects customer sentiment, and drafts 1-click policy-compliant replies.',
+    longDescription:
+      'Automation should never trap frustrated customers in an endless loop. Muru Live Agent Assist monitors active conversations in real time, seamlessly hands off high-value or sensitive inquiries to human specialists, briefs the agent with an instant 3-bullet summary, and suggests accurate, one-click replies pulled straight from your CRM and knowledge base.',
+    iconName: 'Headphones',
+    metrics: {
+      primaryLabel: 'Handle Time Reduction',
+      primaryValue: '-58%',
+      secondaryLabel: 'Agent Productivity',
+      secondaryValue: '3.2x',
+      deploymentTime: '5–10 Days',
+    },
+    capabilities: [
+      'Real-time sentiment & urgency radar that auto-escalates VIP or frustrated customers',
+      'Instant 3-bullet conversation summary upon handoff so customers never repeat themselves',
+      'One-click AI reply suggestions grounded in past resolved tickets and company policy',
+      'Live CRM & order context sidebar showing customer LTV, open invoices, and ticket history',
+      'Automatic post-call / post-chat disposition tagging, CRM note logging, and QA scoring',
+      'Inline multilingual translation allowing English-speaking agents to serve regional dialects',
+    ],
+    deliverables: [
+      {
+        title: 'Unified Omnichannel Agent Workspace & Desk Plugin',
+        description: 'Embeddable copilot widget for Zendesk, Freshdesk, Intercom, or standalone Muru Omnichannel Desk.',
+      },
+      {
+        title: 'Sentiment & Escalation Routing Rules Engine',
+        description: 'Configurable triggers based on customer tier, transaction value, sentiment score, or keyword flags.',
+      },
+      {
+        title: 'Automated QA & Supervisor Analytics Dashboard',
+        description: 'Tracks first-contact resolution, CSAT, agent response times, and knowledge base gaps.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Financial Services & SACCOs',
+        scenario: 'VIP Member Dispute & High-Value Loan Advisory Handoff',
+        outcome: 'Zero dropped escalations and 62% faster average resolution time.',
+      },
+      {
+        industry: 'Healthcare & Clinics',
+        scenario: 'Patient Triage Escalation to Clinical Care Coordinators',
+        outcome: 'Clinicians receive full pre-screened symptom and insurance context before replying.',
+      },
+      {
+        industry: 'E-Commerce & Logistics',
+        scenario: 'Complex Delivery Exception & Refund Approval Copilot',
+        outcome: '1-click order replacement and refund drafting cut support backlog by 68%.',
+      },
+    ],
+    integrations: ['Zendesk & Freshdesk', 'WhatsApp Business Desk', 'Intercom & HubSpot Service', 'Salesforce Service Cloud', 'Slack Escalation Channels', 'Custom CRM APIs'],
+    technologies: ['Real-Time WebSockets', 'Sentiment Classifier', 'RAG Reply Recommender', 'React Desk SDK', 'Node.js Event Bus', 'PostgreSQL'],
+    architectureSteps: [
+      {
+        step: '01. Live Stream Monitor',
+        title: 'Continuous Intent & Sentiment Evaluation',
+        detail: 'Evaluates every customer turn for complexity, VIP status, or negative sentiment shift.',
+      },
+      {
+        step: '02. Context Packaging',
+        title: 'Instant Handoff Brief & CRM Enrichment',
+        detail: 'Compiles conversation summary, extracted entities, and customer account status in < 400ms.',
+      },
+      {
+        step: '03. Copilot Drafting',
+        title: 'Real-Time Reply & Action Recommendations',
+        detail: 'Presents human agent with 2–3 policy-verified draft responses and 1-click action buttons.',
+      },
+      {
+        step: '04. Auto-Wrap & Learn',
+        title: 'CRM Disposition Logging & Knowledge Loop',
+        detail: 'Logs resolution notes to CRM automatically and indexes approved human edits to improve future drafts.',
+      },
+    ],
+    ctaText: 'Explore Live Agent Assist',
   },
   {
     id: 'ai-automation',
-    number: '03',
-    title: 'AI Automation',
-    tagline: 'Let AI handle the work that slows your team down.',
+    code: 'WORKFLOW ENGINE',
+    number: '05',
+    title: 'AI Workflow Automation Engine',
+    shortTitle: 'AI Automation',
+    tagline: 'Deterministic AI pipelines that eliminate manual administrative work.',
     category: 'automation',
     description:
       'Replace manual, error-prone administrative tasks with deterministic AI pipelines that extract, transform, validate, and move information with superhuman consistency.',
-    capabilities: [
-      'Automated lead capture, validation, and CRM entry',
-      'Smart customer follow-ups and abandoned cart nudges',
-      'Automated structured data entry across legacy databases',
-      'Invoice, receipt, and contract OCR document processing',
-      'Intelligent email routing and auto-drafted replies',
-      'Periodic automated business reporting and notifications',
-    ],
-    examples: ['Invoice Parsing Engine', 'Email-to-CRM Auto Sync', 'Weekly Metrics Bot'],
-    ctaText: 'Automate Business Workflows',
+    longDescription:
+      'Your brightest staff shouldn’t spend 15 hours a week copy-pasting data between PDFs, spreadsheets, emails, and ERPs. Muru AI Workflow Automation combines multimodal document OCR, deterministic business rule validators, and resilient event queues to process thousands of back-office transactions with zero human data entry.',
     iconName: 'Workflow',
+    metrics: {
+      primaryLabel: 'Cycle Time Reduction',
+      primaryValue: '-92%',
+      secondaryLabel: 'Data Extraction Accuracy',
+      secondaryValue: '99.6%',
+      deploymentTime: '7–14 Days',
+    },
+    capabilities: [
+      'Automated invoice, receipt, waybill, and customs manifest OCR extraction',
+      'Three-way matching across Purchase Orders, Delivery Notes, and Vendor Invoices',
+      'Automated lead capture, enrichment, deduplication, and instant CRM routing',
+      'Intelligent email inbox triage with auto-drafted replies and attachment parsing',
+      'Scheduled cross-system financial reconciliation and anomaly exception alerts',
+      'Dead-letter queues, automatic retries, and human review portals for edge cases',
+    ],
+    deliverables: [
+      {
+        title: 'End-to-End Event-Driven Automation Pipeline',
+        description: 'Fault-tolerant workflow engine processing webhooks, emails, and file uploads 24/7.',
+      },
+      {
+        title: 'Multimodal Document OCR & Validation Schema',
+        description: 'Strict JSON-schema extraction engine that validates totals, tax codes, and line items.',
+      },
+      {
+        title: 'Exception Review & Audit Queue',
+        description: 'Clean web dashboard where finance or ops managers approve flagged variances in one click.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Freight, Logistics & Clearing',
+        scenario: 'Multi-Lingual Customs Declaration & Manifest Processing',
+        outcome: '$140,000+ annual savings and 92% faster customs intake cycle.',
+      },
+      {
+        industry: 'Retail & FMCG Distribution',
+        scenario: 'Automated Distributor Purchase Order Intake to SAP/Odoo',
+        outcome: 'Eliminated manual order typing errors across 400+ retail stockists.',
+      },
+      {
+        industry: 'Accounting & Finance',
+        scenario: 'Automated Supplier Invoice Ledger Posting & Tax Compliance',
+        outcome: 'Saved 20+ hours/week per accountant during month-end close.',
+      },
+    ],
+    integrations: ['SAP Business One & Odoo', 'QuickBooks & Xero', 'Gmail & Microsoft 365', 'HubSpot & Zoho CRM', 'Google Sheets & Excel', 'PostgreSQL & Cloud SQL'],
+    technologies: ['Multimodal Vision OCR', 'Deterministic JSON Schemas', 'Kafka / BullMQ Queues', 'Python & Node.js', 'Webhook Bridges', 'PostgreSQL'],
+    architectureSteps: [
+      {
+        step: '01. Multi-Source Intake',
+        title: 'Email, Webhook, Portal or Scanner Trigger',
+        detail: 'Captures unstructured PDFs, images, emails, or form payloads automatically as they arrive.',
+      },
+      {
+        step: '02. Structured Extraction',
+        title: 'Vision OCR & Strict Schema Parsing',
+        detail: 'Extracts line items, currencies, tax IDs, and dates into strongly-typed JSON structures.',
+      },
+      {
+        step: '03. Rule Validation',
+        title: 'Mathematical & Cross-Database Verification',
+        detail: 'Verifies arithmetic totals, checks duplicate invoice numbers, and validates against ERP master data.',
+      },
+      {
+        step: '04. Downstream Commit',
+        title: 'ERP/CRM Ledger Sync & Slack Notification',
+        detail: 'Writes verified records directly into target systems or flags anomalies for 1-click human sign-off.',
+      },
+    ],
+    ctaText: 'Explore Workflow Automation',
   },
   {
     id: 'custom-ai-applications',
-    number: '04',
+    code: 'BESPOKE AI APPS',
+    number: '06',
     title: 'Custom AI Applications',
-    tagline: 'AI built specifically for your business.',
+    shortTitle: 'Custom AI Apps',
+    tagline: 'Bespoke AI-native web & mobile platforms built for your business.',
     category: 'custom',
     description:
       "When off-the-shelf software doesn't fit, we engineer bespoke AI-native platforms, internal operating systems, and intelligent customer portals engineered around your proprietary competitive advantage.",
-    capabilities: [
-      'Full-stack AI-powered enterprise software platforms',
-      'SaaS products with embedded machine intelligence',
-      'Internal operational tools tailored to your SOPs',
-      'Intelligent analytics dashboards and data studios',
-      'Client portals with embedded generative AI features',
-      'Proprietary workflow engines tailored to your vertical',
-    ],
-    examples: ['Custom Underwriting Portal', 'Logistics Routing Cockpit', 'SaaS Copilot'],
-    ctaText: 'Design Custom AI App',
+    longDescription:
+      'Every market leader has proprietary workflows that generic SaaS tools cannot accommodate. Our full-stack product engineering team designs, builds, and deploys custom web applications, iOS/Android mobile apps, and multi-tenant SaaS products with deeply embedded generative AI, computer vision, and predictive scoring.',
     iconName: 'Layers',
+    metrics: {
+      primaryLabel: 'MVP to Production',
+      primaryValue: '4–6 Weeks',
+      secondaryLabel: 'Uptime SLA',
+      secondaryValue: '99.98%',
+      deploymentTime: '4–6 Weeks',
+    },
+    capabilities: [
+      'Full-stack AI-powered enterprise web portals and internal command centers',
+      'Cross-platform iOS & Android mobile applications (React Native & Flutter)',
+      'Commercial multi-tenant AI SaaS product engineering with Stripe/M-Pesa billing',
+      'Proprietary underwriting, risk-scoring, and diagnostic decision platforms',
+      'Embedded domain copilots, voice interfaces, and real-time collaborative workspaces',
+      'Full source-code IP ownership, containerized CI/CD deployment, and 24/7 SLA support',
+    ],
+    deliverables: [
+      {
+        title: 'Production Full-Stack Web & Mobile Codebase',
+        description: 'Clean, modular TypeScript/React/Next.js frontend paired with high-concurrency Node.js/Python microservices.',
+      },
+      {
+        title: 'Dedicated AI Inference & Vector Pipeline',
+        description: 'Custom prompt pipelines, fine-tuned model endpoints, and low-latency streaming responses.',
+      },
+      {
+        title: 'Cloud Infrastructure, CI/CD & IP Handover',
+        description: 'Docker/Kubernetes deployment on AWS, GCP, or Azure with automated testing and full IP ownership.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'PropTech & Real Estate Finance',
+        scenario: 'Custom AI Property Valuation & Underwriting Portal',
+        outcome: 'Launched to market in 6 weeks; processes $15M+ in monthly underwriting volume.',
+      },
+      {
+        industry: 'AgriTech & Supply Chain',
+        scenario: 'Field Agent Mobile App with Offline Computer Vision Grading',
+        outcome: 'Deployed across 1,500 field agents with instant quality scoring and M-Pesa payouts.',
+      },
+      {
+        industry: 'B2B SaaS Ventures',
+        scenario: 'Multi-Tenant Compliance & Audit Automation Platform',
+        outcome: 'Scaled to 80+ enterprise tenants with 99.99% availability.',
+      },
+    ],
+    integrations: ['Custom REST & GraphQL APIs', 'Stripe & Safaricom M-Pesa', 'Auth0 / Firebase / SSO SAML', 'AWS / GCP / Azure VPC', 'PostgreSQL & Redis', 'iOS App Store & Google Play'],
+    technologies: ['React 19 & TypeScript', 'Next.js & Tailwind CSS', 'Flutter & React Native', 'Python FastAPI & Node.js', 'PostgreSQL & Drizzle', 'Docker & Kubernetes'],
+    architectureSteps: [
+      {
+        step: '01. Product Blueprint',
+        title: 'UX Wireframing, Data Schema & AI Eval Design',
+        detail: 'We map user journeys, database schemas, and benchmark AI accuracy on real domain samples in Week 1.',
+      },
+      {
+        step: '02. Core Engineering',
+        title: 'Full-Stack Sprint Delivery & API Construction',
+        detail: 'Iterative two-week sprints delivering working UI, authentication, RBAC, and backend microservices.',
+      },
+      {
+        step: '03. AI Embedding',
+        title: 'Model Orchestration, Guardrails & Streaming UX',
+        detail: 'Integrates low-latency AI generation, structured outputs, and domain guardrails into the application.',
+      },
+      {
+        step: '04. Hardening & Launch',
+        title: 'Penetration Testing, Load Testing & Go-Live',
+        detail: 'Production deployment with auto-scaling, observability telemetry, and full team training.',
+      },
+    ],
+    ctaText: 'Explore Custom AI Apps',
   },
   {
     id: 'ai-integrations',
-    number: '05',
-    title: 'AI Integrations',
-    tagline: 'Connect AI to the systems you already use.',
+    code: 'API & WEBHOOKS',
+    number: '07',
+    title: 'Enterprise AI Integrations',
+    shortTitle: 'AI Integrations',
+    tagline: 'Connect advanced AI natively into the systems you already run.',
     category: 'automation',
     description:
       "AI shouldn't live in an isolated silo. We connect advanced intelligence layers into your existing software stack, eliminating context switching and syncing your records in real time.",
-    capabilities: [
-      'WhatsApp → AI → CRM (HubSpot, Salesforce, Zoho)',
-      'Website Forms → AI → Production Database (PostgreSQL, Supabase)',
-      'Customer Mailbox → AI → Helpdesk (Zendesk, Freshdesk, Slack)',
-      'AI → Custom Internal Enterprise ERP & Billing APIs',
-      'Vector embeddings connected to proprietary company archives',
-      'Secure webhook architecture with bank-grade encryption',
-    ],
-    examples: ['HubSpot WhatsApp Sync', 'Stripe Order Verification Agent'],
-    ctaText: 'Connect Your Systems',
+    longDescription:
+      'Most enterprises already have heavy investments in CRM, ERP, helpdesk, and payment software. Muru AI Integrations bridges your existing platforms with a secure, bank-grade intelligence layer—allowing WhatsApp, HubSpot, Salesforce, SAP, Odoo, Zendesk, and PostgreSQL to exchange AI-enriched data in real time.',
     iconName: 'Network',
+    metrics: {
+      primaryLabel: 'Webhook Latency',
+      primaryValue: '< 120ms',
+      secondaryLabel: 'Delivery Reliability',
+      secondaryValue: '99.99%',
+      deploymentTime: '3–7 Days',
+    },
+    capabilities: [
+      'WhatsApp Business Cloud API ↔ AI Layer ↔ HubSpot, Salesforce, or Zoho CRM',
+      'Website & Mobile Forms ↔ AI Enrichment ↔ PostgreSQL, Supabase, or BigQuery',
+      'Customer Shared Mailbox ↔ AI Triage & Extraction ↔ Zendesk, Freshdesk, or Slack',
+      'AI Operations Layer ↔ Custom Internal ERP (SAP Business One, Odoo, Dynamics 365)',
+      'Automated M-Pesa Daraja & Stripe payment verification with instant ledger reconciliation',
+      'Encrypted API gateway with rate limiting, idempotency keys, and dead-letter replay',
+    ],
+    deliverables: [
+      {
+        title: 'Managed Bidirectional API & Webhook Gateway',
+        description: 'High-concurrency middleware with cryptographic signature verification and automatic retry queues.',
+      },
+      {
+        title: 'Data Transformation & Field Mapping Layer',
+        description: 'Clean schema adapters translating unstructured messages into strict CRM/ERP records.',
+      },
+      {
+        title: 'Real-Time Sync Health & Alerting Monitor',
+        description: 'Live status dashboard tracking API throughput, latency, and instant PagerDuty/Slack failure alerts.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Financial Services & FinTech',
+        scenario: 'WhatsApp ↔ AI KYC Engine ↔ Core Banking & M-Pesa Gateway',
+        outcome: 'Real-time customer onboarding and instant disbursement without manual middleware.',
+      },
+      {
+        industry: 'B2B Commercial Teams',
+        scenario: 'Omnichannel Lead Intake ↔ AI Enrichment ↔ HubSpot & Slack',
+        outcome: '100% of inbound inquiries logged, scored, and assigned to sales reps in < 2 seconds.',
+      },
+      {
+        industry: 'Multi-Branch Retail',
+        scenario: 'POS & E-Commerce Orders ↔ AI Fraud Check ↔ Odoo ERP Inventory',
+        outcome: 'Zero inventory over-selling and real-time multi-branch stock synchronization.',
+      },
+    ],
+    integrations: ['HubSpot & Salesforce', 'SAP, Odoo & NetSuite', 'Safaricom M-Pesa & Stripe', 'Zendesk & Freshdesk', 'WhatsApp & Slack', 'PostgreSQL, REST & GraphQL'],
+    technologies: ['REST & GraphQL Gateways', 'HMAC Webhook Security', 'Redis & Kafka Streams', 'TypeScript & Go', 'OAuth 2.0 / mTLS', 'OpenAPI 3.1'],
+    architectureSteps: [
+      {
+        step: '01. Auth & Handshake',
+        title: 'mTLS, OAuth 2.0 & HMAC Signature Verification',
+        detail: 'Establishes encrypted, zero-trust connections between your source and destination systems.',
+      },
+      {
+        step: '02. Event Buffering',
+        title: 'Idempotent Queueing & Rate-Limit Protection',
+        detail: 'Buffers traffic spikes in persistent queues so downstream legacy ERPs are never overwhelmed.',
+      },
+      {
+        step: '03. AI Enrichment',
+        title: 'In-Flight Classification, Extraction & Scoring',
+        detail: 'Enriches raw webhook payloads with AI sentiment, entity extraction, or lead scoring in flight.',
+      },
+      {
+        step: '04. Bidirectional Sync',
+        title: 'Transactional Write & Confirmation Callback',
+        detail: 'Commits records to target APIs and confirms synchronization with full observability logs.',
+      },
+    ],
+    ctaText: 'Explore AI Integrations',
   },
   {
     id: 'ai-data-analytics',
-    number: '06',
-    title: 'AI Data & Analytics',
-    tagline: 'Turn your business data into intelligence.',
+    code: 'PREDICTIVE BI',
+    number: '08',
+    title: 'AI Data & Predictive Analytics',
+    shortTitle: 'AI Data & Analytics',
+    tagline: 'Transform raw business logs into plain-English clarity & forecasts.',
     category: 'analytics',
     description:
       'Stop guessing. We transform raw sales figures, operational logs, and customer touchpoints into actionable clarity with natural language data querying and predictive forecasting.',
-    capabilities: [
-      'Automated executive reports delivered to executive inboxes',
-      'Deep cohort analysis & customer lifetime value modeling',
-      'Dynamic business intelligence dashboards with live metrics',
-      'AI-powered anomaly detection and fraud warning alerts',
-      'Demand forecasting and supply chain inventory planning',
-      'Executive decision-support simulations and scenario testing',
-    ],
-    examples: ['Weekly AI Revenue Memo', 'Predictive Churn Radar'],
-    ctaText: 'Unlock Business Data',
+    longDescription:
+      'Executives shouldn’t have to wait days for an analyst to write SQL queries or stitch together fragile spreadsheets. Muru AI Data & Predictive Analytics connects directly to your databases and ERP ledgers—enabling natural-language "Chat with Your Data" queries, automated weekly board memos, churn prediction, and inventory demand forecasting.',
     iconName: 'LineChart',
+    metrics: {
+      primaryLabel: 'Forecast Accuracy',
+      primaryValue: '94.8%',
+      secondaryLabel: 'Reporting Time Saved',
+      secondaryValue: '95%',
+      deploymentTime: '7–14 Days',
+    },
+    capabilities: [
+      'Natural-language Text-to-SQL copilot: ask complex revenue or ops questions in plain English',
+      'Automated Monday-morning executive briefings delivered via WhatsApp, Slack, or Email',
+      'Predictive customer churn scoring and lifetime value (LTV) cohort segmentation',
+      'Real-time financial anomaly detection, duplicate payment flags, and fraud warnings',
+      'SKU-level inventory demand forecasting and automated reorder point recommendations',
+      'Interactive scenario modeling for pricing changes, staffing, and branch expansion',
+    ],
+    deliverables: [
+      {
+        title: 'Executive AI Command Dashboard & Text-to-SQL Studio',
+        description: 'Interactive web studio where leadership can query live KPIs and generate instant visual charts.',
+      },
+      {
+        title: 'Automated Anomaly & Digest Dispatch Engine',
+        description: 'Scheduled intelligence briefings and real-time threshold alerts sent to executive WhatsApp/Email.',
+      },
+      {
+        title: 'Read-Only Encrypted Warehouse Pipeline',
+        description: 'Zero-impact read-replica connectors syncing PostgreSQL, ERPs, and payment logs into an analytics store.',
+      },
+    ],
+    useCases: [
+      {
+        industry: 'Wholesale & Distribution',
+        scenario: 'Predictive Stock Replenishment & Uncollected AR Radar',
+        outcome: 'Identified $45,000 in overdue receivables in 14 days and cut stockouts by 64%.',
+      },
+      {
+        industry: 'Subscription & Financial Services',
+        scenario: 'Early Churn Detection & Automated Retention Triggers',
+        outcome: 'Reduced monthly account churn by 22% using 30-day predictive warning scores.',
+      },
+      {
+        industry: 'Multi-Branch Enterprises',
+        scenario: 'Automated Daily P&L & Branch Performance Executive Digest',
+        outcome: 'Replaced 18 hours/week of manual Excel consolidation with instant 7:00 AM briefings.',
+      },
+    ],
+    integrations: ['PostgreSQL & BigQuery', 'SAP, Odoo & QuickBooks', 'Stripe & M-Pesa Ledgers', 'Google Sheets & Excel', 'PowerBI & Metabase', 'WhatsApp & Email Digests'],
+    technologies: ['Semantic Text-to-SQL', 'Time-Series Forecasting', 'Anomaly Isolation Forests', 'Python Pandas & Polars', 'PostgreSQL Read Replicas', 'React Analytics Studio'],
+    architectureSteps: [
+      {
+        step: '01. Read-Replica Sync',
+        title: 'Zero-Lock Ingestion from ERP, DBs & Payment Logs',
+        detail: 'Extracts live transactional records via read-only replicas without slowing production workloads.',
+      },
+      {
+        step: '02. Semantic Layer',
+        title: 'Metric Governance & Business Glossary Mapping',
+        detail: 'Maps raw table columns to standardized financial definitions (MRR, Gross Margin, Net Retention).',
+      },
+      {
+        step: '03. Predictive Modeling',
+        title: 'Forecasting, Cohort Analysis & Anomaly Scans',
+        detail: 'Runs continuous statistical and ML models to spot revenue leaks, stock risks, and growth trends.',
+      },
+      {
+        step: '04. Executive Delivery',
+        title: 'Interactive Studio & Automated Board Briefings',
+        detail: 'Renders live visual dashboards and dispatches plain-English narrative summaries to leadership.',
+      },
+    ],
+    ctaText: 'Explore AI Data & Analytics',
   },
 ];
+
+export const SERVICES_DATA: ServiceItem[] = COMPANY_PRODUCTS.map((prod) => ({
+  id: prod.id,
+  number: prod.number,
+  title: prod.title,
+  tagline: prod.tagline,
+  category: prod.category,
+  description: prod.description,
+  capabilities: prod.capabilities,
+  examples: prod.useCases.map((u) => u.scenario.split(' ').slice(0, 4).join(' ')),
+  ctaText: prod.ctaText,
+  iconName: prod.iconName,
+}));
 
 export const PROBLEM_MATCHER_DATA: ProblemMatcherItem[] = [
   {

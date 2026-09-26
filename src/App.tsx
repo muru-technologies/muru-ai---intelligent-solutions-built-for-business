@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -18,15 +18,80 @@ import IndustriesSection from './components/IndustriesSection';
 import TechnologySection from './components/TechnologySection';
 import WhyUsAndAbout from './components/WhyUsAndAbout';
 import EnterpriseCockpit from './components/EnterpriseCockpit';
+import DivisionPage from './components/DivisionPage';
+import ProductPage from './components/ProductPage';
+import SolutionPage from './components/SolutionPage';
+import PlatformPage from './components/PlatformPage';
+import ResourcePage from './components/ResourcePage';
 import ConsultationModal from './components/ConsultationModal';
 import Footer from './components/Footer';
 import { COMPANY_DETAILS } from './data/siteData';
 import { MessageSquare, Sparkles } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'website' | 'cockpit'>('website');
+  const [currentView, setCurrentView] = useState<
+    'website' | 'cockpit' | 'division' | 'product' | 'solution' | 'platform' | 'resource'
+  >('website');
+  const [activeDivisionId, setActiveDivisionId] = useState<string>('ai');
+  const [activeProductId, setActiveProductId] = useState<string>('ai-agents');
+  const [activeSolutionId, setActiveSolutionId] = useState<string>('retail-ecommerce');
+  const [activePlatformId, setActivePlatformId] = useState<string>('hybrid-llm-routing');
+  const [activeResourceId, setActiveResourceId] = useState<string>('roi-calculator');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [consultationInterest, setConsultationInterest] = useState('Enterprise AI Strategy & Audit');
+
+  useEffect(() => {
+    const syncRouteFromHash = () => {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      if (hash.startsWith('division/')) {
+        const divId = hash.split('/')[1];
+        if (divId) {
+          setActiveDivisionId(divId);
+          setCurrentView('division');
+          return;
+        }
+      } else if (hash.startsWith('product/')) {
+        const prodId = hash.split('/')[1];
+        if (prodId) {
+          setActiveProductId(prodId);
+          setCurrentView('product');
+          return;
+        }
+      } else if (hash.startsWith('solution/')) {
+        const solId = hash.split('/')[1];
+        if (solId) {
+          setActiveSolutionId(solId);
+          setCurrentView('solution');
+          return;
+        }
+      } else if (hash.startsWith('platform/')) {
+        const platId = hash.split('/')[1];
+        if (platId) {
+          setActivePlatformId(platId);
+          setCurrentView('platform');
+          return;
+        }
+      } else if (hash.startsWith('resource/')) {
+        const resId = hash.split('/')[1];
+        if (resId) {
+          setActiveResourceId(resId);
+          setCurrentView('resource');
+          return;
+        }
+      } else if (hash === 'cockpit') {
+        setCurrentView('cockpit');
+        return;
+      }
+    };
+
+    syncRouteFromHash();
+    window.addEventListener('popstate', syncRouteFromHash);
+    window.addEventListener('hashchange', syncRouteFromHash);
+    return () => {
+      window.removeEventListener('popstate', syncRouteFromHash);
+      window.removeEventListener('hashchange', syncRouteFromHash);
+    };
+  }, []);
 
   const handleOpenConsultation = (interest?: string) => {
     if (interest) {
@@ -37,12 +102,53 @@ export default function App() {
 
   const handleToggleView = (view: 'website' | 'cockpit') => {
     setCurrentView(view);
+    if (view === 'cockpit') {
+      window.history.pushState(null, '', '#cockpit');
+    } else {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateToDivision = (divisionId: string) => {
+    setActiveDivisionId(divisionId);
+    setCurrentView('division');
+    window.history.pushState(null, '', `#division/${divisionId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateToProduct = (productId: string) => {
+    setActiveProductId(productId);
+    setCurrentView('product');
+    window.history.pushState(null, '', `#product/${productId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateToSolution = (solutionId: string) => {
+    setActiveSolutionId(solutionId);
+    setCurrentView('solution');
+    window.history.pushState(null, '', `#solution/${solutionId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateToPlatform = (platformId: string) => {
+    setActivePlatformId(platformId);
+    setCurrentView('platform');
+    window.history.pushState(null, '', `#platform/${platformId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateToResource = (resourceId: string) => {
+    setActiveResourceId(resourceId);
+    setCurrentView('resource');
+    window.history.pushState(null, '', `#resource/${resourceId}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const scrollToSection = (sectionId: string) => {
     if (currentView !== 'website') {
       setCurrentView('website');
+      window.history.pushState(null, '', window.location.pathname);
       setTimeout(() => {
         const el = document.getElementById(sectionId);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -58,20 +164,30 @@ export default function App() {
       {/* Global Header Navigation */}
       <Header
         currentView={currentView}
+        activeDivisionId={activeDivisionId}
+        activeProductId={activeProductId}
+        activeSolutionId={activeSolutionId}
+        activePlatformId={activePlatformId}
+        activeResourceId={activeResourceId}
         onToggleView={handleToggleView}
+        onNavigateToDivision={handleNavigateToDivision}
+        onNavigateToProduct={handleNavigateToProduct}
+        onNavigateToSolution={handleNavigateToSolution}
+        onNavigateToPlatform={handleNavigateToPlatform}
+        onNavigateToResource={handleNavigateToResource}
         onOpenConsultation={handleOpenConsultation}
       />
 
       {/* Main View Transition */}
       <main>
         <AnimatePresence mode="wait">
-          {currentView === 'website' ? (
+          {currentView === 'website' && (
             <motion.div
               key="website"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.2 }}
             >
               {/* Hero with Live Pipeline Simulator */}
               <Hero
@@ -80,16 +196,29 @@ export default function App() {
               />
 
               {/* Muru Tech 6 Enterprise Divisions: AI, CONSULT, SMS, ROBOTICS, APP & LICENCES, ERP */}
-              <DivisionsSection onSelectDivision={handleOpenConsultation} />
+              <DivisionsSection
+                onSelectDivision={handleOpenConsultation}
+                onNavigateToDivision={handleNavigateToDivision}
+              />
 
               {/* Interactive Problem Matcher */}
-              <ProblemMatcher onSelectSolution={handleOpenConsultation} />
+              <ProblemMatcher
+                onSelectSolution={handleOpenConsultation}
+                onNavigateToProduct={handleNavigateToProduct}
+                onNavigateToSolution={handleNavigateToSolution}
+              />
 
-              {/* 6 Specialized Enterprise AI Services */}
-              <ServicesSection onSelectService={handleOpenConsultation} />
+              {/* 8 Enterprise AI Products & Services */}
+              <ServicesSection
+                onSelectService={handleOpenConsultation}
+                onNavigateToProduct={handleNavigateToProduct}
+              />
 
               {/* Autonomous AI Agents Fleet with Reasoning Traces */}
-              <AutonomousAgents onDeployAgent={handleOpenConsultation} />
+              <AutonomousAgents
+                onDeployAgent={handleOpenConsultation}
+                onNavigateToProduct={handleNavigateToProduct}
+              />
 
               {/* Interactive ROI & Hours-Saved Estimator */}
               <RoiCalculator onBookAuditWithMetrics={handleOpenConsultation} />
@@ -101,21 +230,117 @@ export default function App() {
               <ProcessSection onStartAudit={() => handleOpenConsultation('Stage 01 AI Feasibility Audit')} />
 
               {/* 8 Specialized Vertical Blueprints */}
-              <IndustriesSection onSelectIndustry={handleOpenConsultation} />
+              <IndustriesSection
+                onSelectIndustry={handleOpenConsultation}
+                onNavigateToSolution={handleNavigateToSolution}
+              />
 
               {/* Technology Stack & Live System Matrix */}
-              <TechnologySection />
+              <TechnologySection onNavigateToPlatform={handleNavigateToPlatform} />
 
-              {/* 4 Core Pillars, About Muru Group & Nairobi Direct Contact */}
-              <WhyUsAndAbout onOpenConsultation={() => handleOpenConsultation('Muru AI Strategic Consultation')} />
+              {/* 4 Core Pillars, About Muru Group & Direct Contact */}
+              <WhyUsAndAbout
+                onOpenConsultation={() => handleOpenConsultation('Muru AI Strategic Consultation')}
+                onNavigateToDivision={handleNavigateToDivision}
+              />
             </motion.div>
-          ) : (
+          )}
+
+          {currentView === 'division' && (
+            <motion.div
+              key={`division-${activeDivisionId}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <DivisionPage
+                divisionId={activeDivisionId}
+                onBackToHome={() => handleToggleView('website')}
+                onNavigateToDivision={handleNavigateToDivision}
+                onOpenConsultation={handleOpenConsultation}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'product' && (
+            <motion.div
+              key={`product-${activeProductId}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ProductPage
+                productId={activeProductId}
+                onBackToHome={() => handleToggleView('website')}
+                onNavigateToProduct={handleNavigateToProduct}
+                onOpenConsultation={handleOpenConsultation}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'solution' && (
+            <motion.div
+              key={`solution-${activeSolutionId}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <SolutionPage
+                solutionId={activeSolutionId}
+                onBackToHome={() => handleToggleView('website')}
+                onNavigateToSolution={handleNavigateToSolution}
+                onNavigateToProduct={handleNavigateToProduct}
+                onOpenConsultation={handleOpenConsultation}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'platform' && (
+            <motion.div
+              key={`platform-${activePlatformId}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <PlatformPage
+                platformId={activePlatformId}
+                onBackToHome={() => handleToggleView('website')}
+                onNavigateToPlatform={handleNavigateToPlatform}
+                onOpenCockpit={() => handleToggleView('cockpit')}
+                onOpenConsultation={handleOpenConsultation}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'resource' && (
+            <motion.div
+              key={`resource-${activeResourceId}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ResourcePage
+                resourceId={activeResourceId}
+                onBackToHome={() => handleToggleView('website')}
+                onNavigateToResource={handleNavigateToResource}
+                onNavigateToProduct={handleNavigateToProduct}
+                onOpenConsultation={handleOpenConsultation}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'cockpit' && (
             <motion.div
               key="cockpit"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.2 }}
             >
               <EnterpriseCockpit
                 onReturnToWebsite={() => handleToggleView('website')}
@@ -157,6 +382,9 @@ export default function App() {
       <Footer
         onOpenCockpit={() => handleToggleView('cockpit')}
         onOpenConsultation={handleOpenConsultation}
+        onNavigateToDivision={handleNavigateToDivision}
+        onNavigateToProduct={handleNavigateToProduct}
+        onNavigateToSolution={handleNavigateToSolution}
       />
 
       {/* Consultation Booking & Feasibility Modal */}
@@ -168,4 +396,3 @@ export default function App() {
     </div>
   );
 }
-

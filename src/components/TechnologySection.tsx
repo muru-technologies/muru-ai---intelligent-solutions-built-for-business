@@ -11,11 +11,23 @@ import {
   Database,
   Layers,
   Code,
+  ArrowRight,
 } from 'lucide-react';
 import { TECH_STACK_DATA, COCKPIT_NODES } from '../data/siteData';
 
-export default function TechnologySection() {
+interface TechnologySectionProps {
+  onNavigateToPlatform?: (platformId: string) => void;
+}
+
+export default function TechnologySection({ onNavigateToPlatform }: TechnologySectionProps) {
   const [nodes, setNodes] = useState(COCKPIT_NODES);
+
+  const platformIds = [
+    'hybrid-llm-routing',
+    'enterprise-security',
+    'omnichannel-api-gateway',
+    'command-cockpit',
+  ];
 
   // Subtle live latency variation to give a high-tech pulse
   useEffect(() => {
@@ -86,34 +98,43 @@ export default function TechnologySection() {
 
         {/* 4 Tech Stack Columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-16">
-          {TECH_STACK_DATA.map((cat, idx) => (
-            <motion.div
-              key={cat.title}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: idx * 0.05 }}
-              className="rounded-2xl glass-card border border-white/[0.07] p-4.5 sm:p-5 text-left flex flex-col justify-between hover:border-white/[0.15] transition-colors"
-            >
-              <div>
-                <div className="text-xs font-mono uppercase tracking-wider text-[#E59500] font-bold mb-2">
-                  0{idx + 1} // {cat.title}
-                </div>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-4">
-                  {cat.description}
-                </p>
+          {TECH_STACK_DATA.map((cat, idx) => {
+            const targetPlatformId = platformIds[idx] || 'hybrid-llm-routing';
+            return (
+              <motion.div
+                key={cat.title}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: idx * 0.05 }}
+                onClick={() => onNavigateToPlatform && onNavigateToPlatform(targetPlatformId)}
+                className="rounded-2xl glass-card border border-white/[0.07] p-4.5 sm:p-5 text-left flex flex-col justify-between hover:border-[#E59500]/50 transition-all cursor-pointer group"
+              >
+                <div>
+                  <div className="text-xs font-mono uppercase tracking-wider text-[#E59500] font-bold mb-2">
+                    0{idx + 1} // {cat.title}
+                  </div>
+                  <p className="text-xs text-zinc-400 leading-relaxed mb-4">
+                    {cat.description}
+                  </p>
 
-                <div className="space-y-2 pt-3 border-t border-white/[0.05]">
-                  {cat.items.map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-zinc-300">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#E59500] flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
+                  <div className="space-y-2 pt-3 border-t border-white/[0.05] mb-4">
+                    {cat.items.map((item, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs text-zinc-300">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E59500] flex-shrink-0" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+
+                <div className="pt-3 border-t border-white/[0.05] flex items-center justify-between text-xs font-semibold text-[#E59500] group-hover:underline">
+                  <span>Explore Platform Page</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Live Infrastructure Node Health Matrix */}
